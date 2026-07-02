@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
 import { homePageQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import { FormeShape, type FormeDecorative } from '@/app/components/shapes/Shape'
+import { NewsletterForm } from '@/app/components/NewsletterForm'
 
 type PlageHoraire = { jours: string; heures: string }
 
@@ -236,6 +237,19 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── NEWSLETTER ───────────────────────────────────────────── */}
+      <section className="bg-[#e8e0dc] py-16 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col items-center text-center gap-6">
+          <div>
+            <h2 className="text-2xl font-black uppercase mb-2">Restez informés</h2>
+            <p className="text-zinc-600 text-sm max-w-md mx-auto">
+              Nouveaux arrivages, événements à la cave, coups de cœur du mois — une fois par mois, dans votre boîte mail.
+            </p>
+          </div>
+          <NewsletterForm />
+        </div>
+      </section>
 
       {/* ── BANDEAU LÉGAL ────────────────────────────────────────── */}
       <div className="bg-red-50 border-t border-red-100 text-center py-4 px-6">

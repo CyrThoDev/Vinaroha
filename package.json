@@ -10,6 +10,7 @@
     "typegen": "sanity schema extract && sanity typegen generate"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.4",
     "@sanity/vision": "^5.28.0",
     "next": "16.2.6",
     "next-sanity": "^13.0.7",
