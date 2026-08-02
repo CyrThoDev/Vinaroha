@@ -3,7 +3,7 @@ import { SHAPES, type ShapeVariant } from './shapes'
 const BRAND_COLORS: Record<string, string> = {
   orange: '#c85912',
   vert: '#357d4f',
-  jaune: '#d7ac46',
+  jaune: '#EBB132',
 }
 
 export interface FormeDecorative {

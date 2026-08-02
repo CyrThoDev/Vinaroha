@@ -3,6 +3,7 @@ import { groq } from 'next-sanity'
 const eventFields = groq`
   _id,
   title,
+  description,
   "slug": slug.current,
   date,
   endDate,
@@ -47,6 +48,7 @@ export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
 export interface SanityEvent {
   _id: string
   title: string
+  description: string | null
   slug: string
   date: string
   endDate: string | null

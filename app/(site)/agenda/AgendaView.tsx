@@ -3,236 +3,194 @@
 import { useState, useMemo } from 'react'
 import type { SanityEvent, SanityEventType } from '@/sanity/lib/queries'
 
-// Charte Vin'Aroha : orange #c85912 · vert #357d4f · jaune #d7ac46
-const COLOR_MAP: Record<string, { bg: string; text: string; dot: string; activeBg: string }> = {
-  orange: { bg: 'bg-[#c85912]/10', text: 'text-[#c85912]', dot: 'bg-[#c85912]', activeBg: 'bg-[#c85912]' },
-  vert:   { bg: 'bg-[#357d4f]/10', text: 'text-[#357d4f]', dot: 'bg-[#357d4f]', activeBg: 'bg-[#357d4f]' },
-  jaune:  { bg: 'bg-[#d7ac46]/15', text: 'text-[#8a6b1c]', dot: 'bg-[#d7ac46]', activeBg: 'bg-[#d7ac46]' },
-}
-const DEFAULT_COLOR = { bg: 'bg-zinc-100', text: 'text-zinc-600', dot: 'bg-zinc-400', activeBg: 'bg-zinc-700' }
+const MONTHS_FR = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.']
 
-function colorFor(et: SanityEventType | null) {
-  if (!et?.color) return DEFAULT_COLOR
-  return COLOR_MAP[et.color] ?? DEFAULT_COLOR
+function fmtDate(iso: string) {
+  const d = new Date(iso)
+  return {
+    day: d.getDate().toString().padStart(2, '0'),
+    month: MONTHS_FR[d.getMonth()],
+    time: d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+  }
 }
 
-const DAY_LABELS  = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
-const MONTH_LABELS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
-
-function calendarCells(year: number, month: number) {
-  const firstDow = new Date(year, month, 1).getDay()
-  const offset = firstDow === 0 ? 6 : firstDow - 1
-  const total = new Date(year, month + 1, 0).getDate()
-  const cells: (number | null)[] = Array(offset).fill(null)
-  for (let d = 1; d <= total; d++) cells.push(d)
-  return cells
+const TAG_COLOR: Record<string, string> = {
+  orange: 'bg-orange/10 text-orange border-orange/20',
+  vert:   'bg-green/10 text-green border-green/20',
+  jaune:  'bg-yellow/15 text-yellow border-yellow/30',
 }
 
-function sameDay(a: Date, b: Date) {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+const PILL_ACTIVE: Record<string, string> = {
+  orange: 'bg-orange/10 text-orange border-orange',
+  vert:   'bg-green/10 text-green border-green',
+  jaune:  'bg-yellow/15 text-yellow border-yellow',
 }
 
-function fmtTime(iso: string) {
-  return new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+const CHECK_ACTIVE: Record<string, string> = {
+  orange: 'bg-orange border-orange',
+  vert:   'bg-green border-green',
+  jaune:  'bg-yellow border-yellow',
+}
+
+function Checkmark() {
+  return (
+    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" aria-hidden="true">
+      <path d="M1 3l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
 }
 
 export default function AgendaView({ events }: { events: SanityEvent[] }) {
   const today = useMemo(() => { const d = new Date(); d.setHours(0,0,0,0); return d }, [])
 
-  const [view, setView]           = useState<'list' | 'calendar'>('list')
-  const [activeTypes, setActive]  = useState<string[]>([])
-  const [calDate, setCalDate]     = useState(new Date(today.getFullYear(), today.getMonth(), 1))
+  const [activeTypes, setActiveTypes] = useState<Set<string>>(new Set())
 
-  // Unique event types present in events
   const eventTypes = useMemo(() => {
     const map = new Map<string, SanityEventType>()
     events.forEach(e => { if (e.eventType) map.set(e.eventType._id, e.eventType) })
     return [...map.values()]
   }, [events])
 
-  const toggleType = (id: string) =>
-    setActive(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
-
-  const filtered = useMemo(
-    () => activeTypes.length === 0 ? events : events.filter(e => e.eventType && activeTypes.includes(e.eventType._id)),
-    [events, activeTypes]
-  )
-
-  // Calendar
-  const year  = calDate.getFullYear()
-  const month = calDate.getMonth()
-  const cells = calendarCells(year, month)
-  const eventsOnDay = (day: number) =>
-    filtered.filter(e => sameDay(new Date(e.date), new Date(year, month, day)))
-
-  // List — upcoming only, grouped by month
-  const upcoming = useMemo(
-    () => filtered.filter(e => new Date(e.date) >= today),
-    [filtered, today]
-  )
-  const grouped = useMemo(() => {
-    const map = new Map<string, SanityEvent[]>()
-    upcoming.forEach(e => {
-      const key = new Date(e.date).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
-      if (!map.has(key)) map.set(key, [])
-      map.get(key)!.push(e)
+  const toggle = (id: string) =>
+    setActiveTypes(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id); else next.add(id)
+      return next
     })
-    return map
-  }, [upcoming])
+
+  const upcoming = useMemo(
+    () => events.filter(e =>
+      new Date(e.date) >= today &&
+      (activeTypes.size === 0 || (e.eventType && activeTypes.has(e.eventType._id)))
+    ),
+    [events, today, activeTypes]
+  )
 
   return (
     <div>
-      {/* Controls */}
-      <div className="flex flex-col gap-4 mb-8">
-        {/* View toggle */}
-        <div className="flex gap-1 p-1 bg-zinc-100 rounded-lg w-fit">
-          {(['list', 'calendar'] as const).map(v => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                view === v ? 'bg-white shadow-sm text-zinc-900' : 'text-zinc-500 hover:text-zinc-700'
-              }`}
-            >
-              {v === 'list' ? 'Liste' : 'Calendrier'}
-            </button>
-          ))}
+
+      {/* ── FILTRES ─────────────────────────────────────── */}
+      {eventTypes.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-12">
+
+          <button
+            onClick={() => setActiveTypes(new Set())}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border  font-medium transition-all ${
+              activeTypes.size === 0
+                ? 'bg-black text-white border-black'
+                : 'bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400'
+            }`}
+          >
+            <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-colors ${
+              activeTypes.size === 0 ? 'bg-white border-white' : 'border-zinc-300'
+            }`}>
+              {activeTypes.size === 0 && (
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" aria-hidden="true">
+                  <path d="M1 3l2 2 4-4" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </span>
+            Tous les événements
+          </button>
+
+          {eventTypes.map(et => {
+            const active = activeTypes.has(et._id)
+            const colorKey = et.color ?? ''
+            return (
+              <button
+                key={et._id}
+                onClick={() => toggle(et._id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg border  font-medium transition-all ${
+                  active
+                    ? (PILL_ACTIVE[colorKey] ?? 'bg-zinc-100 text-zinc-700 border-zinc-400')
+                    : 'bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400'
+                }`}
+              >
+                <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-colors ${
+                  active
+                    ? (CHECK_ACTIVE[colorKey] ?? 'bg-zinc-700 border-zinc-700')
+                    : 'border-zinc-300'
+                }`}>
+                  {active && <Checkmark />}
+                </span>
+                {et.name}
+              </button>
+            )
+          })}
         </div>
+      )}
 
-        {/* Category pills */}
-        {eventTypes.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setActive([])}
-              className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${
-                activeTypes.length === 0
-                  ? 'bg-zinc-900 text-white border-zinc-900'
-                  : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
-              }`}
-            >
-              Tout
-            </button>
-            {eventTypes.map(et => {
-              const c = colorFor(et)
-              const active = activeTypes.includes(et._id)
-              return (
-                <button
-                  key={et._id}
-                  onClick={() => toggleType(et._id)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border flex items-center gap-1.5 transition-colors ${
-                    active
-                      ? `${c.activeBg} text-white border-transparent`
-                      : `bg-white ${c.text} border-zinc-200 hover:border-zinc-400`
-                  }`}
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
-                  {et.name}
-                </button>
-              )
-            })}
-          </div>
-        )}
-      </div>
+      {/* ── LISTE DES ÉVÉNEMENTS ────────────────────────── */}
+      {upcoming.length === 0 ? (
+        <div className="text-center py-24 text-zinc-400">
+          <p className="text-base">Aucun événement à venir.</p>
+          <p className=" mt-2 opacity-70">Revenez bientôt ou suivez-nous sur les réseaux !</p>
+        </div>
+      ) : (
+        <div className="flex flex-col divide-y divide-zinc-200">
+          {upcoming.map(ev => {
+            const { day, month, time } = fmtDate(ev.date)
+            const colorKey = ev.eventType?.color ?? ''
+            const tagCls = TAG_COLOR[colorKey] ?? 'bg-zinc-100 text-zinc-600 border-zinc-200'
 
-      {/* Calendar view */}
-      {view === 'calendar' && (
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => setCalDate(new Date(year, month - 1, 1))}
-              className="p-2 rounded-lg hover:bg-zinc-100 transition-colors"
-              aria-label="Mois précédent"
-            >←</button>
-            <span className="text-sm font-medium capitalize">{MONTH_LABELS[month]} {year}</span>
-            <button
-              onClick={() => setCalDate(new Date(year, month + 1, 1))}
-              className="p-2 rounded-lg hover:bg-zinc-100 transition-colors"
-              aria-label="Mois suivant"
-            >→</button>
-          </div>
+            return (
+              <article key={ev._id} className="py-8 flex gap-6 sm:gap-10 items-start">
 
-          <div className="grid grid-cols-7 mb-1">
-            {DAY_LABELS.map(d => (
-              <div key={d} className="text-center text-[11px] font-medium text-zinc-400 py-1">{d}</div>
-            ))}
-          </div>
+                {/* Bloc date */}
+                <div className="shrink-0 w-12 sm:w-14 text-center">
+                  <div className="text-3xl sm:text-4xl font-black leading-none text-black">{day}</div>
+                  <div className="text-[0.625rem] font-semibold uppercase tracking-widest text-zinc-400 mt-1">{month}</div>
+                  <div className="text-[0.6875rem] text-zinc-400 mt-1">{time}</div>
+                </div>
 
-          <div className="grid grid-cols-7 gap-px bg-zinc-100 border border-zinc-100 rounded-xl overflow-hidden">
-            {cells.map((day, i) => {
-              if (day === null) return <div key={`e-${i}`} className="bg-white h-20 sm:h-24" />
-              const dayEvents = eventsOnDay(day)
-              const isToday   = sameDay(new Date(year, month, day), today)
-              return (
-                <div key={day} className="bg-white h-20 sm:h-24 p-1.5 flex flex-col">
-                  <span className={`text-xs font-medium w-5 h-5 flex items-center justify-center rounded-full mb-1 self-end ${
-                    isToday ? 'bg-zinc-900 text-white' : 'text-zinc-400'
-                  }`}>
-                    {day}
-                  </span>
-                  <div className="flex flex-col gap-px overflow-hidden flex-1">
-                    {dayEvents.slice(0, 2).map(ev => {
-                      const c = colorFor(ev.eventType)
-                      return (
-                        <div key={ev._id} className={`text-[10px] px-1 py-0.5 rounded truncate leading-tight ${c.bg} ${c.text}`}>
-                          {ev.title}
-                        </div>
-                      )
-                    })}
-                    {dayEvents.length > 2 && (
-                      <span className="text-[10px] text-zinc-400 px-1">+{dayEvents.length - 2}</span>
+                {/* Contenu */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div className="min-w-0">
+                      {ev.eventType && (
+                        <span className={`inline-block text-[0.625rem] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border mb-2 ${tagCls}`}>
+                          {ev.eventType.name}
+                        </span>
+                      )}
+                      <h3 className="font-black text-lg sm:text-xl text-black leading-tight">{ev.title}</h3>
+                      {ev.location && (
+                        <p className=" text-zinc-400 mt-1 flex items-center gap-1.5">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                            <circle cx="12" cy="9" r="2.5"/>
+                          </svg>
+                          {ev.location}
+                        </p>
+                      )}
+                      {ev.description && (
+                        <p className=" text-zinc-500  mt-2 max-w-lg">
+                          {ev.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {ev.yurplanUrl && (
+                      <a
+                        href={ev.yurplanUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 self-start inline-flex items-center gap-2 bg-orange text-white font-black uppercase tracking-widest text-xs px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+                      >
+                        Inscription
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                      </a>
                     )}
                   </div>
                 </div>
-              )
-            })}
-          </div>
+
+              </article>
+            )
+          })}
         </div>
       )}
 
-      {/* List view */}
-      {view === 'list' && (
-        grouped.size === 0
-          ? <p className="text-zinc-500 text-sm">Aucun événement à venir.</p>
-          : (
-            <div className="flex flex-col gap-10">
-              {[...grouped.entries()].map(([label, evs]) => (
-                <section key={label}>
-                  <h2 className="text-xs font-semibold capitalize tracking-widest text-zinc-400 mb-4">
-                    {label}
-                  </h2>
-                  <ul className="flex flex-col gap-2">
-                    {evs.map(ev => {
-                      const c = colorFor(ev.eventType)
-                      const d = new Date(ev.date)
-                      const chip = (
-                        <div className={`flex items-center gap-3 px-4 py-3 rounded-full ${c.bg} ${c.text} w-full`}>
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${c.dot}`} />
-                          <span className="font-medium truncate">{ev.title}</span>
-                          <span className="ml-auto shrink-0 text-sm opacity-70 flex items-center gap-2">
-                            {d.getDate().toString().padStart(2, '0')}{' '}
-                            {d.toLocaleDateString('fr-FR', { month: 'short' })}
-                            {' · '}
-                            {fmtTime(ev.date)}
-                            {ev.location && <span className="hidden sm:inline">· {ev.location}</span>}
-                          </span>
-                        </div>
-                      )
-                      return (
-                        <li key={ev._id}>
-                          {ev.yurplanUrl ? (
-                            <a href={ev.yurplanUrl} target="_blank" rel="noopener noreferrer" className="block hover:opacity-80 transition-opacity">
-                              {chip}
-                            </a>
-                          ) : chip}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </section>
-              ))}
-            </div>
-          )
-      )}
     </div>
   )
 }
