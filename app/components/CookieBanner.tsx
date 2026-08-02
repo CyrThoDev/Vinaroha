@@ -23,7 +23,7 @@ export function CookieBanner() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none">
+    <div className="fixed bottom-8 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none">
       <div className="max-w-3xl mx-auto bg-zinc-900 border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl pointer-events-auto flex flex-col sm:flex-row items-start sm:items-center gap-5">
         {/* Icône */}
         <span className="text-2xl shrink-0" aria-hidden="true">🍪</span>

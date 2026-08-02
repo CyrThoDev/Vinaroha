@@ -157,7 +157,8 @@ export default async function HomePage() {
             <Asset
               name="leaf"
               color="#357d4f"
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10 w-24 [&_svg]:w-full [&_svg]:h-auto"
+              color2="#EBB132"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10 w-48 [&_svg]:w-full [&_svg]:h-auto"
             />
 
           </div>
@@ -168,7 +169,7 @@ export default async function HomePage() {
       <section className="bg-orange text-white overflow-hidden relative">
         <div className="pointer-events-none absolute inset-0 opacity-5"
           style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, #c85912 0%, transparent 60%)' }} />
-        <div className="max-w-7xl mx-auto px-10 py-20 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative">
+        <div className="max-w-7xl mx-auto px-10 py-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative">
           <div className="flex flex-col gap-6">
             <div>
               <p className="text-[0.625rem] font-black uppercase tracking-[0.25em] text-orange mb-2">Abonnement</p>
@@ -196,137 +197,208 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 4. NOS COUPS DE CŒUR ─────────────────────────────────── */}
-      <section className="bg-green py-20 overflow-hidden relative">
-        <svg className="absolute -left-24 top-0 opacity-10 pointer-events-none" width="400" height="400" viewBox="0 0 400 400"><ellipse cx="200" cy="200" rx="200" ry="180" fill="white" /></svg>
-        <svg className="absolute -right-24 bottom-0 opacity-10 pointer-events-none" width="350" height="350" viewBox="0 0 350 350"><ellipse cx="175" cy="175" rx="175" ry="155" fill="white" /></svg>
+      {/* ── 4. LES PROCHAINES DATES ──────────────────────────────── */}
+      <section className="bg-green text-white py-16 overflow-hidden relative">
+        {/* Bouteille décorative haut droite */}
+        <Asset
+          name="bouteille"
+          color="#ffffff"
+          className="absolute top-4 right-6 w-24 opacity-30 pointer-events-none [&_svg]:w-full [&_svg]:h-auto"
+        />
         <div className="relative max-w-6xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl md:text-5xl font-black uppercase text-white mb-5">Nos coups de cœur</h2>
-            <p className="text-white/70 max-w-xl mx-auto  ">
-              Chaque mois, notre équipe sélectionne trois vins qui nous ont particulièrement touchés —
-              des découvertes, des classiques revisités, des vignerons qui nous ressemblent.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {coupsDeCoeur.length > 0 ? coupsDeCoeur.map((vin) => (
-              <div key={vin._id} className="flex flex-col items-center text-center">
-                <div className="h-64 flex items-end justify-center mb-6">
-                  {vin.image?.asset?.url
-                    ? <img src={vin.image.asset.url} alt={vin.name} className="max-h-full object-contain drop-shadow-xl" />
-                    : <div className="w-16 h-52 bg-white/10 rounded-lg" />}
-                </div>
-                <Link href="/vignerons" className="font-black text-white uppercase text-xs tracking-wide hover:text-yellow transition-colors">
-                  {vin.vigneron?.name ?? 'Voir le vigneron'}
-                </Link>
-                <p className="text-white/50 text-xs mt-1.5 ">
-                  {vin.name}{vin.appellation ? ` · ${vin.appellation}` : ''}{vin.prix ? ` · ${vin.prix} €` : ''}
-                </p>
+          <h2 className="font-accent text-5xl uppercase leading-none mb-10">Les prochaines dates</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+            {/* Col gauche — affiche du 1er événement */}
+            <div className="aspect-square overflow-hidden rounded-sm bg-white/10">
+              {nextEvents[0]?.image?.asset?.url ? (
+                <img src={nextEvents[0].image.asset.url} alt={nextEvents[0].title} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-white/20 text-xs italic">Affiche à venir</div>
+              )}
+            </div>
+
+            {/* Col droite — liste + CTA */}
+            <div className="flex flex-col">
+              <div className="divide-y divide-white/20">
+                {nextEvents.length > 0 ? nextEvents.map((ev) => {
+                  const { day, date } = fmtDate(ev.date)
+                  return (
+                    <div key={ev._id} className="py-6 flex gap-8 items-start">
+                      <span className="font-black uppercase text-yellow shrink-0 w-28 text-sm">{day} {date}</span>
+                      <div>
+                        <p className="font-black leading-tight">{ev.title}</p>
+                        {ev.location && <p className="text-white/60 text-sm italic mt-0.5">avec {ev.location}</p>}
+                      </div>
+                    </div>
+                  )
+                }) : (
+                  <p className="py-6 text-white/40 italic">Aucun événement à venir pour le moment.</p>
+                )}
               </div>
-            )) : [1, 2, 3].map((i) => (
-              <div key={i} className="flex flex-col items-center text-center">
-                <div className="h-64 flex items-end justify-center mb-6">
-                  <div className="w-16 h-52 bg-white/10 rounded-lg" />
+
+              <Link
+                href="/agenda"
+                className="mt-10 font-accent text-3xl text-white flex items-center gap-4 border-b border-white/40 pb-2 w-fit hover:border-white transition-colors"
+              >
+                Voir tout l&apos;agenda &nbsp;⟶
+              </Link>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. VIGNERON DU MOIS ──────────────────────────────────── */}
+      <section className="bg-background py-16 px-6 overflow-hidden relative">
+
+        {/* Bouteille déco bas-gauche */}
+        <div className="absolute bottom-0 left-0 pointer-events-none select-none">
+          <Asset name="bouteille" color="#E56B00" className="w-20 opacity-50 [&_svg]:w-full [&_svg]:h-auto" />
+        </div>
+
+        <div className="relative max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+            {/* Col gauche — texte */}
+            <div className="flex flex-col gap-6">
+              <div>
+                <h2 className="font-accent text-5xl md:text-6xl uppercase leading-none text-zinc-900">
+                  Le vigneron du mois
+                </h2>
+                <p className="font-accent text-2xl uppercase text-orange mt-3">
+                  {vigneron?.name ?? 'Vigneron du mois'}
+                </p>
+                {(vigneron?.domaine || vigneron?.region) && (
+                  <p className="text-zinc-500 text-sm mt-1">
+                    {[vigneron.domaine, vigneron.region].filter(Boolean).join(' · ')}
+                  </p>
+                )}
+              </div>
+
+              {vigneron?.citation ? (
+                <p className="text-zinc-600 leading-relaxed">{vigneron.citation}</p>
+              ) : (
+                <p className="text-zinc-400 italic text-sm">Renseignez la citation dans le studio Sanity</p>
+              )}
+
+              <Link
+                href="/vignerons"
+                className="font-script text-2xl text-zinc-800 flex items-center gap-3 border-b border-zinc-300 pb-1 w-fit hover:border-zinc-900 transition-colors group"
+              >
+                Voir l&apos;ensemble de nos vignerons
+                <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+              </Link>
+            </div>
+
+            {/* Col droite — photo topandbottom + leaf déco */}
+            <div className="relative">
+              {/* Leaf déco haut-droite */}
+              <div className="absolute -top-6 -right-6 pointer-events-none select-none z-10">
+                <Asset name="leaf" color="#E56B00" color2="#EBB132" className="w-28 [&_svg]:w-full [&_svg]:h-auto" />
+              </div>
+
+              {vigneron?.photo?.asset?.url ? (
+                <Asset
+                  name="topandbottom"
+                  imageUrl={vigneron.photo.asset.url}
+                  alt={vigneron.name}
+                  className="w-full [&_svg]:w-full [&_svg]:h-auto"
+                />
+              ) : (
+                <div className="aspect-square rounded-3xl bg-zinc-100 flex items-center justify-center">
+                  <p className="text-zinc-300 text-xs">Photo à ajouter dans le studio</p>
                 </div>
-                <p className="font-black text-white uppercase text-xs tracking-wide">Vin d&apos;Aroha</p>
-                <p className="text-white/30 text-xs mt-1.5">À renseigner dans le studio</p>
+              )}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. NOS COUPS DE CŒUR ─────────────────────────────────── */}
+      <section className="bg-green py-16 px-6 overflow-hidden relative">
+
+        {/* Leaf déco haut-droite */}
+        <div className="absolute top-8 -right-4 pointer-events-none select-none">
+          <Asset name="leaf" color="#E56B00" color2="#EBB132" className="w-32 opacity-70 [&_svg]:w-full [&_svg]:h-auto" />
+        </div>
+
+        <div className="relative max-w-6xl mx-auto">
+          <h2 className="font-accent text-5xl md:text-6xl uppercase text-white leading-none mb-14">
+            Nos coups de cœur
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {coupsDeCoeur.length > 0 ? coupsDeCoeur.map((vin) => (
+              <div key={vin._id} className="bg-background rounded-3xl overflow-hidden flex flex-col">
+                <div className="flex items-end justify-center pt-10 pb-6 px-8 min-h-56">
+                  {vin.image?.asset?.url ? (
+                    <img src={vin.image.asset.url} alt={vin.name} className="max-h-44 object-contain drop-shadow-lg" />
+                  ) : (
+                    <div className="w-14 h-44 bg-zinc-200 rounded-lg" />
+                  )}
+                </div>
+                <div className="bg-white px-6 py-5 flex flex-col gap-1 flex-1">
+                  <p className="font-black uppercase text-xs tracking-widest text-zinc-900">{vin.name}</p>
+                  {vin.appellation && <p className="text-zinc-500 text-xs">{vin.appellation}</p>}
+                  {vin.vigneron?.name && <p className="text-zinc-400 text-xs">{vin.vigneron.name}</p>}
+                  {vin.prix && <p className="font-black text-orange text-sm mt-2">{vin.prix}&nbsp;€</p>}
+                </div>
+              </div>
+            )) : [0, 1, 2].map((i) => (
+              <div key={i} className="bg-background rounded-3xl overflow-hidden flex flex-col">
+                <div className="flex items-end justify-center pt-10 pb-6 px-8 min-h-56">
+                  <div className="w-14 h-44 bg-zinc-200 rounded-lg" />
+                </div>
+                <div className="bg-white px-6 py-5 flex flex-col gap-1 flex-1">
+                  <p className="font-black uppercase text-xs tracking-widest text-zinc-900">Vin d&apos;Aroha</p>
+                  <p className="text-zinc-300 text-xs italic">À renseigner dans le studio</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 5. VIGNERON DU MOIS ──────────────────────────────────── */}
-      {vigneron && (
-        <section className="bg-background max-w-6xl mx-auto px-6 py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-orange mb-4">Le vigneron du mois</p>
-              <h2 className="text-4xl font-black uppercase mb-2">{vigneron.name}</h2>
-              {vigneron.domaine && <p className="text-zinc-500 ">{vigneron.domaine}</p>}
-              {vigneron.region  && <p className="text-zinc-500  mb-6">{vigneron.region}</p>}
-              {vigneron.citation && (
-                <blockquote className="border-l-4 border-orange pl-5 text-zinc-700 italic   mb-8">
-                  &ldquo;{vigneron.citation}&rdquo;
-                </blockquote>
-              )}
-              <Link href="/vignerons" className="inline-block border-2 border-zinc-900 text-zinc-900 font-black uppercase tracking-widest text-xs px-8 py-3 rounded-lg hover:bg-zinc-900 hover:text-white transition-colors">
-                Voir l&apos;ensemble de nos vignerons
+      {/* ── 7. VOS ÉVÉNEMENTS & CADEAUX ─────────────────────────── */}
+      <section className="bg-background py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-accent text-5xl uppercase leading-none mb-4 text-zinc-900">
+            Vos événements et cadeaux
+          </h2>
+          <p className="text-zinc-500 max-w-xl mb-12">
+            Privatisation, mariages, séminaires ou coffrets cadeaux — nous imaginons avec vous des moments autour du vin, sur mesure et inoubliables.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {[
+              { label: 'Privatisation de la cave', href: '/evenements' },
+              { label: 'Mariages et réceptions',   href: '/evenements' },
+              { label: 'Cadeaux et entreprises',   href: '/evenements' },
+            ].map(({ label, href }) => (
+              <Link key={label} href={href} className="relative group block">
+                <Asset
+                  name="square"
+                  color="#357d4f"
+                  className="w-full [&_svg]:w-full [&_svg]:h-auto"
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-8 text-center">
+                  <p className="font-accent text-2xl uppercase leading-tight mb-3">{label}</p>
+                  <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
+                </div>
               </Link>
-            </div>
-            {vigneron.photo?.asset?.url && (
-              <div className="aspect-3/4 rounded-2xl overflow-hidden">
-                <img src={vigneron.photo.asset.url} alt={vigneron.name} className="w-full h-full object-cover" />
-              </div>
-            )}
+            ))}
           </div>
-        </section>
-      )}
-
-      {/* ── 6. LES PROCHAINES DATES ──────────────────────────────── */}
-      <section className="bg-orange text-white py-20 overflow-hidden relative">
-        <svg className="absolute -right-20 top-0 opacity-10 pointer-events-none" width="400" height="400" viewBox="0 0 400 400"><ellipse cx="200" cy="200" rx="200" ry="180" fill="white" /></svg>
-        <div className="relative max-w-6xl mx-auto px-6">
-          <div className="flex items-end justify-between mb-12 gap-4 flex-wrap">
-            <h2 className="text-4xl md:text-5xl font-black uppercase leading-none">Les prochaines<br />dates</h2>
-            <Link href="/agenda" className="text-xs font-black uppercase tracking-widest text-white/70 hover:text-white transition-colors">
-              Voir tous les événements →
-            </Link>
-          </div>
-
-          {nextEvents.length > 0 ? (
-            <div className="flex flex-col divide-y divide-white/20">
-              {nextEvents.map((ev) => {
-                const { day, date } = fmtDate(ev.date)
-                return (
-                  <div key={ev._id} className="flex items-center gap-6 py-5">
-                    {/* Date pill */}
-                    <div className="shrink-0 w-20 text-center">
-                      <p className="text-[0.625rem] font-black uppercase tracking-widest text-white/60">{day}</p>
-                      <p className="text-lg font-black leading-tight">{date}</p>
-                    </div>
-                    <div className="w-px h-8 bg-white/20 shrink-0" />
-                    {/* Infos */}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-black uppercase  leading-tight truncate">{ev.title}</p>
-                      {ev.location && <p className="text-white/60 text-xs mt-0.5">{ev.location}</p>}
-                    </div>
-                    {/* CTA */}
-                    {ev.yurplanUrl && (
-                      <a href={ev.yurplanUrl} target="_blank" rel="noopener noreferrer"
-                        className="shrink-0 border border-white/40 text-white font-black uppercase tracking-widest text-[0.625rem] px-5 py-2 rounded-lg hover:bg-white hover:text-orange transition-colors">
-                        Réserver
-                      </a>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          ) : (
-            <p className="text-white/40  italic">Aucun événement à venir pour le moment.</p>
-          )}
-        </div>
-      </section>
-
-      {/* ── 7. NEWSLETTER ────────────────────────────────────────── */}
-      <section className="bg-yellow py-16 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col items-center text-center gap-6">
-          <div>
-            <h2 className="text-2xl font-black uppercase mb-2">Restez informés</h2>
-            <p className="text-zinc-600  max-w-md mx-auto">
-              Nouveaux arrivages, événements à la cave, coups de cœur du mois — une fois par mois, dans votre boîte mail.
-            </p>
-          </div>
-          <NewsletterForm />
         </div>
       </section>
 
       {/* ── 8. PRO / RESTAURATEURS ───────────────────────────────── */}
-      <section className="bg-background py-16 px-6">
+      <section className="bg-background pb-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="border border-zinc-300 rounded-lg px-10 py-12 flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1">
-              <p className="text-2xl font-black text-orange italic mb-3">
+              <p className="text-2xl font-black font-fontjek text-yellow italic mb-3">
                 Professionnels, restaurateurs&nbsp;?
               </p>
               <p className="text-zinc-500   max-w-sm">
@@ -341,6 +413,19 @@ export default async function HomePage() {
               <span className="text-base">→</span>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* ── 8. NEWSLETTER ────────────────────────────────────────── */}
+      <section className="bg-yellow py-16 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="font-accent text-5xl uppercase leading-none mb-4 text-zinc-900">Restez informés&nbsp;!</h2>
+            <p className="text-zinc-700 max-w-sm">
+              Nouveaux arrivages, événements à la cave, coups de cœur du mois — une fois par mois, dans votre boîte mail.
+            </p>
+          </div>
+          <NewsletterForm />
         </div>
       </section>
 
