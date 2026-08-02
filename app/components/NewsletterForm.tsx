@@ -29,8 +29,8 @@ export function NewsletterForm() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="flex rounded-lg overflow-hidden">
         <input
           type="email"
           value={email}
@@ -38,14 +38,14 @@ export function NewsletterForm() {
           placeholder="ton@email.com"
           required
           disabled={status === 'loading'}
-          className="flex-1 px-5 py-3 rounded-lg border border-zinc-300 bg-white  text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-orange disabled:opacity-60"
+          className="flex-1 px-5 py-3 bg-background text-zinc-900 placeholder:text-zinc-400 focus:outline-none disabled:opacity-60 min-w-0"
         />
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="bg-orange text-white font-black uppercase tracking-widest text-xs px-8 py-3 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="bg-black text-white font-black uppercase tracking-widest text-xs px-8 py-3 hover:opacity-80 transition-opacity disabled:opacity-50 shrink-0"
         >
-          {status === 'loading' ? 'Inscription…' : "S'inscrire"}
+          {status === 'loading' ? 'Inscription…' : "Je m'abonne"}
         </button>
       </form>
       {message && (
@@ -53,10 +53,10 @@ export function NewsletterForm() {
           {message}
         </p>
       )}
-      <p className="text-[0.6875rem] text-zinc-400 mt-3 ">
+      <p className="text-[0.6875rem] text-zinc-700/70 mt-3">
         En vous inscrivant, vous acceptez de recevoir notre newsletter mensuelle.
         Désinscription possible à tout moment. Vos données ne sont jamais transmises à des tiers.{' '}
-        <a href="/mentions-legales" className="underline underline-offset-2 hover:text-zinc-600 transition-colors">
+        <a href="/mentions-legales" className="underline underline-offset-2 hover:text-zinc-900 transition-colors">
           En savoir plus
         </a>
       </p>

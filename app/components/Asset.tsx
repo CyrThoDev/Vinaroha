@@ -4,6 +4,7 @@ import path from 'path'
 const ASSETS = {
   leaf:         'leaf.svg',
   glass:        'glass.svg',
+  bouteille:    'bouteille.svg',
   gift:         'gift.svg',
   square:       'square.svg',
   topandbottom: 'topandbottom.svg',
@@ -15,13 +16,16 @@ export type AssetName = keyof typeof ASSETS
 export function Asset({
   name,
   color,
+  color2,
   imageUrl,
   className,
   alt = '',
 }: {
   name: AssetName
-  /** Remplace toutes les couleurs du SVG par cette valeur (ex: "#ffffff") */
+  /** Remplace la 1re couleur du SVG (ex: "#357d4f") */
   color?: string
+  /** Remplace la 2e couleur unique du SVG (ex: "#EBB132") */
+  color2?: string
   /** Remplace le fill par une image (le SVG clip la photo à sa forme) */
   imageUrl?: string
   className?: string
@@ -37,7 +41,14 @@ export function Asset({
       `<image href="${imageUrl}" x="0" y="0" width="1154" height="1501" preserveAspectRatio="xMidYMid slice" />`
     )
   } else if (color) {
-    svg = svg.replace(/fill="#[0-9a-fA-F]{6}"/g, `fill="${color}"`)
+    if (color2) {
+      // Remplace chaque couleur unique dans l'ordre d'apparition
+      const unique = [...new Set([...svg.matchAll(/fill="#([0-9a-fA-F]{6})"/g)].map(m => m[1]))]
+      if (unique[0]) svg = svg.replaceAll(`fill="#${unique[0]}"`, `fill="${color}"`)
+      if (unique[1]) svg = svg.replaceAll(`fill="#${unique[1]}"`, `fill="${color2}"`)
+    } else {
+      svg = svg.replace(/fill="#[0-9a-fA-F]{6}"/g, `fill="${color}"`)
+    }
   }
 
   return (
