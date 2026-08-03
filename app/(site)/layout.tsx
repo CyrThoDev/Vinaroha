@@ -119,7 +119,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       </div>
 
       {/* Nav sticky */}
-      <header className="sticky top-0 z-50 bg-background px-6 py-5">
+      <header className="sticky top-0 z-50 bg-background px-6 pb-10">
         {/* Desktop */}
         <nav className="hidden md:flex items-center justify-center">
           <ul className="flex items-center gap-12">
@@ -226,7 +226,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
       {/* Bandeau orange fixe — copyright + légal alcool */}
       <div className="h-8" aria-hidden="true" />
-      <div className="fixed bottom-0 inset-x-0 z-60 bg-orange py-1.5 select-none">
+      <div className="fixed bottom-0 inset-x-0 z-[60] bg-orange py-1.5 select-none">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
           <span className="text-[0.5625rem] text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
           <span className="text-[0.5625rem] uppercase tracking-widest text-white/90 text-center">
@@ -237,7 +237,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             <Link href="/cgv" className="text-[0.5625rem] text-white/70 hover:text-white transition-colors">CGV</Link>
           </div>
         </div>
-      </div>
+in      </div>
     </>
   )
 }
