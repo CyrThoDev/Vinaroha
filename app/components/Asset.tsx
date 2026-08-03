@@ -18,6 +18,7 @@ export function Asset({
   color,
   color2,
   imageUrl,
+  stretchToFill,
   className,
   alt = '',
 }: {
@@ -28,11 +29,19 @@ export function Asset({
   color2?: string
   /** Remplace le fill par une image (le SVG clip la photo à sa forme) */
   imageUrl?: string
+  /** Force le SVG à s'étirer pour remplir son container (supprime l'aspect ratio) */
+  stretchToFill?: boolean
   className?: string
   alt?: string
 }) {
   const filePath = path.join(process.cwd(), 'public/assets', ASSETS[name])
   let svg = fs.readFileSync(filePath, 'utf-8')
+
+  if (stretchToFill) {
+    svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="none"')
+    svg = svg.replace(/(<svg[^>]*)\s+width="[^"]*"/, '$1 width="100%"')
+    svg = svg.replace(/(<svg[^>]*)\s+height="[^"]*"/, '$1 height="100%"')
+  }
 
   if (imageUrl) {
     // Remplace le(s) path coloré(s) par un élément <image> : les clipPaths du SVG découpent l'image à la forme
