@@ -85,7 +85,7 @@ export default function MentionsLegalesPage() {
             Un cookie est un petit fichier texte enregistré sur votre appareil qui permet d&apos;améliorer votre expérience de navigation.
           </p>
 
-          <h3 className=" font-black uppercase tracking-wide text-black mt-2">Cookies utilisés</h3>
+          <h3 className="text-lg font-black uppercase tracking-wide text-black mt-2">Cookies utilisés</h3>
           <table className="w-full  border-collapse mt-2">
             <thead>
               <tr className="border-b border-zinc-300">
@@ -103,12 +103,12 @@ export default function MentionsLegalesPage() {
             </tbody>
           </table>
 
-          <p className="text-zinc-500 text-xs mt-2">
+          <p className=" text-xs mt-2">
             Ce site n&apos;utilise pas Google Analytics. Google Search Console est utilisé uniquement pour le référencement du site et ne dépose aucun cookie chez les visiteurs.
             Brevo est utilisé pour l&apos;envoi de la newsletter via une API — aucun cookie n&apos;est déposé sur votre navigateur lors de votre inscription.
           </p>
 
-          <h3 className=" font-black uppercase tracking-wide text-black mt-4">Gérer vos préférences</h3>
+          <h3 className="text-lg font-black uppercase tracking-wide text-black mt-4">Gérer vos préférences</h3>
           <p>
             Vous pouvez accepter ou refuser les cookies via la bannière affichée lors de votre première visite.
             Vous pouvez également vider les données de votre navigateur pour ce site pour réinitialiser votre choix, ou cliquer ici :{' '}

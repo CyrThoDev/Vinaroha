@@ -36,13 +36,6 @@ export const vigneronSchema = defineType({
       options: { hotspot: true },
     }),
     defineField({
-      name: 'citation',
-      title: 'Citation / Philosophie',
-      description: 'Phrase courte qui résume l\'esprit du vigneron',
-      type: 'text',
-      rows: 2,
-    }),
-    defineField({
       name: 'description',
       title: 'Description',
       type: 'array',

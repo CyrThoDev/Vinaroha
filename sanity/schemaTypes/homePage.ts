@@ -9,22 +9,21 @@ export const homePageSchema = defineType({
   fields: [
     defineField({
       name: 'hero',
-      title: 'Hero',
+      title: 'La Box (Abonnement)',
       type: 'object',
+      description: "Contenu de la section « La Box » de la page d'accueil.",
       fields: [
-        defineField({ name: 'surtitre', title: 'Sur-titre', type: 'string', description: 'Ex : Coffret du Supporter' }),
-        defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : Notre Box du Mois' }),
-        defineField({ name: 'image', title: 'Image du produit', type: 'image', options: { hotspot: true } }),
-        defineField({ name: 'ctaLabel', title: 'Texte du bouton', type: 'string', description: 'Ex : Réservez-la' }),
+        defineField({ name: 'image', title: 'Photo de la Box', type: 'image', options: { hotspot: true } }),
+        defineField({ name: 'ctaLabel', title: 'Texte du bouton', type: 'string', description: 'Ex : Découvrez la box' }),
         defineField({ name: 'ctaUrl', title: 'Lien du bouton', type: 'url' }),
-        defineField({ name: 'forme', title: 'Forme décorative', type: 'formeDecorative' }),
       ],
     }),
     defineField({
-      name: 'vigneronDuMois',
-      title: 'Vigneron du mois',
-      type: 'reference',
-      to: [{ type: 'vigneron' }],
+      name: 'agendaAffiche',
+      title: 'Affiche — Les prochaines dates',
+      type: 'image',
+      options: { hotspot: true },
+      description: "Visuel affiché dans la section « Les prochaines dates » de la page d'accueil, indépendant de l'affiche des événements.",
     }),
     defineField({
       name: 'coupsDeCoeur',

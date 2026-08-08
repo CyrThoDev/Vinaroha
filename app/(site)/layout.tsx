@@ -119,7 +119,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       </div>
 
       {/* Nav sticky */}
-      <header className="sticky top-0 z-50 bg-background px-6 pb-10">
+      <header className="sticky top-0 z-50 bg-background px-6 pt-4 pb-10">
         {/* Desktop */}
         <nav className="hidden md:flex items-center justify-center">
           <ul className="flex items-center gap-12">
@@ -154,11 +154,11 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
           {/* Col 1 — Logo + email + socials */}
           <div className="flex flex-col gap-6">
-            <Asset name="logo2" color="#FCF7EA" className="self-start [&_svg]:h-28 [&_svg]:w-auto" />
-            <a href="mailto:contact@vinaroha.com" className="self-center text-background hover:text-background underline text-sm transition-colors">
+            <Asset name="logo2" color="#FCF7EA" className="self-start [&_svg]:h-16 [&_svg]:w-auto" />
+            <a href="mailto:contact@vinaroha.com" className="self-start text-background hover:underline text-sm transition-colors">
               contact@vinaroha.com
             </a>
-            <div className="self-center flex items-center gap-3">
+            <div className="self-start flex items-center gap-3">
               {settings?.socials?.instagram && (
                 <a href={settings.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
                   className="w-9 h-9 bg-background rounded-full flex items-center justify-center hover:opacity-80 transition-opacity">
@@ -181,13 +181,13 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           </div>
 
           {/* Col 2 — Horaires */}
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-6 text-center">
             <div>
-              <p className="font-script text-2xl mb-1">La cave</p>
+              <p className="font-script text-xl mb-1">La cave</p>
               {(settings?.horairesCave ?? []).length > 0 ? (
                 <ul className="flex flex-col gap-1">
                   {settings!.horairesCave!.map((p, i) => (
-                    <li key={i} className="text-sm text-background/60">{p.jours} {p.heures}</li>
+                    <li key={i} className="text-sm text-background/70">{p.jours} {p.heures}</li>
                   ))}
                 </ul>
               ) : (
@@ -195,11 +195,11 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
               )}
             </div>
             <div>
-              <p className="font-script text-2xl mb-1">Les Halles</p>
+              <p className="font-script text-xl mb-1">Les Halles</p>
               {(settings?.horairesHalles ?? []).length > 0 ? (
                 <ul className="flex flex-col gap-1">
                   {settings!.horairesHalles!.map((p, i) => (
-                    <li key={i} className="text-sm text-background/60">{p.jours} {p.heures}</li>
+                    <li key={i} className="text-sm text-background/70">{p.jours} {p.heures}</li>
                   ))}
                 </ul>
               ) : (
@@ -211,10 +211,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           {/* Col 3 — Navigation */}
           <div>
             <ul className="flex flex-col items-end gap-3">
-              <li><Link href="/cave" className="text-background/60 hover:text-background transition-colors">La cave</Link></li>
-              <li><Link href="/vignerons" className="text-background/60 hover:text-background transition-colors">Nos vignerons</Link></li>
-              <li><Link href="/agenda" className="text-background/60 hover:text-background transition-colors">L&apos;agenda</Link></li>
-              <li><Link href="/evenements" className="text-background/60 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
+              <li><Link href="/cave" className="text-sm text-background/70 hover:text-background transition-colors">La cave</Link></li>
+              <li><Link href="/vignerons" className="text-sm text-background/70 hover:text-background transition-colors">Nos vignerons</Link></li>
+              <li><Link href="/agenda" className="text-sm text-background/70 hover:text-background transition-colors">L&apos;agenda</Link></li>
+              <li><Link href="/evenements" className="text-sm text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
             </ul>
           </div>
 
@@ -224,20 +224,20 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <AgeBanner />
       <CookieBanner />
 
-      {/* Bandeau orange fixe — copyright + légal alcool */}
-      <div className="h-8" aria-hidden="true" />
-      <div className="fixed bottom-0 inset-x-0 z-[60] bg-orange py-1.5 select-none">
+      {/* Bandeau orange — copyright + légal alcool */}
+      <div className="bg-orange py-1.5 select-none">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
-          <span className="text-[0.5625rem] text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
-          <span className="text-[0.5625rem] uppercase tracking-widest text-white/90 text-center">
+          <span className="text-xs text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
+          <span className="text-xs uppercase tracking-widest text-white/90 text-center flex-1">
             L&apos;abus d&apos;alcool est dangereux pour la santé · Interdit aux moins de 18 ans
           </span>
           <div className="flex gap-4 shrink-0">
-            <Link href="/mentions-legales" className="text-[0.5625rem] text-white/70 hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="/cgv" className="text-[0.5625rem] text-white/70 hover:text-white transition-colors">CGV</Link>
+            <Link href="/mentions-legales" className="text-xs text-white/70 hover:text-white transition-colors">Mentions légales</Link>
+            <Link href="/cgv" className="text-xs text-white/70 hover:text-white transition-colors">CGV</Link>
           </div>
         </div>
-in      </div>
+      </div>
+
     </>
   )
 }
