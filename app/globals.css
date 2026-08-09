@@ -5,7 +5,7 @@
   
 }
 
-@theme {
+@theme inline {
   --font-accent: var(--nf-accent), sans-serif;
   --font-body: var(--nf-body), system-ui, sans-serif;
   --font-lovelo: var(--nf-lovelo), sans-serif;
@@ -32,6 +32,18 @@ body {
   color: var(--foreground);
   font-family: var(--font-urbanist), sans-serif;
 }
+
+/* Polices locales — @font-face direct + classes explicites */
+@font-face {
+  font-family: 'LoveloLineBold';
+  src: url('/fonts/Lovelo_Line_Bold.otf') format('opentype');
+  font-display: swap;
+}
+
+.font-lovelo  { font-family: 'LoveloLineBold', sans-serif; }
+.font-avallon { font-family: var(--nf-avallon), sans-serif; }
+.font-fontjek { font-family: var(--nf-fontjek), sans-serif; }
+.font-script  { font-family: var(--nf-fontjek), cursive;    }
 
 h1, h2, h3, h4 {
   font-family: var(--font-accent);

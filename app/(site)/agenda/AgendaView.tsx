@@ -78,7 +78,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg border  font-medium transition-all ${
               activeTypes.size === 0
                 ? 'bg-black text-white border-black'
-                : 'bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400'
+                : 'bg-white  border-zinc-200 hover:border-zinc-400'
             }`}
           >
             <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-colors ${
@@ -103,7 +103,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border  font-medium transition-all ${
                   active
                     ? (PILL_ACTIVE[colorKey] ?? 'bg-zinc-100 text-zinc-700 border-zinc-400')
-                    : 'bg-white text-zinc-500 border-zinc-200 hover:border-zinc-400'
+                    : 'bg-white  border-zinc-200 hover:border-zinc-400'
                 }`}
               >
                 <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-colors ${
@@ -163,7 +163,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                         </p>
                       )}
                       {ev.description && (
-                        <p className=" text-zinc-500  mt-2 max-w-lg">
+                        <p className="   mt-2 max-w-lg">
                           {ev.description}
                         </p>
                       )}

@@ -26,23 +26,15 @@ export function AgeBanner() {
 
   if (state === 'loading') return null
 
-  // Bandeau légal permanent
-  if (state === 'confirmed') {
-    return (
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-sm border-t border-white/10 py-2 px-6 text-center pointer-events-none">
-        <p className="text-[0.625rem] text-white/40 uppercase tracking-widest">
-          L&apos;abus d&apos;alcool est dangereux pour la santé · À consommer avec modération · Interdit aux moins de 18 ans
-        </p>
-      </div>
-    )
-  }
+  // Le bandeau orange du footer porte déjà la mention légale une fois l'âge confirmé
+  if (state === 'confirmed') return null
 
   // Refus — message de redirection
   if (state === 'refused') {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-6 px-6 text-center">
         <img src="/logo-vinaroha.svg" alt="Vin'Aroha" className="h-12 w-auto opacity-40" />
-        <p className="text-zinc-500  max-w-xs ">
+        <p className="  max-w-xs ">
           La vente d&apos;alcool est réservée aux personnes majeures.
           Vous devez avoir 18 ans ou plus pour accéder à ce site.
         </p>

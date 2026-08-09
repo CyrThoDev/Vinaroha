@@ -7,6 +7,7 @@ const ASSETS = {
   bouteille:    'bouteille.svg',
   gift:         'gift.svg',
   square:       'square.svg',
+  rectangle:    'rectangle.svg',
   topandbottom: 'topandbottom.svg',
   logo2:        'logo-2.svg',
 } as const
@@ -19,6 +20,7 @@ export function Asset({
   color2,
   imageUrl,
   stretchToFill,
+  cover,
   className,
   alt = '',
 }: {
@@ -29,8 +31,10 @@ export function Asset({
   color2?: string
   /** Remplace le fill par une image (le SVG clip la photo à sa forme) */
   imageUrl?: string
-  /** Force le SVG à s'étirer pour remplir son container (supprime l'aspect ratio) */
+  /** Force le SVG à s'étirer pour remplir son container (déforme la forme si le ratio diffère) */
   stretchToFill?: boolean
+  /** Redimensionne le SVG à l'échelle (sans déformation) pour remplir son container, quitte à rogner les bords */
+  cover?: boolean
   className?: string
   alt?: string
 }) {
@@ -39,6 +43,14 @@ export function Asset({
 
   if (stretchToFill) {
     svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="none"')
+    svg = svg.replace(/(<svg[^>]*)\s+width="[^"]*"/, '$1 width="100%"')
+    svg = svg.replace(/(<svg[^>]*)\s+height="[^"]*"/, '$1 height="100%"')
+  } else if (cover) {
+    if (/preserveAspectRatio="/.test(svg)) {
+      svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="xMidYMid slice"')
+    } else {
+      svg = svg.replace(/<svg([^>]*)>/, '<svg$1 preserveAspectRatio="xMidYMid slice">')
+    }
     svg = svg.replace(/(<svg[^>]*)\s+width="[^"]*"/, '$1 width="100%"')
     svg = svg.replace(/(<svg[^>]*)\s+height="[^"]*"/, '$1 height="100%"')
   }

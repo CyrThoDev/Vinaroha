@@ -26,19 +26,20 @@ export interface SanityEventType {
 
 export const homePageQuery = groq`*[_type == "homePage"][0] {
   hero {
-    surtitre,
-    titre,
     ctaLabel,
     ctaUrl,
-    image { asset->{ url } },
-    forme { remplissage, couleur, image { asset->{ url } } }
+    image { asset->{ url } }
   },
-  vigneronDuMois->{ _id, name, domaine, region, citation, photo { asset->{ url } } },
+  agendaAffiche { asset->{ url } },
   "coupsDeCoeur": coupsDeCoeur[]->{
     _id, name, appellation, prix, type,
     image { asset->{ url } },
     "vigneron": vigneron->{ name }
   }
+}`
+
+export const vigneronDuMoisQuery = groq`*[_type == "vigneron" && vigneronDuMois == true][0]{
+  _id, name, domaine, region, description, photo { asset->{ url } }
 }`
 
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {

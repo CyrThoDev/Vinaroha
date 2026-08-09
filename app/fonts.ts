@@ -20,16 +20,19 @@ export const urbanist = Urbanist({
 })
 
 export const lovelo = localFont({
-  src: '../public/fonts/Lovelo_Black.otf',
+  src: '../public/fonts/Lovelo_Line_Bold.otf',
   variable: '--nf-lovelo',
+  display: 'swap',
 })
 
 export const avallon = localFont({
   src: '../public/fonts/Avallon.ttf',
   variable: '--nf-avallon',
+  display: 'swap',
 })
 
 export const fontjek = localFont({
   src: '../public/fonts/Fontjek.ttf',
   variable: '--nf-fontjek',
+  display: 'swap',
 })

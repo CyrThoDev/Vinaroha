@@ -90,7 +90,7 @@ export default async function AgendaPage() {
             <h2 className="font-accent text-[clamp(2.5rem,7vw,6rem)] uppercase leading-none">
               Nos événements
             </h2>
-            <p className="text-zinc-500  max-w-xs ">
+            <p className="  max-w-xs ">
               Six façons de célébrer le vin à nos côtés.
             </p>
           </div>
@@ -101,9 +101,9 @@ export default async function AgendaPage() {
                 key={type.id}
                 className={`${type.bg} ${type.text} rounded-3xl p-8 md:p-10 flex flex-col gap-4 min-h-50`}
               >
-                <h3 className="font-black uppercase text-xs tracking-widest leading-tight">
+                <p className="font-black uppercase text-xs tracking-widest leading-tight">
                   {type.label}
-                </h3>
+                </p>
                 <p className="text-[0.8rem]  opacity-60 mt-auto">
                   {type.description}
                 </p>
