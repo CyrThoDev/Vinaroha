@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { eventsQuery } from '@/sanity/lib/queries'
-import type { SanityEvent } from '@/sanity/lib/queries'
+import { eventsQuery, agendaPageQuery } from '@/sanity/lib/queries'
+import type { SanityEvent, PageHeroData } from '@/sanity/lib/queries'
+import { PageHero } from '../_components/PageHero'
 import AgendaView from './AgendaView'
 
 export const metadata: Metadata = {
   title: "Agenda",
   description:
-    "Retrouvez tous les événements Vin'Aroha à Mimizan : dégustations, masterclasses, rencontres vignerons, apéros et événements sur-mesure. Inscrivez-vous en ligne.",
+    "Retrouvez tous les événements Vin'Aroha à Mimizan : dégustations, masterclasses, rencontres producteurs, apéros et événements sur-mesure. Inscrivez-vous en ligne.",
   openGraph: {
     title: "Agenda — Vin'Aroha, Mimizan",
     description:
-      "Dégustations, masterclasses, rencontres vignerons et apéros à Mimizan (Landes). Réservez votre place.",
+      "Dégustations, masterclasses, rencontres producteurs et apéros à Mimizan (Landes). Réservez votre place.",
   },
 }
 
@@ -39,7 +40,7 @@ const EVENT_TYPES = [
   },
   {
     id: 'rencontres',
-    label: 'Rencontres Vignerons',
+    label: 'Rencontres Producteurs',
     description: 'Partez à la rencontre des femmes et des hommes qui font le vin.',
     bg: 'bg-black',
     text: 'text-white',
@@ -61,27 +62,22 @@ const EVENT_TYPES = [
 ]
 
 export default async function AgendaPage() {
-  const events = await client.fetch<SanityEvent[]>(eventsQuery as string)
+  const [events, page] = await Promise.all([
+    client.fetch<SanityEvent[]>(eventsQuery as string),
+    client.fetch<PageHeroData | null>(agendaPageQuery as string).catch(() => null),
+  ])
 
   return (
     <main>
 
-      {/* ── HERO ──────────────────────────────────────── */}
-      <section className="bg-black text-white overflow-hidden relative">
-        <div className="max-w-6xl mx-auto px-6 py-28 md:py-40">
-          <p className="text-orange text-[0.625rem] font-black uppercase tracking-[0.3em] mb-6">
-            Vin'Aroha
-          </p>
-          <h1 className="font-accent text-[clamp(5rem,18vw,14rem)] leading-[0.85] uppercase">
-            L'Agenda
-          </h1>
-          <p className="text-white/50 mt-8 max-w-sm  ">
-            Dégustations, masterclasses, rencontres vignerons... Tous nos événements, en un seul endroit.
-          </p>
-        </div>
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-150 h-150 border border-white/5 rounded-full translate-x-1/2 pointer-events-none" aria-hidden="true" />
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-87.5 h-87.5 border border-white/10 rounded-full translate-x-1/3 pointer-events-none" aria-hidden="true" />
-      </section>
+      <PageHero
+        title={page?.titre ?? "L'Agenda"}
+        description={
+          page?.description ??
+          'Dégustations, masterclasses, rencontres producteurs... Tous nos événements, en un seul endroit.'
+        }
+        imageUrl={page?.image?.asset?.url}
+      />
 
       {/* ── NOS ÉVÉNEMENTS ────────────────────────────── */}
       <section className="bg-background py-24 px-6">

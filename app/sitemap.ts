@@ -7,7 +7,7 @@ const STATIC: { url: string; priority: number; changeFrequency: MetadataRoute.Si
   { url: `${BASE}/agenda`,              priority: 0.9, changeFrequency: 'weekly'  },
   { url: `${BASE}/box`,                 priority: 0.8, changeFrequency: 'monthly' },
   { url: `${BASE}/cave`,                priority: 0.8, changeFrequency: 'monthly' },
-  { url: `${BASE}/vignerons`,           priority: 0.7, changeFrequency: 'monthly' },
+  { url: `${BASE}/producteurs`,         priority: 0.7, changeFrequency: 'monthly' },
   { url: `${BASE}/evenements`,          priority: 0.7, changeFrequency: 'monthly' },
   { url: `${BASE}/mentions-legales`,    priority: 0.2, changeFrequency: 'yearly'  },
 ]

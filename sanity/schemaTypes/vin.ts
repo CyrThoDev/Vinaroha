@@ -20,10 +20,10 @@ export const vinSchema = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: 'vigneron',
-      title: 'Vigneron',
+      name: 'producteur',
+      title: 'Producteur',
       type: 'reference',
-      to: [{ type: 'vigneron' }],
+      to: [{ type: 'producteur' }],
     }),
     defineField({
       name: 'type',

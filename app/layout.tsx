@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     template: "%s | Vin'Aroha",
   },
   description:
-    "Vin'Aroha, votre cave à vins naturels et de terroir à Mimizan (Landes). Dégustations, masterclasses, rencontres vignerons, box vin mensuelle et sélection de vignerons engagés.",
-  keywords: ['cave à vin', 'Mimizan', 'Landes', 'vin naturel', 'vin nature', 'dégustation', 'vigneron', 'box vin'],
+    "Vin'Aroha, votre cave à vins naturels et de terroir à Mimizan (Landes). Dégustations, masterclasses, rencontres producteurs, box vin mensuelle et sélection de producteurs engagés.",
+  keywords: ['cave à vin', 'Mimizan', 'Landes', 'vin naturel', 'vin nature', 'dégustation', 'producteur', 'box vin'],
   openGraph: {
     type: 'website',
     locale: 'fr_FR',

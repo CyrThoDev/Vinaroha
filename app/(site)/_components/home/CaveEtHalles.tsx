@@ -6,9 +6,13 @@ type PlageHoraire = { jours: string; heures: string }
 type CaveEtHallesProps = {
   horairesCave: PlageHoraire[]
   horairesHalles: PlageHoraire[]
+  photoUrl?: string
+  titre?: string
+  texte?: string
+  ctaLabel?: string
 }
 
-export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps) {
+export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, texte, ctaLabel }: CaveEtHallesProps) {
   return (
     <section className=" max-w-7xl mx-auto bg-background overflow-hidden">
 
@@ -18,7 +22,7 @@ export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps
         {/* Image — plein bord gauche, aucune contrainte de largeur */}
         <Asset
           name="topandbottom"
-          imageUrl="/images/photo_acceuil_hero.png"
+          imageUrl={photoUrl ?? '/images/photo_acceuil_hero.png'}
           alt="L'équipe Vin'Aroha"
           className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-128 [&_svg]:max-w-full [&_svg]:block"
         />
@@ -26,17 +30,16 @@ export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps
         {/* Titre + texte + CTA */}
         <div className="flex flex-col gap-4 px-6 md:px-0 py-12 md:py-16">
           <h1 className="font-accent text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none uppercase text-zinc-900">
-            Poussez la porte de notre cave
+            {titre ?? 'Poussez la porte de notre cave'}
           </h1>
           <p className="max-w-md">
-            Une équipe passionnée vous accueille pour vous guider dans la découverte de vins naturels,
-            bio et biodynamiques choisis avec soin auprès de vignerons engagés.
+            {texte ?? "Une équipe passionnée vous accueille pour vous guider dans la découverte de vins naturels, bio et biodynamiques choisis avec soin auprès de producteurs engagés."}
           </p>
           <Link
             href="/cave"
             className="font-semibold text-2xl font-fontjek text-black hover:text-orange transition-colors w-fit flex items-center gap-2 border-b border-zinc-400 pb-0.5 hover:border-orange"
           >
-            Découvrir la cave &nbsp;⟶
+            {ctaLabel ?? 'Découvrir la cave'} &nbsp;⟶
           </Link>
         </div>
 

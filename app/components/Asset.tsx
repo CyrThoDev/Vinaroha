@@ -57,9 +57,11 @@ export function Asset({
 
   if (imageUrl) {
     // Remplace le(s) path coloré(s) par un élément <image> : les clipPaths du SVG découpent l'image à la forme
+    const viewBox = svg.match(/viewBox="[^"]*\s+[^"]*\s+([\d.]+)\s+([\d.]+)"/)
+    const [imgWidth, imgHeight] = viewBox ? [viewBox[1], viewBox[2]] : ['1154', '1501']
     svg = svg.replace(
       /<path fill="#[0-9a-fA-F]{6}" d="[^"]*" fill-opacity="[^"]*" fill-rule="nonzero"\/>/g,
-      `<image href="${imageUrl}" x="0" y="0" width="1154" height="1501" preserveAspectRatio="xMidYMid slice" />`
+      `<image href="${imageUrl}" x="0" y="0" width="${imgWidth}" height="${imgHeight}" preserveAspectRatio="xMidYMid slice" />`
     )
   } else if (color) {
     if (color2) {

@@ -55,7 +55,7 @@ export default function MentionsLegalesPage() {
         </Block>
 
         {/* 4. Données personnelles */}
-        <Block title="4. Données personnelles &amp; RGPD">
+        <Block id="confidentialite" title="4. Données personnelles &amp; RGPD">
           <p>
             Vin&apos;Aroha collecte des données personnelles uniquement dans le cadre de l&apos;inscription à la newsletter (adresse e-mail).
             Ces données sont utilisées exclusivement pour l&apos;envoi de communications commerciales et ne sont jamais cédées à des tiers.
@@ -132,7 +132,7 @@ export default function MentionsLegalesPage() {
             </a>
           </p>
           <p className="text-zinc-400 text-xs mt-2">
-            Dernière mise à jour : juillet 2025
+            Dernière mise à jour : juillet 202
           </p>
         </Block>
 
@@ -141,9 +141,9 @@ export default function MentionsLegalesPage() {
   )
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, id, children }: { title: string; id?: string; children: React.ReactNode }) {
   return (
-    <div>
+    <div id={id} className="scroll-mt-24">
       <h2 className="text-base font-black uppercase tracking-wide text-zinc-900 mb-5 pb-3 border-b border-zinc-200">
         {title}
       </h2>

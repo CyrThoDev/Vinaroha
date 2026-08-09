@@ -25,26 +25,43 @@ export interface SanityEventType {
 }
 
 export const homePageQuery = groq`*[_type == "homePage"][0] {
+  heroCave {
+    photo { asset->{ url } },
+    titre,
+    texte,
+    ctaLabel
+  },
   hero {
-    ctaLabel,
-    ctaUrl,
     image { asset->{ url } }
   },
   agendaAffiche { asset->{ url } },
   "coupsDeCoeur": coupsDeCoeur[]->{
     _id, name, appellation, prix, type,
     image { asset->{ url } },
-    "vigneron": vigneron->{ name }
-  }
+    "producteur": producteur->{ name }
+  },
+  coupsDeCoeurFond { asset->{ url } }
 }`
 
-export const vigneronDuMoisQuery = groq`*[_type == "vigneron" && vigneronDuMois == true][0]{
+export const producteurDuMoisQuery = groq`*[_type == "producteur" && producteurDuMois == true][0]{
   _id, name, domaine, region, description, photo { asset->{ url } }
 }`
 
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
   adresse, telephone, email, socials, horairesCave, horairesHalles
 }`
+
+const pageHeroFields = groq`titre, description, image { asset->{ url } }`
+
+export const boxPageQuery = groq`*[_type == "boxPage"][0] { ${pageHeroFields} }`
+export const producteursPageQuery = groq`*[_type == "producteursPage"][0] { ${pageHeroFields} }`
+export const agendaPageQuery = groq`*[_type == "agendaPage"][0] { ${pageHeroFields} }`
+
+export interface PageHeroData {
+  titre?: string
+  description?: string
+  image?: { asset?: { url: string } }
+}
 
 export interface SanityEvent {
   _id: string
