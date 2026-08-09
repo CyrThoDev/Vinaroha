@@ -9,8 +9,6 @@ import { ProchainesDates } from './_components/home/ProchainesDates'
 import { ProducteurDuMois } from './_components/home/ProducteurDuMois'
 import { CoupsDeCoeur } from './_components/home/CoupsDeCoeur'
 import { EvenementsEtCadeaux } from './_components/home/EvenementsEtCadeaux'
-import { ProRestaurateurs } from './_components/home/ProRestaurateurs'
-import { Newsletter } from './_components/home/Newsletter'
 
 export const metadata: Metadata = {
   title: "Accueil",
@@ -70,8 +68,6 @@ export default async function HomePage() {
       <ProducteurDuMois producteur={producteur ?? undefined} />
       <CoupsDeCoeur vins={coupsDeCoeur} backgroundImageUrl={homepage?.coupsDeCoeurFond?.asset?.url} />
       <EvenementsEtCadeaux />
-      <ProRestaurateurs />
-      <Newsletter />
     </main>
   )
 }

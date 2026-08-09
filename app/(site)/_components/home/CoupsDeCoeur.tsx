@@ -48,9 +48,9 @@ export function CoupsDeCoeur({ vins, backgroundImageUrl }: CoupsDeCoeurProps) {
                 )}
               </div>
               <div className="bg-white px-6 py-5 flex flex-col gap-1 flex-1">
-                <p className="font-black uppercase text-xs tracking-widest text-zinc-900">{vin.name}</p>
-                {vin.appellation && <p className=" text-xs">{vin.appellation}</p>}
-                {vin.producteur?.name && <p className="text-zinc-400 text-xs">{vin.producteur.name}</p>}
+                <p className="font-black uppercase  tracking-widest text-zinc-900">{vin.name}</p>
+                {vin.appellation && <p className=" ">{vin.appellation}</p>}
+                {vin.producteur?.name && <p className="text-zinc-400 ">{vin.producteur.name}</p>}
                 {vin.prix && <p className="font-black text-orange  mt-2">{vin.prix}&nbsp;€</p>}
               </div>
             </div>
@@ -58,8 +58,8 @@ export function CoupsDeCoeur({ vins, backgroundImageUrl }: CoupsDeCoeurProps) {
             <div key={i} className=" rounded-3xl overflow-hidden flex flex-col">
               <div className="rounded-t-full overflow-hidden aspect-4/5 bg-zinc-200" />
               <div className="bg-white px-6 py-5 flex flex-col gap-1 flex-1">
-                <p className="font-black uppercase text-xs tracking-widest text-zinc-900">Vin Aroha</p>
-                <p className="text-zinc-300 text-xs italic">À renseigner dans le studio</p>
+                <p className="font-black uppercase  tracking-widest text-zinc-900">Vin Aroha</p>
+                <p className="text-zinc-300  italic">À renseigner dans le studio</p>
               </div>
             </div>
           ))}

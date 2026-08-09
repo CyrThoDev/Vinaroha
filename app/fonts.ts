@@ -1,4 +1,4 @@
-import { Work_Sans, League_Gothic, Urbanist } from 'next/font/google'
+import { Work_Sans, League_Gothic, Urbanist, Caveat } from 'next/font/google'
 import localFont from 'next/font/local'
 
 export const workSans = Work_Sans({
@@ -34,5 +34,11 @@ export const avallon = localFont({
 export const fontjek = localFont({
   src: '../public/fonts/Fontjek.ttf',
   variable: '--nf-fontjek',
+  display: 'swap',
+})
+
+export const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--nf-caveat',
   display: 'swap',
 })

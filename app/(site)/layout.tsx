@@ -5,6 +5,8 @@ import { CookieBanner } from '@/app/components/CookieBanner'
 import { AgeBanner } from '@/app/components/AgeBanner'
 import { SiteHeader } from '@/app/components/SiteHeader'
 import { Asset } from '@/app/components/Asset'
+import { ProRestaurateurs } from './_components/ProRestaurateurs'
+import { Newsletter } from './_components/Newsletter'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   type PlageHoraire = { jours: string; heures: string }
@@ -69,7 +71,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
       {/* Barre adresse & réseaux sociaux */}
-      <div className="bg-black px-6 py-2 flex justify-between items-center gap-2.5">
+      <div className="bg-black px-6 py-2 flex flex-col items-center text-center gap-2 sm:flex-row sm:justify-between sm:text-left">
         {/* Adresse */}
         {settings?.adresse ? (
           <p className="text-background/60 text-xs flex items-center gap-1.5">
@@ -107,6 +109,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
       {children}
 
+      <ProRestaurateurs />
+      <Newsletter />
+
       {/* Footer */}
       <footer className="bg-black text-background">
 
@@ -114,7 +119,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <div className="max-w-6xl mx-auto px-6 pt-14 pb-12 grid grid-cols-1 sm:grid-cols-3 gap-10 border-b border-background/10">
 
           {/* Col 1 — Logo + email + socials */}
-          <div className="flex flex-col items-center gap-6 text-center">
+          <div className="flex flex-col items-center text-center gap-6 sm:items-start sm:text-left">
             <Asset name="logo2" color="#FCF7EA" className="[&_svg]:h-16 [&_svg]:w-auto" />
             <a href="mailto:contact@vinaroha.com" className="text-background hover:underline text-sm transition-colors">
               contact@vinaroha.com
@@ -171,10 +176,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
           {/* Col 3 — Navigation */}
           <div>
-            <ul className="flex flex-col items-center gap-3">
+            <ul className="flex flex-col items-center gap-3 sm:items-end">
               <li><Link href="/cave" className="text-sm text-background/70 hover:text-background transition-colors">La cave</Link></li>
               <li><Link href="/producteurs" className="text-sm text-background/70 hover:text-background transition-colors">Nos producteurs</Link></li>
-              <li><Link href="/agenda" className="text-sm text-background/70 hover:text-background transition-colors">L&apos;agenda</Link></li>
               <li><Link href="/evenements" className="text-sm text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
             </ul>
           </div>
@@ -186,13 +190,13 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <CookieBanner />
 
       {/* Bandeau orange — copyright + légal alcool */}
-      <div className="bg-orange py-3 sm:py-1.5 select-none">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
-          <span className="order-3 sm:order-1 text-xs text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
-          <span className="order-1 sm:order-2 text-xs uppercase tracking-widest text-white/90">
+      <div className="bg-orange py-1.5 select-none">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
+          <span className="text-xs text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
+          <span className="text-xs uppercase tracking-widest text-white/90 text-center flex-1">
             L&apos;abus d&apos;alcool est dangereux pour la santé · Interdit aux moins de 18 ans
           </span>
-          <div className="order-2 sm:order-3 flex gap-4 shrink-0">
+          <div className="flex gap-4 shrink-0">
             <Link href="/mentions-legales" className="text-xs text-white/70 hover:text-white transition-colors">Mentions légales</Link>
             <Link href="/mentions-legales#confidentialite" className="text-xs text-white/70 hover:text-white transition-colors">Confidentialité</Link>
           </div>

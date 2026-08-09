@@ -80,7 +80,7 @@ export function ProducteurDuMois({ producteur }: ProducteurDuMoisProps) {
                   className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-128 [&_svg]:max-w-full [&_svg]:block"
                 />
                 <div className="absolute inset-0 flex items-center justify-center px-8 text-center">
-                  <p className="text-zinc-300 text-xs">Photo à ajouter dans le studio</p>
+                  <p className="text-zinc-300 ">Photo à ajouter dans le studio</p>
                 </div>
               </div>
             )}

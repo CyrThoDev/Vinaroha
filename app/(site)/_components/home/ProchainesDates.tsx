@@ -34,7 +34,7 @@ export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
             {posterUrl ? (
               <img src={posterUrl} alt="Les prochaines dates" className="w-full h-full object-contain" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-white/20 text-xs italic">Affiche à venir</div>
+              <div className="w-full h-full flex items-center justify-center text-white/20  italic">Affiche à venir</div>
             )}
           </div>
 

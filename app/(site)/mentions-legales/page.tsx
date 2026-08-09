@@ -96,14 +96,14 @@ export default function MentionsLegalesPage() {
             </thead>
             <tbody>
               <tr className="border-b border-zinc-200">
-                <td className="py-2 pr-4 font-mono text-xs">cookie-consent</td>
+                <td className="py-2 pr-4 font-mono ">cookie-consent</td>
                 <td className="py-2 pr-4">Mémoriser votre choix de consentement aux cookies</td>
                 <td className="py-2">Persistant (localStorage)</td>
               </tr>
             </tbody>
           </table>
 
-          <p className=" text-xs mt-2">
+          <p className="  mt-2">
             Ce site n&apos;utilise pas Google Analytics. Google Search Console est utilisé uniquement pour le référencement du site et ne dépose aucun cookie chez les visiteurs.
             Brevo est utilisé pour l&apos;envoi de la newsletter via une API — aucun cookie n&apos;est déposé sur votre navigateur lors de votre inscription.
           </p>
@@ -131,7 +131,7 @@ export default function MentionsLegalesPage() {
               contact@vinaroha.com
             </a>
           </p>
-          <p className="text-zinc-400 text-xs mt-2">
+          <p className="text-zinc-400  mt-2">
             Dernière mise à jour : juillet 202
           </p>
         </Block>

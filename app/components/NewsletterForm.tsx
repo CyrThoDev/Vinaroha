@@ -43,13 +43,13 @@ export function NewsletterForm() {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="bg-black text-white font-black uppercase tracking-widest text-xs px-8 py-3 hover:opacity-80 transition-opacity disabled:opacity-50 shrink-0"
+          className="bg-black text-white font-black uppercase tracking-widest  px-8 py-3 hover:opacity-80 transition-opacity disabled:opacity-50 shrink-0"
         >
           {status === 'loading' ? 'Inscription…' : "Je m'abonne"}
         </button>
       </form>
       {message && (
-        <p className={`text-xs mt-3 ${status === 'success' ? 'text-green' : 'text-red-600'}`}>
+        <p className={` mt-3 ${status === 'success' ? 'text-green' : 'text-red-600'}`}>
           {message}
         </p>
       )}

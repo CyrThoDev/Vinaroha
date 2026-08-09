@@ -44,6 +44,7 @@ body {
 .font-avallon { font-family: var(--nf-avallon), sans-serif; }
 .font-fontjek { font-family: var(--nf-fontjek), sans-serif; }
 .font-script  { font-family: var(--nf-fontjek), cursive;    }
+.font-railey  { font-family: var(--nf-caveat), cursive;     }
 
 h1, h2, h3, h4 {
   font-family: var(--font-accent);

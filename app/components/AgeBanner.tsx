@@ -34,7 +34,7 @@ export function AgeBanner() {
     return (
       <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-6 px-6 text-center">
         <img src="/logo-vinaroha.svg" alt="Vin'Aroha" className="h-12 w-auto opacity-40" />
-        <p className="  max-w-xs ">
+        <p className="text-sm max-w-xs">
           La vente d&apos;alcool est réservée aux personnes majeures.
           Vous devez avoir 18 ans ou plus pour accéder à ce site.
         </p>
@@ -50,14 +50,14 @@ export function AgeBanner() {
 
   // Vérification d'âge
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-5">
+    <div className="fixed bottom-6 left-0 right-0 z-50 p-4 md:p-5">
       <div className="max-w-2xl mx-auto bg-zinc-900 border border-white/10 rounded-2xl px-6 py-5 shadow-2xl flex flex-col sm:flex-row items-center gap-5">
         <div className="flex-1 text-center sm:text-left">
           <p className="text-xs font-black uppercase tracking-widest text-white/40 mb-1">Accès au site</p>
           <p className="text-white font-black uppercase text-lg leading-tight">
             Avez-vous 18 ans ou plus&nbsp;?
           </p>
-          <p className="text-white/40 text-xs mt-1">
+          <p className="text-white/40 text-sm mt-1">
             La loi française interdit la vente d&apos;alcool aux mineurs.
           </p>
         </div>

@@ -42,7 +42,11 @@ export function Asset({
   let svg = fs.readFileSync(filePath, 'utf-8')
 
   if (stretchToFill) {
-    svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="none"')
+    if (/preserveAspectRatio="/.test(svg)) {
+      svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="none"')
+    } else {
+      svg = svg.replace(/<svg([^>]*)>/, '<svg$1 preserveAspectRatio="none">')
+    }
     svg = svg.replace(/(<svg[^>]*)\s+width="[^"]*"/, '$1 width="100%"')
     svg = svg.replace(/(<svg[^>]*)\s+height="[^"]*"/, '$1 height="100%"')
   } else if (cover) {

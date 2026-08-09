@@ -22,6 +22,8 @@ export default async function ProducteursPage() {
           'Des femmes et des hommes engagés, choisis avec soin pour la qualité et l\'authenticité de leurs vins.'
         }
         imageUrl={page?.image?.asset?.url}
+        color="#D25200"
+        lightText
       />
     </main>
   )

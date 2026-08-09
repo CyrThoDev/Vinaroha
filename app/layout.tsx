@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { workSans, leagueGothic, urbanist, lovelo, avallon, fontjek } from "./fonts";
+import { workSans, leagueGothic, urbanist, lovelo, avallon, fontjek, caveat } from "./fonts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -53,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${workSans.variable} ${leagueGothic.variable} ${urbanist.variable} ${lovelo.variable} ${avallon.variable} ${fontjek.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${workSans.variable} ${leagueGothic.variable} ${urbanist.variable} ${lovelo.variable} ${avallon.variable} ${fontjek.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-zinc-900">{children}</body>
     </html>

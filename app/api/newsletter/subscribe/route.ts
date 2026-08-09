@@ -4,7 +4,12 @@ const BREVO_API_URL = 'https://api.brevo.com/v3/contacts'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export async function POST(req: Request) {
-  const { email } = await req.json()
+  const { email, website } = await req.json()
+
+  // Honeypot : champ invisible qui ne doit jamais être rempli par un humain
+  if (typeof website === 'string' && website.trim()) {
+    return NextResponse.json({ success: true, message: 'Inscription réussie !' })
+  }
 
   if (typeof email !== 'string' || !EMAIL_REGEX.test(email)) {
     return NextResponse.json({ error: 'Email invalide' }, { status: 400 })

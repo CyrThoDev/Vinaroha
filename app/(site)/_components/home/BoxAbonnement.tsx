@@ -9,14 +9,14 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
   return (
     <section className="py-10 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="relative grid grid-cols-1 md:grid-cols-2 items-stretch overflow-hidden">
+        <div className=" p-8 relative grid grid-cols-1 md:grid-cols-2 items-stretch overflow-hidden">
 
           {/* Fond rectangle SVG organique, mis à l'échelle sans déformation */}
           <Asset
             name="rectangle"
             color="#EBB132"
-            cover
-            className="absolute inset-0 w-full h-full pointer-events-none  [&_svg]:w-full [&_svg]:h-full"
+            stretchToFill
+            className="absolute inset-0 w-full h-full pointer-events-none  [&_svg]:w-full [&_svg]:h-full "
           />
 
           {/* Col gauche — contenu */}
@@ -31,7 +31,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
             </p>
             <Link
               href="/box"
-              className="hidden md:inline-flex bg-black text-white font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
+              className="hidden md:inline-flex bg-black text-white font-black uppercase tracking-widest  px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
             >
               Découvrez la box
             </Link>
@@ -59,7 +59,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
             ) : (
               <div className="relative w-80">
                 <Asset name="square" color="#f4f4f5" className="w-full [&_svg]:w-full [&_svg]:h-auto" />
-                <div className="absolute inset-0 flex items-center justify-center italic text-zinc-400 text-xs">
+                <div className="absolute inset-0 flex items-center justify-center italic text-zinc-400 ">
                   Frame
                 </div>
               </div>
@@ -70,7 +70,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           <div className="md:hidden flex justify-center pb-14 relative z-10">
             <Link
               href="/box"
-              className="bg-black text-white font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit"
+              className="bg-black text-white font-black uppercase tracking-widest  px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit"
             >
               Découvrez la box
             </Link>

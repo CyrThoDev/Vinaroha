@@ -174,7 +174,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                         href={ev.yurplanUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 self-start inline-flex items-center gap-2 bg-orange text-white font-black uppercase tracking-widest text-xs px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+                        className="shrink-0 self-start inline-flex items-center gap-2 bg-orange text-white font-black uppercase tracking-widest  px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
                       >
                         Inscription
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Agenda",
   description:
     "Retrouvez tous les événements Vin'Aroha à Mimizan : dégustations, masterclasses, rencontres producteurs, apéros et événements sur-mesure. Inscrivez-vous en ligne.",
+  robots: { index: false, follow: false },
   openGraph: {
     title: "Agenda — Vin'Aroha, Mimizan",
     description:
@@ -77,6 +78,8 @@ export default async function AgendaPage() {
           'Dégustations, masterclasses, rencontres producteurs... Tous nos événements, en un seul endroit.'
         }
         imageUrl={page?.image?.asset?.url}
+        color="#357d4f"
+        lightText
       />
 
       {/* ── NOS ÉVÉNEMENTS ────────────────────────────── */}
@@ -97,7 +100,7 @@ export default async function AgendaPage() {
                 key={type.id}
                 className={`${type.bg} ${type.text} rounded-3xl p-8 md:p-10 flex flex-col gap-4 min-h-50`}
               >
-                <p className="font-black uppercase text-xs tracking-widest leading-tight">
+                <p className="font-black uppercase  tracking-widest leading-tight">
                   {type.label}
                 </p>
                 <p className="text-[0.8rem]  opacity-60 mt-auto">
