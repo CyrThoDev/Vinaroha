@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
 import { boxPageQuery } from '@/sanity/lib/queries'
-import type { PageHeroData } from '@/sanity/lib/queries'
+import type { BoxPageData } from '@/sanity/lib/queries'
 import { PageHero } from '../_components/PageHero'
 import { OffresBox } from './OffresBox'
 import { CommentCaMarche } from './CommentCaMarche'
@@ -21,20 +21,30 @@ const DESCRIPTION_DEFAUT = [
 ].join('\n')
 
 export default async function BoxPage() {
-  const page = await client.fetch<PageHeroData | null>(boxPageQuery as string).catch(() => null)
+  const page = await client.fetch<BoxPageData | null>(boxPageQuery as string).catch(() => null)
 
   return (
     <main>
       <PageHero
-        eyebrow="Abonnement"
+        eyebrow={page?.eyebrow ?? 'Abonnement'}
         title={page?.titre ?? 'La Box'}
         description={page?.description ?? DESCRIPTION_DEFAUT}
         imageUrl={page?.image?.asset?.url}
       />
-      <OffresBox />
-      <CommentCaMarche />
-      <Temoignage />
-      <FAQ />
+      <OffresBox
+        titre={page?.offresTitre}
+        offres={page?.offres}
+        abonnementTitre={page?.abonnementTitre}
+        abonnementTexte={page?.abonnementTexte}
+      />
+      <CommentCaMarche
+        titre={page?.commentCaMarcheTitre}
+        etape1Texte={page?.etape1Texte}
+        etape2Texte={page?.etape2Texte}
+        etape2Note={page?.etape2Note}
+      />
+      <Temoignage citation={page?.temoignage} auteur={page?.temoignageAuteur} />
+      <FAQ titre={page?.faqTitre} questions={page?.faq} />
     </main>
   )
 }

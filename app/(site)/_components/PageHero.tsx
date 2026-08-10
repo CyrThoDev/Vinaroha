@@ -7,9 +7,10 @@ type PageHeroProps = {
   imageUrl?: string
   color?: string
   lightText?: boolean
+  titleFont?: 'lovelo' | 'accent'
 }
 
-export function PageHero({ eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false }: PageHeroProps) {
+export function PageHero({ eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false, titleFont = 'lovelo' }: PageHeroProps) {
   return (
     <section className=" relative">
 
@@ -34,7 +35,7 @@ export function PageHero({ eyebrow, title, description, imageUrl, color = '#EBB1
                 {eyebrow}
               </p>
             )}
-            <h1 className={`font-lovelo text-5xl md:text-6xl uppercase leading-none ${lightText ? 'text-white' : 'text-zinc-900'}`}>
+            <h1 className={`${titleFont === 'accent' ? 'font-accent' : 'font-lovelo'} text-5xl md:text-6xl uppercase leading-none ${lightText ? 'text-white' : 'text-zinc-900'}`}>
               {title}
             </h1>
             <p className={`max-w-md whitespace-pre-line ${lightText ? 'text-white/90' : 'text-zinc-800'}`}>

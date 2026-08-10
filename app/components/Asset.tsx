@@ -7,6 +7,7 @@ const ASSETS = {
   bouteille:    'bouteille.svg',
   gift:         'gift.svg',
   square:       'square.svg',
+  rounded:      'rounded.svg',
   rectangle:    'rectangle.svg',
   topandbottom: 'topandbottom.svg',
   logo2:        'logo-2.svg',

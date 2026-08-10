@@ -1,7 +1,21 @@
 import Link from 'next/link'
 import { Asset } from '@/app/components/Asset'
 
-const OFFRES = [
+type Offre = {
+  nom?: string
+  description?: string
+  detail?: string
+  prix?: string
+}
+
+type OffresBoxProps = {
+  titre?: string
+  offres?: Offre[]
+  abonnementTitre?: string
+  abonnementTexte?: string
+}
+
+const OFFRES_DEFAUT: Offre[] = [
   {
     nom: 'Découverte',
     description: "Des vins accessibles pour l'apéritif ou le repas",
@@ -16,7 +30,9 @@ const OFFRES = [
   },
 ]
 
-export function OffresBox() {
+export function OffresBox({ titre, offres, abonnementTitre, abonnementTexte }: OffresBoxProps) {
+  const items = offres && offres.length > 0 ? offres : OFFRES_DEFAUT
+
   return (
     <section className="bg-background py-16 px-6 relative overflow-hidden">
 
@@ -32,12 +48,12 @@ export function OffresBox() {
 
       <div className="max-w-5xl mx-auto">
         <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-14">
-          À chacun sa box
+          {titre ?? 'À chacun sa box'}
         </h2>
 
         <div className="flex flex-col gap-12">
-          {OFFRES.map((offre) => (
-            <div key={offre.nom} className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-3 md:gap-10 items-start">
+          {items.map((offre, i) => (
+            <div key={offre.nom ?? i} className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-3 md:gap-10 items-start">
               <div>
                 <p className="font-lovelo text-3xl uppercase leading-none text-zinc-900">La Box</p>
                 <p className="font-railey text-3xl text-yellow -mt-1">{offre.nom}</p>
@@ -52,8 +68,8 @@ export function OffresBox() {
         </div>
 
         <div className="text-center mt-14 flex flex-col gap-1">
-          <p className="font-black uppercase text-zinc-900">Abonnements de 3, 6 ou 12 mois</p>
-          <p className="text-zinc-600">Tarif dégressif suivant la durée d&apos;abonnement</p>
+          <p className="font-black uppercase text-zinc-900">{abonnementTitre ?? 'Abonnements de 3, 6 ou 12 mois'}</p>
+          <p className="text-zinc-600">{abonnementTexte ?? "Tarif dégressif suivant la durée d'abonnement"}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-16 mt-10">
@@ -67,9 +83,9 @@ export function OffresBox() {
             href="/box/offrir"
             className="font-fontjek text-2xl border-b border-zinc-400 pb-1 flex items-center gap-2 hover:border-orange hover:text-orange transition-colors"
           >
-            J&apos;offre la box 
+            J&apos;offre la box
             <Asset name="gift" color="#000000" className="w-6 [&_svg]:w-full [&_svg]:h-auto" />
-          &nbsp;⟶
+            &nbsp;⟶
           </Link>
         </div>
       </div>

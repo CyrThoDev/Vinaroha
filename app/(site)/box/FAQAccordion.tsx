@@ -3,8 +3,8 @@
 import { useState } from 'react'
 
 type Question = {
-  question: string
-  reponse: string
+  question?: string
+  reponse?: string
 }
 
 export function FAQAccordion({ questions }: { questions: Question[] }) {
@@ -15,7 +15,7 @@ export function FAQAccordion({ questions }: { questions: Question[] }) {
       {questions.map((q, i) => {
         const isOpen = open === i
         return (
-          <div key={q.question} className="py-4">
+          <div key={q.question ?? i} className="py-4">
             <button
               onClick={() => setOpen(isOpen ? null : i)}
               className="w-full flex items-center justify-between gap-4 text-left"

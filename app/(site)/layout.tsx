@@ -179,6 +179,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             <ul className="flex flex-col items-center gap-3 sm:items-end">
               <li><Link href="/cave" className="text-sm text-background/70 hover:text-background transition-colors">La cave</Link></li>
               <li><Link href="/producteurs" className="text-sm text-background/70 hover:text-background transition-colors">Nos producteurs</Link></li>
+              <li><Link href="/agenda" className="text-sm text-background/70 hover:text-background transition-colors">Agenda</Link></li>
               <li><Link href="/evenements" className="text-sm text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
             </ul>
           </div>

@@ -1,7 +1,17 @@
 import { Asset } from '@/app/components/Asset'
 import { FAQAccordion } from './FAQAccordion'
 
-const QUESTIONS = [
+type Question = {
+  question?: string
+  reponse?: string
+}
+
+type FAQProps = {
+  titre?: string
+  questions?: Question[]
+}
+
+const QUESTIONS_DEFAUT: Question[] = [
   {
     question: "Comment fonctionne l'abonnement ?",
     reponse:
@@ -19,14 +29,16 @@ const QUESTIONS = [
   },
 ]
 
-export function FAQ() {
+export function FAQ({ titre, questions }: FAQProps) {
+  const items = questions && questions.length > 0 ? questions : QUESTIONS_DEFAUT
+
   return (
     <section className="bg-background py-16 px-6">
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start">
 
         <div>
-          <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-8">FAQ</h2>
-          <FAQAccordion questions={QUESTIONS} />
+          <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-8">{titre ?? 'FAQ'}</h2>
+          <FAQAccordion questions={items} />
         </div>
 
         <div className="hidden md:block pt-16">

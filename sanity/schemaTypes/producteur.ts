@@ -42,6 +42,13 @@ export const producteurSchema = defineType({
       of: [{ type: 'block' }],
     }),
     defineField({
+      name: 'descriptionDomaine',
+      title: 'Description du domaine',
+      description: 'Texte affiché dans le bloc "Son domaine" (page Nos Producteurs)',
+      type: 'array',
+      of: [{ type: 'block' }],
+    }),
+    defineField({
       name: 'cepages',
       title: 'Cépages',
       type: 'string',

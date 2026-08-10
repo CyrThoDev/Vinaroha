@@ -26,8 +26,24 @@ export const vinSchema = defineType({
       to: [{ type: 'producteur' }],
     }),
     defineField({
+      name: 'categorie',
+      title: 'Catégorie',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Vin',        value: 'vin'        },
+          { title: 'Bière',      value: 'biere'      },
+          { title: 'Spiritueux', value: 'spiritueux' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'vin',
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: 'type',
       title: 'Type',
+      description: 'Uniquement pour la catégorie "Vin"',
       type: 'string',
       options: {
         list: [
@@ -39,6 +55,12 @@ export const vinSchema = defineType({
         ],
         layout: 'radio',
       },
+      hidden: ({ parent }) => parent?.categorie !== 'vin',
+    }),
+    defineField({
+      name: 'region',
+      title: 'Région',
+      type: 'string',
     }),
     defineField({
       name: 'appellation',

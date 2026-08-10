@@ -44,8 +44,23 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
 }`
 
 export const producteurDuMoisQuery = groq`*[_type == "producteur" && producteurDuMois == true][0]{
-  _id, name, domaine, region, description, photo { asset->{ url } }
+  _id, name, domaine, region, description, descriptionDomaine, photo { asset->{ url } }
 }`
+
+export const produitsQuery = groq`*[_type == "vin"] | order(name asc) {
+  _id, name, categorie, type, region, appellation,
+  image { asset->{ url } }
+}`
+
+export interface SanityProduit {
+  _id: string
+  name: string
+  categorie: 'vin' | 'biere' | 'spiritueux' | null
+  type: string | null
+  region: string | null
+  appellation: string | null
+  image: { asset?: { url: string } } | null
+}
 
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
   adresse, telephone, email, socials, horairesCave, horairesHalles
@@ -53,14 +68,46 @@ export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
 
 const pageHeroFields = groq`titre, description, image { asset->{ url } }`
 
-export const boxPageQuery = groq`*[_type == "boxPage"][0] { ${pageHeroFields} }`
 export const producteursPageQuery = groq`*[_type == "producteursPage"][0] { ${pageHeroFields} }`
 export const agendaPageQuery = groq`*[_type == "agendaPage"][0] { ${pageHeroFields} }`
+
+export const boxPageQuery = groq`*[_type == "boxPage"][0] {
+  eyebrow,
+  ${pageHeroFields},
+  offresTitre,
+  offres[] { nom, description, detail, prix },
+  abonnementTitre,
+  abonnementTexte,
+  commentCaMarcheTitre,
+  etape1Texte,
+  etape2Texte,
+  etape2Note,
+  temoignage,
+  temoignageAuteur,
+  faqTitre,
+  faq[] { question, reponse }
+}`
 
 export interface PageHeroData {
   titre?: string
   description?: string
   image?: { asset?: { url: string } }
+}
+
+export interface BoxPageData extends PageHeroData {
+  eyebrow?: string
+  offresTitre?: string
+  offres?: Array<{ nom?: string; description?: string; detail?: string; prix?: string }>
+  abonnementTitre?: string
+  abonnementTexte?: string
+  commentCaMarcheTitre?: string
+  etape1Texte?: string
+  etape2Texte?: string
+  etape2Note?: string
+  temoignage?: string
+  temoignageAuteur?: string
+  faqTitre?: string
+  faq?: Array<{ question?: string; reponse?: string }>
 }
 
 export interface SanityEvent {
