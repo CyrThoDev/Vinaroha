@@ -6,10 +6,10 @@ import { usePathname } from 'next/navigation'
 
 const NAV = [
   { label: 'La Box',                   href: '/box'        },
-  { label: 'La Cave',                  href: '/cave'       },
-  { label: 'Nos Vignerons',            href: '/vignerons'  },
-  { label: 'Agenda',                   href: '/agenda'     },
-  { label: 'Vos Événements & Cadeaux', href: '/evenements' },
+  { label: 'La Cave',                  href: '/cave',       disabled: true },
+  { label: 'Nos Producteurs',          href: '/producteurs' },
+  { label: 'Agenda',                   href: '/agenda',     disabled: true },
+  { label: 'Vos Événements & Cadeaux', href: '/evenements', disabled: true },
 ]
 
 export function MobileNav() {
@@ -60,20 +60,30 @@ export function MobileNav() {
 
           {/* Liens */}
           <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
-            {NAV.map(({ label, href }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setOpen(false)}
-                className="font-accent text-2xl uppercase text-white hover:text-yellow transition-colors py-3 border-b border-white/10 last:border-0"
-              >
-                {label}
-              </Link>
+            {NAV.map(({ label, href, disabled }) => (
+              disabled ? (
+                <span
+                  key={href}
+                  aria-disabled="true"
+                  className="font-accent text-2xl uppercase text-white/30 cursor-not-allowed py-3 border-b border-white/10 last:border-0"
+                >
+                  {label}
+                </span>
+              ) : (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setOpen(false)}
+                  className="font-accent text-2xl uppercase text-white hover:text-yellow transition-colors py-3 border-b border-white/10 last:border-0"
+                >
+                  {label}
+                </Link>
+              )
             ))}
           </nav>
 
           {/* Bas */}
-          <p className="px-8 pb-10 text-white/25 text-[0.625rem] uppercase tracking-widest">
+          <p className="px-8 pb-10 text-white/25 text-[0.625rem] uppercase ">
             L&apos;abus d&apos;alcool est dangereux pour la santé · +18 ans
           </p>
         </div>

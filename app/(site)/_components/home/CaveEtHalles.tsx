@@ -6,9 +6,13 @@ type PlageHoraire = { jours: string; heures: string }
 type CaveEtHallesProps = {
   horairesCave: PlageHoraire[]
   horairesHalles: PlageHoraire[]
+  photoUrl?: string
+  titre?: string
+  texte?: string
+  ctaLabel?: string
 }
 
-export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps) {
+export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, texte, ctaLabel }: CaveEtHallesProps) {
   return (
     <section className=" max-w-7xl mx-auto bg-background overflow-hidden">
 
@@ -18,7 +22,7 @@ export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps
         {/* Image — plein bord gauche, aucune contrainte de largeur */}
         <Asset
           name="topandbottom"
-          imageUrl="/images/photo_acceuil_hero.png"
+          imageUrl={photoUrl ?? '/images/photo_acceuil_hero.png'}
           alt="L'équipe Vin'Aroha"
           className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-128 [&_svg]:max-w-full [&_svg]:block"
         />
@@ -26,31 +30,30 @@ export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps
         {/* Titre + texte + CTA */}
         <div className="flex flex-col gap-4 px-6 md:px-0 py-12 md:py-16">
           <h1 className="font-accent text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-none uppercase text-zinc-900">
-            Poussez la porte de notre cave
+            {titre ?? 'Poussez la porte de notre cave'}
           </h1>
           <p className="max-w-md">
-            Une équipe passionnée vous accueille pour vous guider dans la découverte de vins naturels,
-            bio et biodynamiques choisis avec soin auprès de vignerons engagés.
+            {texte ?? "Une équipe passionnée vous accueille pour vous guider dans la découverte de vins naturels, bio et biodynamiques choisis avec soin auprès de producteurs engagés."}
           </p>
-          <Link
-            href="/cave"
-            className="font-semibold text-2xl font-fontjek text-black hover:text-orange transition-colors w-fit flex items-center gap-2 border-b border-zinc-400 pb-0.5 hover:border-orange"
+          <span
+            aria-disabled="true"
+            className="font-semibold text-2xl font-fontjek text-zinc-400 w-fit flex items-center gap-2 border-b border-zinc-300 pb-0.5 cursor-not-allowed"
           >
-            Découvrir la cave &nbsp;⟶
-          </Link>
+            {ctaLabel ?? 'Découvrir la cave'} &nbsp;⟶
+          </span>
         </div>
 
         {/* Badge horaires — cercle centré en flux sur mobile, flottant en absolu dès md */}
         <div className="md:hidden flex items-center justify-center py-6">
           <div className="w-52 h-52 rounded-full bg-orange text-white flex flex-col items-center justify-center text-center p-5 shadow-xl">
             <p className="font-accent text-2xl font-bold mb-1">Horaires</p>
-            <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mb-1">Côté Cave</p>
+            <p className="text-[0.75rem] font-black uppercase  text-white/70 mb-1">Côté Cave</p>
             {horairesCave.length > 0 ? horairesCave.map((p, i) => (
               <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
             )) : (
               <p className="text-[0.75rem] leading-snug">Mer–Sam<br />10h–12h30 / 16h–19h30</p>
             )}
-            <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mt-2 mb-1">Côté Halles</p>
+            <p className="text-[0.75rem] font-black uppercase  text-white/70 mt-2 mb-1">Côté Halles</p>
             {horairesHalles.length > 0 ? horairesHalles.map((p, i) => (
               <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
             )) : (
@@ -62,13 +65,13 @@ export function CaveEtHalles({ horairesCave, horairesHalles }: CaveEtHallesProps
         {/* Badge horaires — absolu en bas de la grille hero, dès md */}
         <div className="hidden md:flex absolute -bottom-10 right-10 translate-y-1/2 w-52 h-52 rounded-full bg-orange text-white flex-col items-center justify-center text-center p-5 shadow-xl z-10">
           <p className="font-accent text-2xl font-bold mb-1">Horaires</p>
-          <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mb-1">Côté Cave</p>
+          <p className="text-[0.75rem] font-black uppercase  text-white/70 mb-1">Côté Cave</p>
           {horairesCave.length > 0 ? horairesCave.map((p, i) => (
             <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
           )) : (
             <p className="text-[0.75rem] leading-snug">Mer–Sam<br />10h–12h30 / 16h–19h30</p>
           )}
-          <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mt-2 mb-1">Côté Halles</p>
+          <p className="text-[0.75rem] font-black uppercase  text-white/70 mt-2 mb-1">Côté Halles</p>
           {horairesHalles.length > 0 ? horairesHalles.map((p, i) => (
             <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
           )) : (

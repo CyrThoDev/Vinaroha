@@ -5,8 +5,13 @@ const ASSETS = {
   leaf:         'leaf.svg',
   glass:        'glass.svg',
   bouteille:    'bouteille.svg',
+  bouteillevin: 'bouteillevin.svg',
+  beer:         'beer.svg',
+  spirit:       'spirit.svg',
+  grapes:       'grapes.svg',
   gift:         'gift.svg',
   square:       'square.svg',
+  rounded:      'rounded.svg',
   rectangle:    'rectangle.svg',
   topandbottom: 'topandbottom.svg',
   logo2:        'logo-2.svg',
@@ -42,7 +47,11 @@ export function Asset({
   let svg = fs.readFileSync(filePath, 'utf-8')
 
   if (stretchToFill) {
-    svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="none"')
+    if (/preserveAspectRatio="/.test(svg)) {
+      svg = svg.replace(/preserveAspectRatio="[^"]*"/, 'preserveAspectRatio="none"')
+    } else {
+      svg = svg.replace(/<svg([^>]*)>/, '<svg$1 preserveAspectRatio="none">')
+    }
     svg = svg.replace(/(<svg[^>]*)\s+width="[^"]*"/, '$1 width="100%"')
     svg = svg.replace(/(<svg[^>]*)\s+height="[^"]*"/, '$1 height="100%"')
   } else if (cover) {
@@ -57,9 +66,11 @@ export function Asset({
 
   if (imageUrl) {
     // Remplace le(s) path coloré(s) par un élément <image> : les clipPaths du SVG découpent l'image à la forme
+    const viewBox = svg.match(/viewBox="[^"]*\s+[^"]*\s+([\d.]+)\s+([\d.]+)"/)
+    const [imgWidth, imgHeight] = viewBox ? [viewBox[1], viewBox[2]] : ['1154', '1501']
     svg = svg.replace(
       /<path fill="#[0-9a-fA-F]{6}" d="[^"]*" fill-opacity="[^"]*" fill-rule="nonzero"\/>/g,
-      `<image href="${imageUrl}" x="0" y="0" width="1154" height="1501" preserveAspectRatio="xMidYMid slice" />`
+      `<image href="${imageUrl}" x="0" y="0" width="${imgWidth}" height="${imgHeight}" preserveAspectRatio="xMidYMid slice" />`
     )
   } else if (color) {
     if (color2) {

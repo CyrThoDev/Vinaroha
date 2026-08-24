@@ -1,37 +1,37 @@
 import type { Metadata } from 'next'
 import type { PortableTextBlock } from '@portabletext/react'
 import { client } from '@/sanity/lib/client'
-import { homePageQuery, siteSettingsQuery, eventsQuery, vigneronDuMoisQuery } from '@/sanity/lib/queries'
-import type { SanityEvent } from '@/sanity/lib/queries'
+import { homePageQuery, siteSettingsQuery, eventsQuery, producteurDuMoisQuery, evenementsPageQuery } from '@/sanity/lib/queries'
+import type { SanityEvent, EvenementsPageData } from '@/sanity/lib/queries'
 import { CaveEtHalles } from './_components/home/CaveEtHalles'
 import { BoxAbonnement } from './_components/home/BoxAbonnement'
 import { ProchainesDates } from './_components/home/ProchainesDates'
-import { VigneronDuMois } from './_components/home/VigneronDuMois'
+import { ProducteurDuMois } from './_components/home/ProducteurDuMois'
 import { CoupsDeCoeur } from './_components/home/CoupsDeCoeur'
 import { EvenementsEtCadeaux } from './_components/home/EvenementsEtCadeaux'
-import { ProRestaurateurs } from './_components/home/ProRestaurateurs'
-import { Newsletter } from './_components/home/Newsletter'
 
 export const metadata: Metadata = {
   title: "Accueil",
   description:
-    "Vin'Aroha, votre cave à vins naturels à Mimizan (Landes). Découvrez nos sélections de vignerons engagés, notre box vin mensuelle et nos prochains événements.",
+    "Vin'Aroha, votre cave à vins naturels à Mimizan (Landes). Découvrez nos sélections de producteurs engagés, notre box vin mensuelle et nos prochains événements.",
   openGraph: {
     title: "Vin'Aroha — Cave à vins naturels, Mimizan",
     description:
-      "Votre cave à vins naturels à Mimizan. Box vin, dégustations, masterclasses et rencontres vignerons.",
+      "Votre cave à vins naturels à Mimizan. Box vin, dégustations, masterclasses et rencontres producteurs.",
   },
 }
 
 type PlageHoraire = { jours: string; heures: string }
 
 type HomePage = {
-  hero?: { ctaLabel?: string; ctaUrl?: string; image?: { asset?: { url: string } } }
+  heroCave?: { photo?: { asset?: { url: string } }; titre?: string; texte?: string; ctaLabel?: string }
+  hero?: { image?: { asset?: { url: string } } }
   agendaAffiche?: { asset?: { url: string } }
-  coupsDeCoeur?: Array<{ _id: string; name: string; appellation?: string; prix?: number; type?: string; image?: { asset?: { url: string } }; vigneron?: { name: string } }>
+  coupsDeCoeur?: Array<{ _id: string; name: string; appellation?: string; prix?: number; type?: string; image?: { asset?: { url: string } }; producteur?: { name: string } }>
+  coupsDeCoeurFond?: { asset?: { url: string } }
 }
 
-type Vigneron = { _id: string; name: string; domaine?: string; region?: string; description?: PortableTextBlock[]; photo?: { asset?: { url: string } } }
+type Producteur = { _id: string; name: string; domaine?: string; region?: string; description?: PortableTextBlock[]; photo?: { asset?: { url: string } } }
 
 type Settings = {
   horairesCave?: PlageHoraire[]
@@ -39,14 +39,16 @@ type Settings = {
 }
 
 export default async function HomePage() {
-  const [homepage, settings, events, vigneron] = await Promise.all([
+  const [homepage, settings, events, producteur, evenementsPage] = await Promise.all([
     client.fetch<HomePage>(homePageQuery as string).catch(() => null),
     client.fetch<Settings>(siteSettingsQuery as string).catch(() => null),
     client.fetch<SanityEvent[]>(eventsQuery as string).catch(() => []),
-    client.fetch<Vigneron | null>(vigneronDuMoisQuery as string).catch(() => null),
+    client.fetch<Producteur | null>(producteurDuMoisQuery as string).catch(() => null),
+    client.fetch<EvenementsPageData | null>(evenementsPageQuery as string).catch(() => null),
   ])
 
   const hero         = homepage?.hero
+  const heroCave     = homepage?.heroCave
   const coupsDeCoeur = homepage?.coupsDeCoeur ?? []
   const horairesCave    = settings?.horairesCave   ?? []
   const horairesHalles  = settings?.horairesHalles ?? []
@@ -54,14 +56,26 @@ export default async function HomePage() {
 
   return (
     <main>
-      <CaveEtHalles horairesCave={horairesCave} horairesHalles={horairesHalles} />
-      <BoxAbonnement ctaUrl={hero?.ctaUrl} ctaLabel={hero?.ctaLabel} imageUrl={hero?.image?.asset?.url} />
+      <CaveEtHalles
+        horairesCave={horairesCave}
+        horairesHalles={horairesHalles}
+        photoUrl={heroCave?.photo?.asset?.url}
+        titre={heroCave?.titre}
+        texte={heroCave?.texte}
+        ctaLabel={heroCave?.ctaLabel}
+      />
+      <BoxAbonnement imageUrl={hero?.image?.asset?.url} />
       <ProchainesDates events={nextEvents} posterUrl={homepage?.agendaAffiche?.asset?.url} />
-      <VigneronDuMois vigneron={vigneron ?? undefined} />
-      <CoupsDeCoeur vins={coupsDeCoeur} />
-      <EvenementsEtCadeaux />
-      <ProRestaurateurs />
-      <Newsletter />
+      <ProducteurDuMois producteur={producteur ?? undefined} />
+      <CoupsDeCoeur vins={coupsDeCoeur} backgroundImageUrl={homepage?.coupsDeCoeurFond?.asset?.url} />
+      <EvenementsEtCadeaux
+        items={(evenementsPage?.sections ?? []).map((s) => ({
+          label: s.badge,
+          href: '/evenements',
+          imageUrl: s.image?.asset?.url,
+        }))}
+        disabled
+      />
     </main>
   )
 }

@@ -12,7 +12,7 @@ export default function MentionsLegalesPage() {
 
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-6 pt-20 pb-10">
-        <p className="text-[0.625rem] font-black uppercase tracking-widest text-orange mb-4">Informations légales</p>
+        <p className="text-[0.625rem] font-black uppercase  text-orange mb-4">Informations légales</p>
         <h1 className="text-4xl md:text-5xl font-black uppercase leading-tight">
           Mentions légales<br />
           <span className="text-zinc-400">&amp; Cookies</span>
@@ -55,7 +55,7 @@ export default function MentionsLegalesPage() {
         </Block>
 
         {/* 4. Données personnelles */}
-        <Block title="4. Données personnelles &amp; RGPD">
+        <Block id="confidentialite" title="4. Données personnelles &amp; RGPD">
           <p>
             Vin&apos;Aroha collecte des données personnelles uniquement dans le cadre de l&apos;inscription à la newsletter (adresse e-mail).
             Ces données sont utilisées exclusivement pour l&apos;envoi de communications commerciales et ne sont jamais cédées à des tiers.
@@ -88,7 +88,7 @@ export default function MentionsLegalesPage() {
           <h3 className="text-lg font-black uppercase tracking-wide text-black mt-2">Cookies utilisés</h3>
           <table className="w-full  border-collapse mt-2">
             <thead>
-              <tr className="border-b border-zinc-300">
+              <tr className="border-b border-zinc-400">
                 <th className="text-left py-2 pr-4 font-bold text-zinc-700">Nom</th>
                 <th className="text-left py-2 pr-4 font-bold text-zinc-700">Finalité</th>
                 <th className="text-left py-2 font-bold text-zinc-700">Durée</th>
@@ -96,14 +96,14 @@ export default function MentionsLegalesPage() {
             </thead>
             <tbody>
               <tr className="border-b border-zinc-200">
-                <td className="py-2 pr-4 font-mono text-xs">cookie-consent</td>
+                <td className="py-2 pr-4 font-mono ">cookie-consent</td>
                 <td className="py-2 pr-4">Mémoriser votre choix de consentement aux cookies</td>
                 <td className="py-2">Persistant (localStorage)</td>
               </tr>
             </tbody>
           </table>
 
-          <p className=" text-xs mt-2">
+          <p className="  mt-2">
             Ce site n&apos;utilise pas Google Analytics. Google Search Console est utilisé uniquement pour le référencement du site et ne dépose aucun cookie chez les visiteurs.
             Brevo est utilisé pour l&apos;envoi de la newsletter via une API — aucun cookie n&apos;est déposé sur votre navigateur lors de votre inscription.
           </p>
@@ -131,8 +131,8 @@ export default function MentionsLegalesPage() {
               contact@vinaroha.com
             </a>
           </p>
-          <p className="text-zinc-400 text-xs mt-2">
-            Dernière mise à jour : juillet 2025
+          <p className="text-zinc-400  mt-2">
+            Dernière mise à jour : juillet 202
           </p>
         </Block>
 
@@ -141,9 +141,9 @@ export default function MentionsLegalesPage() {
   )
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, id, children }: { title: string; id?: string; children: React.ReactNode }) {
   return (
-    <div>
+    <div id={id} className="scroll-mt-24">
       <h2 className="text-base font-black uppercase tracking-wide text-zinc-900 mb-5 pb-3 border-b border-zinc-200">
         {title}
       </h2>

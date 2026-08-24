@@ -1,9 +1,9 @@
 import { defineField, defineType } from 'sanity'
 import { UserIcon } from '@sanity/icons'
 
-export const vigneronSchema = defineType({
-  name: 'vigneron',
-  title: 'Vigneron',
+export const producteurSchema = defineType({
+  name: 'producteur',
+  title: 'Producteur',
   type: 'document',
   icon: UserIcon,
   fields: [
@@ -42,6 +42,13 @@ export const vigneronSchema = defineType({
       of: [{ type: 'block' }],
     }),
     defineField({
+      name: 'descriptionDomaine',
+      title: 'Description du domaine',
+      description: 'Texte affiché dans le bloc "Son domaine" (page Nos Producteurs)',
+      type: 'array',
+      of: [{ type: 'block' }],
+    }),
+    defineField({
       name: 'cepages',
       title: 'Cépages',
       type: 'string',
@@ -58,8 +65,8 @@ export const vigneronSchema = defineType({
       type: 'url',
     }),
     defineField({
-      name: 'vigneronDuMois',
-      title: 'Vigneron du mois',
+      name: 'producteurDuMois',
+      title: 'Producteur du mois',
       type: 'boolean',
       initialValue: false,
       description: 'Mis en avant sur la page d\'accueil',

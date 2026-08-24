@@ -3,16 +3,10 @@ import { client } from '@/sanity/lib/client'
 import { siteSettingsQuery } from '@/sanity/lib/queries'
 import { CookieBanner } from '@/app/components/CookieBanner'
 import { AgeBanner } from '@/app/components/AgeBanner'
-import { MobileNav } from '@/app/components/MobileNav'
+import { SiteHeader } from '@/app/components/SiteHeader'
 import { Asset } from '@/app/components/Asset'
-
-const NAV = [
-  { label: 'La Box',                   href: '/box'         },
-  { label: 'La Cave',                  href: '/cave'        },
-  { label: 'Nos Vignerons',            href: '/vignerons'   },
-  { label: 'Agenda',                   href: '/agenda'      },
-  { label: 'Vos Événements & Cadeaux', href: '/evenements'  },
-]
+import { GlobalProRestaurateurs } from './_components/GlobalProRestaurateurs'
+import { Newsletter } from './_components/Newsletter'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   type PlageHoraire = { jours: string; heures: string }
@@ -29,7 +23,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     '@type': 'LiquorStore',
     name: "Vin'Aroha",
     description:
-      "Cave à vins naturels et de terroir à Mimizan (Landes). Dégustations, masterclasses, rencontres vignerons et box vin mensuelle.",
+      "Cave à vins naturels et de terroir à Mimizan (Landes). Dégustations, masterclasses, rencontres producteurs et box vin mensuelle.",
     url: 'https://vinaroha.com',
     email: 'contact@vinaroha.com',
     ...(settings?.telephone ? { telephone: settings.telephone } : {}),
@@ -77,7 +71,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
       {/* Barre adresse & réseaux sociaux */}
-      <div className="bg-black px-6 py-2 flex justify-between items-center gap-2.5">
+      <div className="bg-black px-6 py-2 flex flex-col items-center text-center gap-2 sm:flex-row sm:justify-between sm:text-left">
         {/* Adresse */}
         {settings?.adresse ? (
           <p className="text-background/60 text-xs flex items-center gap-1.5">
@@ -111,40 +105,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         </div>
       </div>
 
-      {/* Zone logo */}
-      <div className="bg-background py-10 hidden md:flex flex-col items-center justify-center">
-        <Link href="/">
-          <img src="/logo-vinaroha.svg" alt="Vin'Aroha" className="w-72 h-auto" />
-        </Link>
-      </div>
-
-      {/* Nav sticky */}
-      <header className="sticky top-0 z-50 bg-background px-6 pt-4 pb-10">
-        {/* Desktop */}
-        <nav className="hidden md:flex items-center justify-center">
-          <ul className="flex items-center gap-12">
-            {NAV.map(({ label, href }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className="font-accent text-xl leading-relaxed uppercase hover:text-yellow transition-colors backgroundspace-nowrap"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        {/* Mobile */}
-        <div className="md:hidden flex items-center justify-between">
-          <Link href="/">
-            <img src="/logo-vinaroha.svg" alt="Vin'Aroha" className="h-8 w-auto" />
-          </Link>
-          <MobileNav />
-        </div>
-      </header>
+      <SiteHeader />
 
       {children}
+
+      <GlobalProRestaurateurs />
+      <Newsletter />
 
       {/* Footer */}
       <footer className="bg-black text-background">
@@ -153,12 +119,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <div className="max-w-6xl mx-auto px-6 pt-14 pb-12 grid grid-cols-1 sm:grid-cols-3 gap-10 border-b border-background/10">
 
           {/* Col 1 — Logo + email + socials */}
-          <div className="flex flex-col gap-6">
-            <Asset name="logo2" color="#FCF7EA" className="self-start [&_svg]:h-16 [&_svg]:w-auto" />
-            <a href="mailto:contact@vinaroha.com" className="self-start text-background hover:underline text-sm transition-colors">
+          <div className="flex flex-col items-center text-center gap-6 sm:items-start sm:text-left">
+            <Asset name="logo2" color="#FCF7EA" className="[&_svg]:h-16 [&_svg]:w-auto" />
+            <a href="mailto:contact@vinaroha.com" className="text-background hover:underline text-sm transition-colors">
               contact@vinaroha.com
             </a>
-            <div className="self-start flex items-center gap-3">
+            <div className="flex items-center gap-3">
               {settings?.socials?.instagram && (
                 <a href={settings.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
                   className="w-9 h-9 bg-background rounded-full flex items-center justify-center hover:opacity-80 transition-opacity">
@@ -183,7 +149,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           {/* Col 2 — Horaires */}
           <div className="flex flex-col items-center gap-6 text-center">
             <div>
-              <p className="font-script text-xl mb-1">La cave</p>
+              <p className="font-accent text-xl mb-1">La cave</p>
               {(settings?.horairesCave ?? []).length > 0 ? (
                 <ul className="flex flex-col gap-1">
                   {settings!.horairesCave!.map((p, i) => (
@@ -195,7 +161,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
               )}
             </div>
             <div>
-              <p className="font-script text-xl mb-1">Les Halles</p>
+              <p className="font-accent text-xl mb-1">Les Halles</p>
               {(settings?.horairesHalles ?? []).length > 0 ? (
                 <ul className="flex flex-col gap-1">
                   {settings!.horairesHalles!.map((p, i) => (
@@ -210,11 +176,11 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
           {/* Col 3 — Navigation */}
           <div>
-            <ul className="flex flex-col items-end gap-3">
-              <li><Link href="/cave" className="text-sm text-background/70 hover:text-background transition-colors">La cave</Link></li>
-              <li><Link href="/vignerons" className="text-sm text-background/70 hover:text-background transition-colors">Nos vignerons</Link></li>
-              <li><Link href="/agenda" className="text-sm text-background/70 hover:text-background transition-colors">L&apos;agenda</Link></li>
-              <li><Link href="/evenements" className="text-sm text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
+            <ul className="flex flex-col items-center gap-3 sm:items-end">
+              <li><span aria-disabled="true" className="text-sm text-background/30 cursor-not-allowed">La cave</span></li>
+              <li><Link href="/producteurs" className="text-sm text-background/70 hover:text-background transition-colors">Nos producteurs</Link></li>
+              <li><span aria-disabled="true" className="text-sm text-background/30 cursor-not-allowed">Agenda</span></li>
+              <li><span aria-disabled="true" className="text-sm text-background/30 cursor-not-allowed">Vos évènements et cadeaux</span></li>
             </ul>
           </div>
 
@@ -228,12 +194,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <div className="bg-orange py-1.5 select-none">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
           <span className="text-xs text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
-          <span className="text-xs uppercase tracking-widest text-white/90 text-center flex-1">
+          <span className="text-xs uppercase  text-white/90 text-center flex-1">
             L&apos;abus d&apos;alcool est dangereux pour la santé · Interdit aux moins de 18 ans
           </span>
           <div className="flex gap-4 shrink-0">
             <Link href="/mentions-legales" className="text-xs text-white/70 hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="/cgv" className="text-xs text-white/70 hover:text-white transition-colors">CGV</Link>
+            <Link href="/mentions-legales#confidentialite" className="text-xs text-white/70 hover:text-white transition-colors">Confidentialité</Link>
           </div>
         </div>
       </div>

@@ -2,29 +2,28 @@ import Link from 'next/link'
 import { Asset } from '@/app/components/Asset'
 
 type BoxAbonnementProps = {
-  ctaUrl?: string
-  ctaLabel?: string
   imageUrl?: string
 }
 
-export function BoxAbonnement({ ctaUrl, ctaLabel, imageUrl }: BoxAbonnementProps) {
+export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
   return (
     <section className="py-10 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="relative grid grid-cols-1 md:grid-cols-2 items-stretch overflow-hidden">
+        <div className=" p-8 relative grid grid-cols-1 md:grid-cols-2 items-stretch overflow-hidden">
 
           {/* Fond rectangle SVG organique, mis à l'échelle sans déformation */}
           <Asset
             name="rectangle"
             color="#EBB132"
-            cover
-            className="absolute inset-0 w-full h-full pointer-events-none  [&_svg]:w-full [&_svg]:h-full"
+            stretchToFill
+            className="absolute inset-0 w-full h-full pointer-events-none  [&_svg]:w-full [&_svg]:h-full "
           />
 
           {/* Col gauche — contenu */}
-          <div className="flex flex-col gap-5 px-12 py-14 relative z-10">
+          <div className="flex flex-col gap-5 px-12 pt-14  relative z-10">
             <div className="flex flex-col gap-2">
-              <p className="font-accent uppercase tracking-[0.15em] text-zinc-900">Abonnement</p>
+              <p className="font-accent text-2xl md:text-3xl
+             uppercase  text-zinc-900">Abonnement</p>
               <h2 className="font-lovelo text-5xl md:text-6xl uppercase leading-none text-zinc-900">La Box</h2>
             </div>
             <p className="  max-w-sm">
@@ -32,14 +31,14 @@ export function BoxAbonnement({ ctaUrl, ctaLabel, imageUrl }: BoxAbonnementProps
               Sans engagement · retrait aux Halles ou livraison
             </p>
             <Link
-              href={ctaUrl ?? '/box'}
-              className="bg-black text-white font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
+              href="/box"
+              className="hidden md:inline-flex bg-black text-white font-black uppercase   px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
             >
-              {ctaLabel ?? 'Découvrez la box'}
+              Découvrez la box
             </Link>
 
             {/* Verres déco entrecroisés */}
-            <div className="absolute -right-24 bottom-20 pointer-events-none select-none hidden md:flex items-end z-10">
+            <div className="absolute -right-24 bottom-20 pointer-events-none select-none hidden md:flex items-end z-20">
               <div className="rotate-30 translate-x-10 origin-bottom">
                 <Asset name="glass" color="#000000" className="w-28  [&_svg]:w-full [&_svg]:h-auto" />
               </div>
@@ -50,14 +49,32 @@ export function BoxAbonnement({ ctaUrl, ctaLabel, imageUrl }: BoxAbonnementProps
           </div>
 
           {/* Col droite — photo */}
-          <div className="hidden md:flex items-center justify-center p-8 relative z-10 min-h-72">
+          <div className="flex items-center justify-center p-8 relative z-10 min-h-72">
             {imageUrl ? (
-              <img src={imageUrl} alt="La Box Vin'Aroha" className="w-full h-full object-cover rounded-2xl" />
+              <Asset
+                name="square"
+                imageUrl={imageUrl}
+                alt="La Box Vin'Aroha"
+                className="w-80 [&_svg]:w-full [&_svg]:h-auto"
+              />
             ) : (
-              <div className="w-full h-full rounded-2xl  flex items-center justify-center /30  italic">
-                Frame
+              <div className="relative w-80">
+                <Asset name="square" color="#f4f4f5" className="w-full [&_svg]:w-full [&_svg]:h-auto" />
+                <div className="absolute inset-0 flex items-center justify-center italic text-zinc-400 ">
+                  Frame
+                </div>
               </div>
             )}
+          </div>
+
+          {/* CTA mobile — centré, après la photo */}
+          <div className="md:hidden flex justify-center pb-14 relative z-10">
+            <Link
+              href="/box"
+              className="bg-black text-white font-black uppercase   px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit"
+            >
+              Découvrez la box
+            </Link>
           </div>
 
         </div>

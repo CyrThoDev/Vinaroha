@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { workSans, leagueGothic, urbanist, lovelo, avallon, fontjek } from "./fonts";
+import { workSans, leagueGothic, urbanist, lovelo, avallon, fontjek, caveat } from "./fonts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
     template: "%s | Vin'Aroha",
   },
   description:
-    "Vin'Aroha, votre cave à vins naturels et de terroir à Mimizan (Landes). Dégustations, masterclasses, rencontres vignerons, box vin mensuelle et sélection de vignerons engagés.",
-  keywords: ['cave à vin', 'Mimizan', 'Landes', 'vin naturel', 'vin nature', 'dégustation', 'vigneron', 'box vin'],
+    "Vin'Aroha, votre cave à vins naturels et de terroir à Mimizan (Landes). Dégustations, masterclasses, rencontres producteurs, box vin mensuelle et sélection de producteurs engagés.",
+  keywords: ['cave à vin', 'Mimizan', 'Landes', 'vin naturel', 'vin nature', 'dégustation', 'producteur', 'box vin'],
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -53,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${workSans.variable} ${leagueGothic.variable} ${urbanist.variable} ${lovelo.variable} ${avallon.variable} ${fontjek.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${workSans.variable} ${leagueGothic.variable} ${urbanist.variable} ${lovelo.variable} ${avallon.variable} ${fontjek.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-zinc-900">{children}</body>
     </html>
