@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { Asset } from '@/app/components/Asset'
 import type { SanityEvent } from '@/sanity/lib/queries'
 
@@ -22,7 +21,7 @@ export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
       <Asset
         name="bouteille"
         color="#ffffff"
-        className="absolute top-4 right-6 w-24 opacity-30 pointer-events-none [&_svg]:w-full [&_svg]:h-auto"
+        className="absolute top-4 right-12 w-32 opacity-30 pointer-events-none [&_svg]:w-full [&_svg]:h-auto"
       />
       <div className="relative max-w-6xl mx-auto px-6">
         <h2 className="font-accent text-5xl md:text-6xl uppercase leading-none mb-10">Les prochaines dates</h2>
@@ -57,12 +56,12 @@ export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
               )}
             </div>
 
-            <Link
-              href="/agenda"
-              className="mt-10 font-fontjek text-2xl text-white flex items-center gap-4 border-b border-white/40 pb-2 w-fit hover:border-white transition-colors"
+            <span
+              aria-disabled="true"
+              className="mt-10 font-fontjek text-2xl text-white/40 flex items-center gap-4 border-b border-white/20 pb-2 w-fit cursor-not-allowed"
             >
               Voir tout l&apos;agenda &nbsp;⟶
-            </Link>
+            </span>
           </div>
 
         </div>

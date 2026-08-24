@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 
 function BouteilleIcon() {
   return (
@@ -23,6 +23,7 @@ type Produit = {
 
 type EtageresProps = {
   produits: Produit[]
+  icons?: Partial<Record<'vin' | 'biere' | 'spiritueux', ReactNode>>
 }
 
 const CATEGORIES: { id: 'tout' | 'vin' | 'biere' | 'spiritueux'; label: string }[] = [
@@ -34,7 +35,7 @@ const CATEGORIES: { id: 'tout' | 'vin' | 'biere' | 'spiritueux'; label: string }
 
 const PAGE_SIZE = 8
 
-export function Etageres({ produits }: EtageresProps) {
+export function Etageres({ produits, icons }: EtageresProps) {
   const [categorie, setCategorie] = useState<'tout' | 'vin' | 'biere' | 'spiritueux'>('tout')
   const [recherche, setRecherche] = useState('')
   const [region, setRegion] = useState('')
@@ -84,10 +85,10 @@ export function Etageres({ produits }: EtageresProps) {
               <button
                 key={c.id}
                 onClick={() => { setCategorie(c.id); setVisible(PAGE_SIZE) }}
-                className={`rounded-full px-4 py-1.5 text-sm border transition-colors ${
+                className={`rounded-full px-4 py-1.5  border transition-colors ${
                   categorie === c.id
                     ? 'bg-orange text-white border-orange'
-                    : 'border-zinc-300 text-zinc-700 hover:border-orange hover:text-orange'
+                    : 'border-zinc-400 text-zinc-700 hover:border-orange hover:text-orange'
                 }`}
               >
                 {c.label}
@@ -100,7 +101,7 @@ export function Etageres({ produits }: EtageresProps) {
             value={recherche}
             onChange={(e) => { setRecherche(e.target.value); setVisible(PAGE_SIZE) }}
             placeholder="Rechercher un produit..."
-            className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm min-w-56 focus:outline-none focus:border-orange"
+            className="rounded-full border border-zinc-400 px-4 py-1.5  min-w-56 focus:outline-none focus:border-orange"
           />
         </div>
 
@@ -109,7 +110,7 @@ export function Etageres({ produits }: EtageresProps) {
           <select
             value={region}
             onChange={(e) => { setRegion(e.target.value); setVisible(PAGE_SIZE) }}
-            className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            className="rounded-full border border-zinc-400 px-4 py-1.5  bg-background focus:outline-none focus:border-orange"
           >
             <option value="">Choisir une région</option>
             {regions.map(r => <option key={r} value={r}>{r}</option>)}
@@ -118,7 +119,7 @@ export function Etageres({ produits }: EtageresProps) {
           <select
             value={type}
             onChange={(e) => { setType(e.target.value); setVisible(PAGE_SIZE) }}
-            className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            className="rounded-full border border-zinc-400 px-4 py-1.5  bg-background focus:outline-none focus:border-orange"
           >
             <option value="">Sélectionner un type</option>
             {types.map(t => <option key={t} value={t}>{t}</option>)}
@@ -140,7 +141,7 @@ export function Etageres({ produits }: EtageresProps) {
                 {p.image?.asset?.url ? (
                   <img src={p.image.asset.url} alt={p.name} className="h-24 w-auto object-contain" />
                 ) : (
-                  <BouteilleIcon />
+                  (p.categorie && icons?.[p.categorie]) ?? <BouteilleIcon />
                 )}
                 <p className="font-black uppercase text-sm text-zinc-900">{p.name}</p>
                 {(p.region || p.type) && (

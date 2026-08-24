@@ -35,25 +35,25 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
           <p className="max-w-md">
             {texte ?? "Une équipe passionnée vous accueille pour vous guider dans la découverte de vins naturels, bio et biodynamiques choisis avec soin auprès de producteurs engagés."}
           </p>
-          <Link
-            href="/cave"
-            className="font-semibold text-2xl font-fontjek text-black hover:text-orange transition-colors w-fit flex items-center gap-2 border-b border-zinc-400 pb-0.5 hover:border-orange"
+          <span
+            aria-disabled="true"
+            className="font-semibold text-2xl font-fontjek text-zinc-400 w-fit flex items-center gap-2 border-b border-zinc-300 pb-0.5 cursor-not-allowed"
           >
             {ctaLabel ?? 'Découvrir la cave'} &nbsp;⟶
-          </Link>
+          </span>
         </div>
 
         {/* Badge horaires — cercle centré en flux sur mobile, flottant en absolu dès md */}
         <div className="md:hidden flex items-center justify-center py-6">
           <div className="w-52 h-52 rounded-full bg-orange text-white flex flex-col items-center justify-center text-center p-5 shadow-xl">
             <p className="font-accent text-2xl font-bold mb-1">Horaires</p>
-            <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mb-1">Côté Cave</p>
+            <p className="text-[0.75rem] font-black uppercase  text-white/70 mb-1">Côté Cave</p>
             {horairesCave.length > 0 ? horairesCave.map((p, i) => (
               <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
             )) : (
               <p className="text-[0.75rem] leading-snug">Mer–Sam<br />10h–12h30 / 16h–19h30</p>
             )}
-            <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mt-2 mb-1">Côté Halles</p>
+            <p className="text-[0.75rem] font-black uppercase  text-white/70 mt-2 mb-1">Côté Halles</p>
             {horairesHalles.length > 0 ? horairesHalles.map((p, i) => (
               <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
             )) : (
@@ -65,13 +65,13 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
         {/* Badge horaires — absolu en bas de la grille hero, dès md */}
         <div className="hidden md:flex absolute -bottom-10 right-10 translate-y-1/2 w-52 h-52 rounded-full bg-orange text-white flex-col items-center justify-center text-center p-5 shadow-xl z-10">
           <p className="font-accent text-2xl font-bold mb-1">Horaires</p>
-          <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mb-1">Côté Cave</p>
+          <p className="text-[0.75rem] font-black uppercase  text-white/70 mb-1">Côté Cave</p>
           {horairesCave.length > 0 ? horairesCave.map((p, i) => (
             <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
           )) : (
             <p className="text-[0.75rem] leading-snug">Mer–Sam<br />10h–12h30 / 16h–19h30</p>
           )}
-          <p className="text-[0.75rem] font-black uppercase tracking-widest text-white/70 mt-2 mb-1">Côté Halles</p>
+          <p className="text-[0.75rem] font-black uppercase  text-white/70 mt-2 mb-1">Côté Halles</p>
           {horairesHalles.length > 0 ? horairesHalles.map((p, i) => (
             <p key={i} className="text-[0.75rem] leading-snug">{p.jours}<br />{p.heures}</p>
           )) : (

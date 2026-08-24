@@ -8,9 +8,14 @@ type PageHeroProps = {
   color?: string
   lightText?: boolean
   titleFont?: 'lovelo' | 'accent'
+  imageShape?: 'square' | 'topandbottom'
+  decoVigne?: boolean
 }
 
-export function PageHero({ eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false, titleFont = 'lovelo' }: PageHeroProps) {
+export function PageHero({
+  eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false,
+  titleFont = 'lovelo', imageShape = 'square', decoVigne = false,
+}: PageHeroProps) {
   return (
     <section className=" relative">
 
@@ -31,13 +36,22 @@ export function PageHero({ eyebrow, title, description, imageUrl, color = '#EBB1
           {/* Col gauche — titre + description */}
           <div className="flex flex-col gap-5 px-2 md:px-6">
             {eyebrow && (
-              <p className={`font-accent uppercase tracking-[0.15em] ${lightText ? 'text-white/90' : 'text-zinc-900'}`}>
+              <p className={`font-accent uppercase text-2xl md:text-3xl relative z-10 ${lightText ? 'text-white/90' : 'text-zinc-900'}`}>
                 {eyebrow}
               </p>
             )}
-            <h1 className={`${titleFont === 'accent' ? 'font-accent' : 'font-lovelo'} text-5xl md:text-6xl uppercase leading-none ${lightText ? 'text-white' : 'text-zinc-900'}`}>
-              {title}
-            </h1>
+            <div className="relative">
+              {decoVigne && (
+                <Asset
+                  name="grapes"
+                  color={lightText ? '#ffffff' : '#232526'}
+                  className="absolute -top-6 -left-4 md:-top-10 md:-left-8 w-24 md:w-32 opacity-40 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+                />
+              )}
+              <h1 className={`relative z-10 ${titleFont === 'accent' ? 'font-accent' : 'font-lovelo'} text-5xl md:text-6xl uppercase leading-none ${lightText ? 'text-white' : 'text-zinc-900'}`}>
+                {title}
+              </h1>
+            </div>
             <p className={`max-w-md whitespace-pre-line ${lightText ? 'text-white/90' : 'text-zinc-800'}`}>
               {description}
             </p>
@@ -47,14 +61,14 @@ export function PageHero({ eyebrow, title, description, imageUrl, color = '#EBB1
           <div className="hidden md:flex items-center justify-center p-8">
             {imageUrl ? (
               <Asset
-                name="square"
+                name={imageShape}
                 imageUrl={imageUrl}
                 alt={title}
                 className="w-64 [&_svg]:w-full [&_svg]:h-auto"
               />
             ) : (
               <div className="relative w-64">
-                <Asset name="square" color="#f4f4f5" className="w-full [&_svg]:w-full [&_svg]:h-auto" />
+                <Asset name={imageShape} color="#f4f4f5" className="w-full [&_svg]:w-full [&_svg]:h-auto" />
                 <div className="absolute inset-0 flex items-center justify-center italic text-zinc-400 ">
                   Image à ajouter dans le studio
                 </div>

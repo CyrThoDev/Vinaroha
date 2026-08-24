@@ -24,7 +24,9 @@ export default async function BoxPage() {
   const page = await client.fetch<BoxPageData | null>(boxPageQuery as string).catch(() => null)
 
   return (
-    <main>
+   
+   
+   <main>
       <PageHero
         eyebrow={page?.eyebrow ?? 'Abonnement'}
         title={page?.titre ?? 'La Box'}

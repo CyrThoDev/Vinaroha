@@ -12,7 +12,7 @@ export default function MentionsLegalesPage() {
 
       {/* Hero */}
       <section className="max-w-3xl mx-auto px-6 pt-20 pb-10">
-        <p className="text-[0.625rem] font-black uppercase tracking-widest text-orange mb-4">Informations légales</p>
+        <p className="text-[0.625rem] font-black uppercase  text-orange mb-4">Informations légales</p>
         <h1 className="text-4xl md:text-5xl font-black uppercase leading-tight">
           Mentions légales<br />
           <span className="text-zinc-400">&amp; Cookies</span>
@@ -88,7 +88,7 @@ export default function MentionsLegalesPage() {
           <h3 className="text-lg font-black uppercase tracking-wide text-black mt-2">Cookies utilisés</h3>
           <table className="w-full  border-collapse mt-2">
             <thead>
-              <tr className="border-b border-zinc-300">
+              <tr className="border-b border-zinc-400">
                 <th className="text-left py-2 pr-4 font-bold text-zinc-700">Nom</th>
                 <th className="text-left py-2 pr-4 font-bold text-zinc-700">Finalité</th>
                 <th className="text-left py-2 font-bold text-zinc-700">Durée</th>

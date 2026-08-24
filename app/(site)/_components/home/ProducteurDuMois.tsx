@@ -51,19 +51,19 @@ export function ProducteurDuMois({ producteur }: ProducteurDuMoisProps) {
 
             <Link
               href="/producteurs"
-              className="font-fontjek text-2xl  flex items-center gap-3 border-b border-zinc-300 pb-1 w-fit hover:border-zinc-900 transition-colors group"
+              className="font-fontjek hover:text-orange text-2xl  flex items-center gap-3 border-b border-zinc-400 pb-1 w-fit hover:border-orange transition-colors group"
             >
               Voir l&apos;ensemble de nos producteurs
-              <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
+              <span className="group-hover:translate-x-1 transition-transform inline-block ctaLabel">→</span>
             </Link>
           </div>
 
           {/* Col droite — photo topandbottom + leaf déco */}
           <div className="relative">
             {/* Leaf déco haut-droite */}
-            <div className="absolute -top-6 -right-6 pointer-events-none select-none z-10">
+            {/* <div className="absolute -top-6 -right-6 pointer-events-none select-none z-10">
               <Asset name="leaf" color="#E56B00" color2="#EBB132" className="w-28 [&_svg]:w-full [&_svg]:h-auto" />
-            </div>
+            </div> */}
 
             {producteur?.photo?.asset?.url ? (
               <Asset

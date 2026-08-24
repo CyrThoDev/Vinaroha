@@ -5,7 +5,7 @@ import { CookieBanner } from '@/app/components/CookieBanner'
 import { AgeBanner } from '@/app/components/AgeBanner'
 import { SiteHeader } from '@/app/components/SiteHeader'
 import { Asset } from '@/app/components/Asset'
-import { ProRestaurateurs } from './_components/ProRestaurateurs'
+import { GlobalProRestaurateurs } from './_components/GlobalProRestaurateurs'
 import { Newsletter } from './_components/Newsletter'
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -109,7 +109,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
       {children}
 
-      <ProRestaurateurs />
+      <GlobalProRestaurateurs />
       <Newsletter />
 
       {/* Footer */}
@@ -177,10 +177,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           {/* Col 3 — Navigation */}
           <div>
             <ul className="flex flex-col items-center gap-3 sm:items-end">
-              <li><Link href="/cave" className="text-sm text-background/70 hover:text-background transition-colors">La cave</Link></li>
+              <li><span aria-disabled="true" className="text-sm text-background/30 cursor-not-allowed">La cave</span></li>
               <li><Link href="/producteurs" className="text-sm text-background/70 hover:text-background transition-colors">Nos producteurs</Link></li>
-              <li><Link href="/agenda" className="text-sm text-background/70 hover:text-background transition-colors">Agenda</Link></li>
-              <li><Link href="/evenements" className="text-sm text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
+              <li><span aria-disabled="true" className="text-sm text-background/30 cursor-not-allowed">Agenda</span></li>
+              <li><span aria-disabled="true" className="text-sm text-background/30 cursor-not-allowed">Vos évènements et cadeaux</span></li>
             </ul>
           </div>
 
@@ -194,7 +194,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <div className="bg-orange py-1.5 select-none">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
           <span className="text-xs text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
-          <span className="text-xs uppercase tracking-widest text-white/90 text-center flex-1">
+          <span className="text-xs uppercase  text-white/90 text-center flex-1">
             L&apos;abus d&apos;alcool est dangereux pour la santé · Interdit aux moins de 18 ans
           </span>
           <div className="flex gap-4 shrink-0">

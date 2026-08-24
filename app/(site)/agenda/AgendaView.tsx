@@ -82,7 +82,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
             }`}
           >
             <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-colors ${
-              activeTypes.size === 0 ? 'bg-white border-white' : 'border-zinc-300'
+              activeTypes.size === 0 ? 'bg-white border-white' : 'border-zinc-400'
             }`}>
               {activeTypes.size === 0 && (
                 <svg width="8" height="6" viewBox="0 0 8 6" fill="none" aria-hidden="true">
@@ -109,7 +109,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                 <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border transition-colors ${
                   active
                     ? (CHECK_ACTIVE[colorKey] ?? 'bg-zinc-700 border-zinc-700')
-                    : 'border-zinc-300'
+                    : 'border-zinc-400'
                 }`}>
                   {active && <Checkmark />}
                 </span>
@@ -139,7 +139,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                 {/* Bloc date */}
                 <div className="shrink-0 w-12 sm:w-14 text-center">
                   <div className="text-3xl sm:text-4xl font-black leading-none text-black">{day}</div>
-                  <div className="text-[0.625rem] font-semibold uppercase tracking-widest text-zinc-400 mt-1">{month}</div>
+                  <div className="text-[0.625rem] font-semibold uppercase  text-zinc-400 mt-1">{month}</div>
                   <div className="text-[0.6875rem] text-zinc-400 mt-1">{time}</div>
                 </div>
 
@@ -148,7 +148,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div className="min-w-0">
                       {ev.eventType && (
-                        <span className={`inline-block text-[0.625rem] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border mb-2 ${tagCls}`}>
+                        <span className={`inline-block text-[0.625rem] font-black uppercase  px-2.5 py-1 rounded-full border mb-2 ${tagCls}`}>
                           {ev.eventType.name}
                         </span>
                       )}
@@ -174,7 +174,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                         href={ev.yurplanUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 self-start inline-flex items-center gap-2 bg-orange text-white font-black uppercase tracking-widest  px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+                        className="shrink-0 self-start inline-flex items-center gap-2 bg-orange text-white font-black uppercase   px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
                       >
                         Inscription
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">

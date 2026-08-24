@@ -9,8 +9,8 @@ type CommentCaMarcheProps = {
 
 export function CommentCaMarche({ titre, etape1Texte, etape2Texte, etape2Note }: CommentCaMarcheProps) {
   return (
-    <section className="bg-[#EDE1C0] py-14 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0 md:divide-x md:divide-zinc-900/15">
+    <section className="bg-yellow/30 py-14 px-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0 md:divide-x md:divide-zinc-900/15">
 
         <div className="flex items-center md:pr-10">
           <p className="font-accent text-3xl uppercase leading-tight text-zinc-900">

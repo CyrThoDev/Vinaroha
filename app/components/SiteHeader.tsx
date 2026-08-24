@@ -6,10 +6,10 @@ import { MobileNav } from './MobileNav'
 
 const NAV = [
   { label: 'La Box',                   href: '/box'         },
-  { label: 'La Cave',                  href: '/cave'        },
+  { label: 'La Cave',                  href: '/cave',        disabled: true },
   { label: 'Nos Producteurs',          href: '/producteurs' },
-  { label: 'Agenda',                   href: '/agenda'      },
-  { label: 'Vos Événements & Cadeaux', href: '/evenements'  },
+  { label: 'Agenda',                   href: '/agenda',      disabled: true },
+  { label: 'Vos Événements & Cadeaux', href: '/evenements',  disabled: true },
 ]
 
 export function SiteHeader() {
@@ -31,14 +31,23 @@ export function SiteHeader() {
         {isHome ? (
           <nav className="hidden md:flex items-center justify-center">
             <ul className="flex items-center gap-12">
-              {NAV.map(({ label, href }) => (
+              {NAV.map(({ label, href, disabled }) => (
                 <li key={href}>
-                  <Link
-                    href={href}
-                    className="font-accent text-xl leading-relaxed uppercase hover:text-yellow transition-colors whitespace-nowrap"
-                  >
-                    {label}
-                  </Link>
+                  {disabled ? (
+                    <span
+                      className="font-accent text-xl leading-relaxed uppercase text-zinc-400 cursor-not-allowed whitespace-nowrap"
+                      aria-disabled="true"
+                    >
+                      {label}
+                    </span>
+                  ) : (
+                    <Link
+                      href={href}
+                      className="font-accent text-xl leading-relaxed uppercase hover:text-yellow transition-colors whitespace-nowrap"
+                    >
+                      {label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -50,14 +59,23 @@ export function SiteHeader() {
             </Link>
             <nav>
               <ul className="flex items-center gap-10">
-                {NAV.map(({ label, href }) => (
+                {NAV.map(({ label, href, disabled }) => (
                   <li key={href}>
-                    <Link
-                      href={href}
-                      className="font-accent text-xl leading-relaxed uppercase hover:text-yellow transition-colors whitespace-nowrap"
-                    >
-                      {label}
-                    </Link>
+                    {disabled ? (
+                      <span
+                        className="font-accent text-xl leading-relaxed uppercase text-zinc-400 cursor-not-allowed whitespace-nowrap"
+                        aria-disabled="true"
+                      >
+                        {label}
+                      </span>
+                    ) : (
+                      <Link
+                        href={href}
+                        className="font-accent text-xl leading-relaxed uppercase hover:text-yellow transition-colors whitespace-nowrap"
+                      >
+                        {label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 export function ProRestaurateurs() {
   return (
     <section className="bg-background pb-16 px-6">
@@ -13,13 +11,13 @@ export function ProRestaurateurs() {
               Un espace dédié pour vos commandes, tarifs pros et sélections pour vos cartes.
             </p>
           </div>
-          <Link
-            href="/pro"
-            className="text-2xl font-fontjek text-black hover:text-orange transition-colors flex items-center gap-2"
+          <span
+            aria-disabled="true"
+            className="text-2xl font-fontjek text-zinc-400 border-b border-zinc-300 pb-1 cursor-not-allowed flex items-center gap-2"
           >
             Votre espace dédié
             <span className="text-base">→</span>
-          </Link>
+          </span>
         </div>
       </div>
     </section>

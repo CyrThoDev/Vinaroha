@@ -9,6 +9,9 @@ import { homePageSchema } from './homePage'
 import { boxPageSchema } from './boxPage'
 import { producteursPageSchema } from './producteursPage'
 import { agendaPageSchema } from './agendaPage'
+import { cavePageSchema } from './cavePage'
+import { evenementsPageSchema } from './evenementsPage'
+import { proPageSchema } from './proPage'
 import { formeDecorativeSchema } from './formeDecorative'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -19,6 +22,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     boxPageSchema,
     producteursPageSchema,
     agendaPageSchema,
+    cavePageSchema,
+    evenementsPageSchema,
+    proPageSchema,
     // Documents
     producteurSchema,
     vinSchema,

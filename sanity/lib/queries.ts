@@ -1,4 +1,5 @@
 import { groq } from 'next-sanity'
+import type { PortableTextBlock } from '@portabletext/react'
 
 const eventFields = groq`
   _id,
@@ -68,8 +69,19 @@ export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
 
 const pageHeroFields = groq`titre, description, image { asset->{ url } }`
 
-export const producteursPageQuery = groq`*[_type == "producteursPage"][0] { ${pageHeroFields} }`
+export const producteursPageQuery = groq`*[_type == "producteursPage"][0] {
+  ${pageHeroFields},
+  rencontrerTitre,
+  rencontrerTexte,
+  galerie[] { asset->{ url } }
+}`
 export const agendaPageQuery = groq`*[_type == "agendaPage"][0] { ${pageHeroFields} }`
+
+export interface ProducteursPageData extends PageHeroData {
+  rencontrerTitre?: string
+  rencontrerTexte?: string
+  galerie?: Array<{ asset?: { url: string } }>
+}
 
 export const boxPageQuery = groq`*[_type == "boxPage"][0] {
   eyebrow,
@@ -106,6 +118,100 @@ export interface BoxPageData extends PageHeroData {
   etape2Note?: string
   temoignage?: string
   temoignageAuteur?: string
+  faqTitre?: string
+  faq?: Array<{ question?: string; reponse?: string }>
+}
+
+export const cavePageQuery = groq`*[_type == "cavePage"][0] {
+  titre,
+  description,
+  heroImages[] { asset->{ url } },
+  valeursTitre,
+  valeursTexte,
+  equipeTitre,
+  equipe[] { nom, photo { asset->{ url } } },
+  projetsTitre,
+  projetsTexte,
+  projets[] { label, lien },
+  galerie[] { asset->{ url } }
+}`
+
+export interface CavePageData {
+  titre?: string
+  description?: string
+  heroImages?: Array<{ asset?: { url: string } }>
+  valeursTitre?: string
+  valeursTexte?: PortableTextBlock[]
+  equipeTitre?: string
+  equipe?: Array<{ nom?: string; photo?: { asset?: { url: string } } }>
+  projetsTitre?: string
+  projetsTexte?: string
+  projets?: Array<{ label?: string; lien?: string }>
+  galerie?: Array<{ asset?: { url: string } }>
+}
+
+export const evenementsPageQuery = groq`*[_type == "evenementsPage"][0] {
+  titre,
+  description,
+  image { asset->{ url } },
+  sections[] {
+    badge, couleur, titre, texte, points, ctaLabel, ctaLien,
+    image { asset->{ url } }
+  },
+  commentCaMarcheTitre,
+  etapes[] { label, texte },
+  bandeauImage { asset->{ url } }
+}`
+
+export interface EvenementsSection {
+  badge?: string
+  couleur?: 'yellow' | 'green' | 'orange'
+  titre?: string
+  texte?: string
+  points?: string[]
+  ctaLabel?: string
+  ctaLien?: string
+  image?: { asset?: { url: string } }
+}
+
+export interface EvenementsPageData {
+  titre?: string
+  description?: string
+  image?: { asset?: { url: string } }
+  sections?: EvenementsSection[]
+  commentCaMarcheTitre?: string
+  etapes?: Array<{ label?: string; texte?: string }>
+  bandeauImage?: { asset?: { url: string } }
+}
+
+export const proPageQuery = groq`*[_type == "proPage"][0] {
+  titre,
+  description,
+  image { asset->{ url } },
+  avantagesTitre,
+  avantages[] { titre, texte },
+  offreTitre,
+  offre[] { titre, texte },
+  commentCaMarcheTitre,
+  etapes[] { label, texte },
+  temoignagesTitre,
+  temoignages[] { citation, auteur, etablissement },
+  faqTitre,
+  faq[] { question, reponse }
+}`
+
+export interface ProPageData {
+  titre?: string
+  description?: string
+  image?: { asset?: { url: string } }
+  avantagesTitre?: string
+  avantages?: Array<{ titre?: string; texte?: string }>
+  offreTitre?: string
+  offre?: Array<{ titre?: string; texte?: string }>
+  commentCaMarcheTitre?: string
+  etapes?: Array<{ label?: string; texte?: string }>
+  temoignagesTitre?: string
+  temoignages?: Array<{ citation?: string; auteur?: string; etablissement?: string }>
   faqTitre?: string
   faq?: Array<{ question?: string; reponse?: string }>
 }

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import type { PortableTextBlock } from '@portabletext/react'
 import { client } from '@/sanity/lib/client'
-import { homePageQuery, siteSettingsQuery, eventsQuery, producteurDuMoisQuery } from '@/sanity/lib/queries'
-import type { SanityEvent } from '@/sanity/lib/queries'
+import { homePageQuery, siteSettingsQuery, eventsQuery, producteurDuMoisQuery, evenementsPageQuery } from '@/sanity/lib/queries'
+import type { SanityEvent, EvenementsPageData } from '@/sanity/lib/queries'
 import { CaveEtHalles } from './_components/home/CaveEtHalles'
 import { BoxAbonnement } from './_components/home/BoxAbonnement'
 import { ProchainesDates } from './_components/home/ProchainesDates'
@@ -39,11 +39,12 @@ type Settings = {
 }
 
 export default async function HomePage() {
-  const [homepage, settings, events, producteur] = await Promise.all([
+  const [homepage, settings, events, producteur, evenementsPage] = await Promise.all([
     client.fetch<HomePage>(homePageQuery as string).catch(() => null),
     client.fetch<Settings>(siteSettingsQuery as string).catch(() => null),
     client.fetch<SanityEvent[]>(eventsQuery as string).catch(() => []),
     client.fetch<Producteur | null>(producteurDuMoisQuery as string).catch(() => null),
+    client.fetch<EvenementsPageData | null>(evenementsPageQuery as string).catch(() => null),
   ])
 
   const hero         = homepage?.hero
@@ -67,7 +68,14 @@ export default async function HomePage() {
       <ProchainesDates events={nextEvents} posterUrl={homepage?.agendaAffiche?.asset?.url} />
       <ProducteurDuMois producteur={producteur ?? undefined} />
       <CoupsDeCoeur vins={coupsDeCoeur} backgroundImageUrl={homepage?.coupsDeCoeurFond?.asset?.url} />
-      <EvenementsEtCadeaux />
+      <EvenementsEtCadeaux
+        items={(evenementsPage?.sections ?? []).map((s) => ({
+          label: s.badge,
+          href: '/evenements',
+          imageUrl: s.image?.asset?.url,
+        }))}
+        disabled
+      />
     </main>
   )
 }

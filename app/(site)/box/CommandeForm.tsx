@@ -3,8 +3,8 @@
 import { useState } from 'react'
 
 const FORMULES = [
-  { value: 'decouverte', label: 'La Box Découverte', prix: 'À partir de 25€/mois' },
-  { value: 'epicurienne', label: 'La Box Épicurienne', prix: 'À partir de 40€/mois' },
+  { value: 'decouverte', nom: 'Découverte', prix: 'À partir de 25€/mois' },
+  { value: 'epicurienne', nom: 'Épicurienne', prix: 'À partir de 40€/mois' },
 ]
 
 const DUREES = ['3 mois', '6 mois', '12 mois']
@@ -70,13 +70,13 @@ export function CommandeForm({ type }: CommandeFormProps) {
 
       {/* Formule */}
       <div>
-        <p className="font-black uppercase  tracking-widest text-zinc-500 mb-3">Choisissez votre formule</p>
+        <p className="font-black uppercase   text-zinc-500 mb-3">Choisissez votre formule</p>
         <div className="flex flex-col gap-3">
           {FORMULES.map((f) => (
             <label
               key={f.value}
               className={`flex items-center justify-between gap-4 border rounded-xl px-5 py-4 cursor-pointer transition-colors ${
-                formule === f.value ? 'border-yellow bg-yellow/10' : 'border-zinc-200 hover:border-zinc-300'
+                formule === f.value ? 'border-yellow bg-yellow/10' : 'border-zinc-200 hover:border-zinc-400'
               }`}
             >
               <span className="flex items-center gap-3">
@@ -88,7 +88,10 @@ export function CommandeForm({ type }: CommandeFormProps) {
                   onChange={() => setFormule(f.value)}
                   className="accent-yellow"
                 />
-                <span className="font-black uppercase  text-zinc-900">{f.label}</span>
+                <span className="flex items-baseline gap-1.5">
+                  <span className="font-lovelo text-lg uppercase leading-none text-zinc-900">La Box</span>
+                  <span className="font-railey text-xl text-yellow">{f.nom}</span>
+                </span>
               </span>
               <span className=" text-zinc-500">{f.prix}</span>
             </label>
@@ -98,13 +101,13 @@ export function CommandeForm({ type }: CommandeFormProps) {
 
       {/* Durée */}
       <div>
-        <p className="font-black uppercase  tracking-widest text-zinc-500 mb-3">Durée d&apos;abonnement</p>
+        <p className="font-black uppercase   text-zinc-500 mb-3">Durée d&apos;abonnement</p>
         <div className="flex gap-3">
           {DUREES.map((d) => (
             <label
               key={d}
               className={`flex-1 text-center border rounded-xl py-3 cursor-pointer font-black uppercase  transition-colors ${
-                duree === d ? 'border-yellow bg-yellow/10 text-zinc-900' : 'border-zinc-200 text-zinc-700 hover:border-zinc-300'
+                duree === d ? 'border-yellow bg-yellow/10 text-zinc-900' : 'border-zinc-200 text-zinc-700 hover:border-zinc-400'
               }`}
             >
               <input
@@ -123,7 +126,7 @@ export function CommandeForm({ type }: CommandeFormProps) {
 
       {/* Coordonnées */}
       <div className="flex flex-col gap-3">
-        <p className="font-black uppercase  tracking-widest text-zinc-500">Vos coordonnées</p>
+        <p className="font-black uppercase   text-zinc-500">Vos coordonnées</p>
         <input
           type="text"
           value={nom}
@@ -163,7 +166,7 @@ export function CommandeForm({ type }: CommandeFormProps) {
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="bg-black text-white font-black uppercase tracking-widest  px-8 py-4 rounded-lg hover:opacity-80 transition-opacity disabled:opacity-50 w-fit"
+        className="bg-black text-white font-black uppercase   px-8 py-4 rounded-lg hover:opacity-80 transition-opacity disabled:opacity-50 w-fit"
       >
         {status === 'loading' ? 'Envoi en cours…' : 'Envoyer ma demande'}
       </button>

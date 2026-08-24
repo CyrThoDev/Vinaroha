@@ -22,7 +22,8 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           {/* Col gauche — contenu */}
           <div className="flex flex-col gap-5 px-12 pt-14  relative z-10">
             <div className="flex flex-col gap-2">
-              <p className="font-accent uppercase tracking-[0.15em] text-zinc-900">Abonnement</p>
+              <p className="font-accent text-2xl md:text-3xl
+             uppercase  text-zinc-900">Abonnement</p>
               <h2 className="font-lovelo text-5xl md:text-6xl uppercase leading-none text-zinc-900">La Box</h2>
             </div>
             <p className="  max-w-sm">
@@ -31,13 +32,13 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
             </p>
             <Link
               href="/box"
-              className="hidden md:inline-flex bg-black text-white font-black uppercase tracking-widest  px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
+              className="hidden md:inline-flex bg-black text-white font-black uppercase   px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
             >
               Découvrez la box
             </Link>
 
             {/* Verres déco entrecroisés */}
-            <div className="absolute -right-24 bottom-20 pointer-events-none select-none hidden md:flex items-end z-10">
+            <div className="absolute -right-24 bottom-20 pointer-events-none select-none hidden md:flex items-end z-20">
               <div className="rotate-30 translate-x-10 origin-bottom">
                 <Asset name="glass" color="#000000" className="w-28  [&_svg]:w-full [&_svg]:h-auto" />
               </div>
@@ -70,7 +71,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           <div className="md:hidden flex justify-center pb-14 relative z-10">
             <Link
               href="/box"
-              className="bg-black text-white font-black uppercase tracking-widest  px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit"
+              className="bg-black text-white font-black uppercase   px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit"
             >
               Découvrez la box
             </Link>

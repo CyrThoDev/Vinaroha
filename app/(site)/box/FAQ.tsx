@@ -34,7 +34,7 @@ export function FAQ({ titre, questions }: FAQProps) {
 
   return (
     <section className="bg-background py-16 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start">
 
         <div>
           <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-8">{titre ?? 'FAQ'}</h2>
