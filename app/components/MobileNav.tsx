@@ -8,7 +8,7 @@ const NAV = [
   { label: 'La Box',                   href: '/box'        },
   { label: 'La Cave',                  href: '/cave',       disabled: true },
   { label: 'Nos Producteurs',          href: '/producteurs' },
-  { label: 'Agenda',                   href: '/agenda',     disabled: true },
+  { label: 'Agenda',                   href: '/agenda'     },
   { label: 'Vos Événements & Cadeaux', href: '/evenements', disabled: true },
 ]
 

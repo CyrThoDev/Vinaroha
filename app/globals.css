@@ -49,3 +49,12 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-accent);
 }
+
+/* Masque la scrollbar d'un conteneur défilable (carrousels tactiles) tout en gardant le scroll fonctionnel */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

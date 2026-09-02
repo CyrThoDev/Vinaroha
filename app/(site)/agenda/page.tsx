@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { agendaPageQuery } from '@/sanity/lib/queries'
-import type { PageHeroData } from '@/sanity/lib/queries'
+import { agendaPageQuery, eventsQuery } from '@/sanity/lib/queries'
+import type { AgendaPageData, SanityEvent } from '@/sanity/lib/queries'
 import { PageHero } from '../_components/PageHero'
+import { NosEvenements } from './NosEvenements'
+import AgendaView from './AgendaView'
 
 export const metadata: Metadata = {
   title: "Agenda",
@@ -17,7 +19,10 @@ export const metadata: Metadata = {
 }
 
 export default async function AgendaPage() {
-  const page = await client.fetch<PageHeroData | null>(agendaPageQuery as string).catch(() => null)
+  const [page, events] = await Promise.all([
+    client.fetch<AgendaPageData | null>(agendaPageQuery as string).catch(() => null),
+    client.fetch<SanityEvent[]>(eventsQuery as string).catch(() => []),
+  ])
 
   return (
     <main>
@@ -32,6 +37,15 @@ export default async function AgendaPage() {
         lightText
         titleFont="accent"
       />
+      <NosEvenements titre={page?.evenementsTitre} evenements={page?.evenements} />
+      <section className="bg-background py-12 md:py-16 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="font-accent text-2xl sm:text-3xl md:text-4xl uppercase text-zinc-900 mb-6 sm:mb-10">
+            Nos prochaines dates
+          </h2>
+          <AgendaView events={events} />
+        </div>
+      </section>
     </main>
   )
 }

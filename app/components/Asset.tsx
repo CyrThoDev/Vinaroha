@@ -83,6 +83,16 @@ export function Asset({
     }
   }
 
+  // Rend les id (clipPath, etc.) uniques : sans ça, plusieurs instances du même
+  // asset sur une page partagent le même id et certains navigateurs ne résolvent
+  // alors le clip-path que pour l'une d'entre elles (les autres restent non-clippées).
+  const uid = Math.random().toString(36).slice(2, 10)
+  const ids = [...new Set([...svg.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]))]
+  for (const id of ids) {
+    svg = svg.replaceAll(`id="${id}"`, `id="${id}-${uid}"`)
+    svg = svg.replaceAll(`url(#${id})`, `url(#${id}-${uid})`)
+  }
+
   return (
     <div
       className={className}

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Asset } from '@/app/components/Asset'
 import type { SanityEvent } from '@/sanity/lib/queries'
 
@@ -56,12 +57,12 @@ export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
               )}
             </div>
 
-            <span
-              aria-disabled="true"
-              className="mt-10 font-fontjek text-2xl text-white/40 flex items-center gap-4 border-b border-white/20 pb-2 w-fit cursor-not-allowed"
+            <Link
+              href="/agenda"
+              className="mt-10 font-fontjek text-2xl text-white flex items-center gap-4 border-b border-white/40 pb-2 w-fit hover:text-background hover:border-background transition-colors"
             >
               Voir tout l&apos;agenda &nbsp;⟶
-            </span>
+            </Link>
           </div>
 
         </div>

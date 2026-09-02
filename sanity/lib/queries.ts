@@ -9,6 +9,9 @@ const eventFields = groq`
   date,
   endDate,
   location,
+  intervenant,
+  tarif,
+  surReservation,
   "eventType": eventType->{ _id, name, "slug": slug.current, color },
   yurplanUrl,
   image { asset->{ url, metadata { dimensions } } }
@@ -75,7 +78,22 @@ export const producteursPageQuery = groq`*[_type == "producteursPage"][0] {
   rencontrerTexte,
   galerie[] { asset->{ url } }
 }`
-export const agendaPageQuery = groq`*[_type == "agendaPage"][0] { ${pageHeroFields} }`
+export const agendaPageQuery = groq`*[_type == "agendaPage"][0] {
+  ${pageHeroFields},
+  evenementsTitre,
+  evenements[] { label, description, image { asset->{ url } }, ctaLabel, ctaLien }
+}`
+
+export interface AgendaPageData extends PageHeroData {
+  evenementsTitre?: string
+  evenements?: Array<{
+    label?: string
+    description?: string
+    image?: { asset?: { url: string } }
+    ctaLabel?: string
+    ctaLien?: string
+  }>
+}
 
 export interface ProducteursPageData extends PageHeroData {
   rencontrerTitre?: string
@@ -224,6 +242,9 @@ export interface SanityEvent {
   date: string
   endDate: string | null
   location: string | null
+  intervenant: string | null
+  tarif: string | null
+  surReservation: boolean | null
   eventType: SanityEventType | null
   yurplanUrl: string | null
   image: { asset: { url: string; metadata: { dimensions: { width: number; height: number } } } } | null

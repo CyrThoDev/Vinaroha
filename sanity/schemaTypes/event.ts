@@ -39,6 +39,31 @@ export const eventSchema = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'intervenant',
+      title: 'Intervenant',
+      type: 'string',
+      description: 'Ex : Antonin Béraut — affiché "avec [nom]"',
+    }),
+    defineField({
+      name: 'tarif',
+      title: 'Tarif',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Gratuit', value: 'Gratuit' },
+          { title: 'Payant', value: 'Payant' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'Gratuit',
+    }),
+    defineField({
+      name: 'surReservation',
+      title: 'Sur réservation',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       name: 'image',
       title: 'Affiche',
       type: 'image',
