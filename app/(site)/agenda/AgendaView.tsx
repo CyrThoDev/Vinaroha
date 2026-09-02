@@ -40,7 +40,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
         <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-10">
           <button
             onClick={() => setActiveType(null)}
-            className={`rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm border transition-colors ${
+            className={`rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-base border transition-colors ${
               activeType === null
                 ? 'bg-green text-white border-green'
                 : 'border-zinc-400 text-zinc-700 hover:border-green hover:text-green'
@@ -53,7 +53,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
             <button
               key={et._id}
               onClick={() => setActiveType(et._id)}
-              className={`rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm border transition-colors ${
+              className={`rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-base border transition-colors ${
                 activeType === et._id
                   ? 'bg-green text-white border-green'
                   : 'border-zinc-400 text-zinc-700 hover:border-green hover:text-green'
@@ -68,8 +68,8 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
       {/* ── LISTE DES ÉVÉNEMENTS ────────────────────────── */}
       {upcoming.length === 0 ? (
         <div className="text-center py-16 sm:py-24 text-zinc-400">
-          <p className="text-sm sm:text-base">Aucun événement à venir.</p>
-          <p className="mt-2 opacity-70 text-sm sm:text-base">Revenez bientôt ou suivez-nous sur les réseaux !</p>
+          <p className="text-base sm:text-base">Aucun événement à venir.</p>
+          <p className="mt-2 opacity-70 text-base sm:text-base">Revenez bientôt ou suivez-nous sur les réseaux !</p>
         </div>
       ) : (
         <div className="flex flex-col divide-y divide-zinc-200">
@@ -93,7 +93,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
                 <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="min-w-0">
                     <h3 className="font-black text-base sm:text-lg text-black leading-tight">{ev.title}</h3>
-                    {details && <p className="text-zinc-500 text-xs sm:text-sm mt-0.5">{details}</p>}
+                    {details && <p className="text-zinc-500 text-xs sm:text-base mt-0.5">{details}</p>}
                     {ev.eventType && (
                       <span className="inline-block bg-green text-white text-xs font-black px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full mt-2">
                         {ev.eventType.name}

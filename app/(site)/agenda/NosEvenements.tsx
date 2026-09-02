@@ -41,7 +41,7 @@ const EVENEMENTS_DEFAUT: Evenement[] = [
   },
 ]
 
-const PHOTO_SIZE = 'w-20 h-20 sm:w-28 sm:h-28 md:w-36 md:h-36'
+const PHOTO_SIZE = 'w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36'
 
 function Photo({ ev }: { ev: Evenement }) {
   return (
@@ -72,26 +72,26 @@ function CtaLink({ ev }: { ev: Evenement }) {
   )
 }
 
-// Carte empilée (photo en haut, texte centré dessous) — utilisée pour les catégories sans lien.
+// Carte empilée (photo en haut, texte centré dessous) — utilisée en desktop pour les catégories sans lien.
 function CarteEmpilee({ ev }: { ev: Evenement }) {
   return (
-    <div className="flex flex-col items-center text-center gap-2 sm:gap-3 min-w-0">
+    <div className="flex flex-col items-center text-center gap-3 min-w-0">
       <Photo ev={ev} />
-      <p className="font-black uppercase text-xs sm:text-sm md:text-base text-zinc-900">{ev.label}</p>
-      <p className="text-zinc-600 text-xs sm:text-sm max-w-56">{ev.description}</p>
+      <p className="font-black uppercase text-base text-zinc-900">{ev.label}</p>
+      <p className="text-zinc-600 text-base max-w-56">{ev.description}</p>
       <CtaLink ev={ev} />
     </div>
   )
 }
 
-// Carte horizontale (photo à gauche, texte à droite) — utilisée pour les catégories avec lien.
+// Carte horizontale (photo à gauche, texte à droite) — utilisée en mobile pour toutes les catégories, et en desktop pour celles avec lien.
 function CarteHorizontale({ ev }: { ev: Evenement }) {
   return (
     <div className="flex items-center gap-4">
       <Photo ev={ev} />
       <div className="flex flex-col items-start text-left gap-1 min-w-0">
-        <p className="font-black uppercase text-sm md:text-base text-zinc-900">{ev.label}</p>
-        <p className="text-zinc-600 text-sm max-w-56">{ev.description}</p>
+        <p className="font-black uppercase text-base md:text-base text-zinc-900">{ev.label}</p>
+        <p className="text-zinc-600 text-base max-w-56">{ev.description}</p>
         <CtaLink ev={ev} />
       </div>
     </div>
@@ -104,15 +104,15 @@ export function NosEvenements({ titre, evenements }: NosEvenementsProps) {
   const avecLien = items.filter((ev) => ev.ctaLabel)
 
   return (
-    <section className="bg-background py-12 md:py-16 px-4 sm:px-6">
+    <section className="bg-background py-12 md:py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <h2 className="font-accent text-2xl sm:text-3xl md:text-4xl uppercase text-zinc-900 mb-8 md:mb-12">
           {titre ?? 'Nos événements'}
         </h2>
 
-        {/* Mobile — grille 2 colonnes, même mise en forme pour toutes les catégories */}
-        <div className="grid grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-8 sm:gap-y-10 md:hidden">
-          {items.map((ev, i) => <CarteEmpilee key={ev.label ?? i} ev={ev} />)}
+        {/* Mobile — liste une colonne, même mise en forme pour toutes les catégories */}
+        <div className="flex flex-col gap-8 md:hidden">
+          {items.map((ev, i) => <CarteHorizontale key={ev.label ?? i} ev={ev} />)}
         </div>
 
         {/* Desktop — grille centrée pour les catégories sans lien, rangée centrée pour celles avec lien */}

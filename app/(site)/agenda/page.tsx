@@ -38,7 +38,7 @@ export default async function AgendaPage() {
         titleFont="accent"
       />
       <NosEvenements titre={page?.evenementsTitre} evenements={page?.evenements} />
-      <section className="bg-background py-12 md:py-16 px-4 sm:px-6">
+      <section className="bg-background py-12 md:py-16 px-6">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-accent text-2xl sm:text-3xl md:text-4xl uppercase text-zinc-900 mb-6 sm:mb-10">
             Nos prochaines dates

@@ -47,7 +47,7 @@ export function ProducteurDuMoisSection({ producteur }: ProducteurDuMoisSectionP
               <div className="relative">
                 <Asset name="rounded" color="#e4e4e7" className="w-full [&_svg]:w-full [&_svg]:h-auto" />
                 <div className="absolute inset-0 flex items-center justify-center px-6 text-center">
-                  <p className="text-zinc-400 text-sm">Photo à ajouter</p>
+                  <p className="text-zinc-400 text-base">Photo à ajouter</p>
                 </div>
               </div>
             )}

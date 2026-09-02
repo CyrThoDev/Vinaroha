@@ -127,7 +127,7 @@ export function Etageres({ produits, icons }: EtageresProps) {
 
           <button
             onClick={reinitialiser}
-            className="rounded-full bg-orange text-white px-4 py-1.5 text-sm hover:opacity-90 transition-opacity"
+            className="rounded-full bg-orange text-white px-4 py-1.5 text-base hover:opacity-90 transition-opacity"
           >
             Réinitialiser
           </button>
@@ -143,7 +143,7 @@ export function Etageres({ produits, icons }: EtageresProps) {
                 ) : (
                   (p.categorie && icons?.[p.categorie]) ?? <BouteilleIcon />
                 )}
-                <p className="font-black uppercase text-sm text-zinc-900">{p.name}</p>
+                <p className="font-black uppercase text-base text-zinc-900">{p.name}</p>
                 {(p.region || p.type) && (
                   <p className="text-xs text-orange">
                     {[p.region, p.type].filter(Boolean).join(' · ')}
