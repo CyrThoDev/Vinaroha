@@ -40,48 +40,55 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
   },
   agendaAffiche { asset->{ url } },
   "coupsDeCoeur": coupsDeCoeur[]->{
-    _id, name, appellation, prix, type,
-    image { asset->{ url } },
-    "producteur": producteur->{ name }
+    _id, name, region, appellationPrincipale,
+    photo { asset->{ url } }
   },
   coupsDeCoeurFond { asset->{ url } }
 }`
 
 export const producteurDuMoisQuery = groq`*[_type == "producteur" && producteurDuMois == true][0]{
-  _id, name, domaine, region, description, descriptionDomaine, photo { asset->{ url } }
+  _id, name, region, appellationPrincipale, description, photo { asset->{ url } }
 }`
 
-export const produitsQuery = groq`*[_type == "vin"] | order(name asc) {
-  _id, name, categorie, type, region, appellation,
-  image { asset->{ url } }
+export const producteursListQuery = groq`*[_type == "producteur"] | order(name asc) {
+  _id, name, typeArticle, region, appellationPrincipale, certifications, description, photo { asset->{ url } }
 }`
 
-export interface SanityProduit {
+export interface SanityProducteur {
   _id: string
   name: string
-  categorie: 'vin' | 'biere' | 'spiritueux' | null
-  type: string | null
+  typeArticle: string | null
   region: string | null
-  appellation: string | null
-  image: { asset?: { url: string } } | null
+  appellationPrincipale: string | null
+  certifications: string[] | null
+  description: PortableTextBlock[] | null
+  photo: { asset?: { url: string } } | null
 }
 
+
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
-  adresse, telephone, email, socials, horairesCave, horairesHalles
+  adresse, telephone, whatsapp, email, latitude, longitude, latitudeHalles, longitudeHalles, googlePlaceId, socials, horairesCave, horairesHalles
 }`
 
 const pageHeroFields = groq`titre, description, image { asset->{ url } }`
 
-export const producteursPageQuery = groq`*[_type == "producteursPage"][0] {
-  ${pageHeroFields},
-  rencontrerTitre,
-  rencontrerTexte,
-  galerie[] { asset->{ url } }
+// Fusionne les sections d'une page découpée en plusieurs documents (un par section
+// dans le Studio) en un seul objet plat, dans la forme attendue par les composants.
+export function mergeSections<T>(sections: Record<string, unknown>): T {
+  return Object.assign({}, ...Object.values(sections)) as T
+}
+
+export const producteursPageQuery = groq`{
+  "hero": *[_type == "producteursPageHero"][0] { ${pageHeroFields} },
+  "rencontrer": *[_type == "producteursPageRencontrer"][0] { rencontrerTitre, rencontrerTexte },
+  "galerieDoc": *[_type == "producteursPageGalerie"][0] { galerie[] { asset->{ url } } }
 }`
-export const agendaPageQuery = groq`*[_type == "agendaPage"][0] {
-  ${pageHeroFields},
-  evenementsTitre,
-  evenements[] { label, description, image { asset->{ url } }, ctaLabel, ctaLien }
+export const agendaPageQuery = groq`{
+  "hero": *[_type == "agendaPageHero"][0] { ${pageHeroFields} },
+  "evenementsDoc": *[_type == "agendaPageEvenements"][0] {
+    evenementsTitre,
+    evenements[] { label, description, image { asset->{ url } }, ctaLabel, ctaLien }
+  }
 }`
 
 export interface AgendaPageData extends PageHeroData {
@@ -101,21 +108,19 @@ export interface ProducteursPageData extends PageHeroData {
   galerie?: Array<{ asset?: { url: string } }>
 }
 
-export const boxPageQuery = groq`*[_type == "boxPage"][0] {
-  eyebrow,
-  ${pageHeroFields},
-  offresTitre,
-  offres[] { nom, description, detail, prix },
-  abonnementTitre,
-  abonnementTexte,
-  commentCaMarcheTitre,
-  etape1Texte,
-  etape2Texte,
-  etape2Note,
-  temoignage,
-  temoignageAuteur,
-  faqTitre,
-  faq[] { question, reponse }
+export const boxPageQuery = groq`{
+  "hero": *[_type == "boxPageHero"][0] { eyebrow, ${pageHeroFields} },
+  "offresDoc": *[_type == "boxPageOffres"][0] {
+    offresTitre,
+    offres[] { nom, description, detail, prix },
+    abonnementTitre,
+    abonnementTexte
+  },
+  "commentCaMarche": *[_type == "boxPageCommentCaMarche"][0] {
+    commentCaMarcheTitre, etape1Texte, etape2Texte, etape2Note
+  },
+  "temoignageDoc": *[_type == "boxPageTemoignage"][0] { temoignage, temoignageAuteur },
+  "faqDoc": *[_type == "boxPageFaq"][0] { faqTitre, faq[] { question, reponse } }
 }`
 
 export interface PageHeroData {
@@ -140,18 +145,13 @@ export interface BoxPageData extends PageHeroData {
   faq?: Array<{ question?: string; reponse?: string }>
 }
 
-export const cavePageQuery = groq`*[_type == "cavePage"][0] {
-  titre,
-  description,
-  heroImages[] { asset->{ url } },
-  valeursTitre,
-  valeursTexte,
-  equipeTitre,
-  equipe[] { nom, photo { asset->{ url } } },
-  projetsTitre,
-  projetsTexte,
-  projets[] { label, lien },
-  galerie[] { asset->{ url } }
+export const cavePageQuery = groq`{
+  "hero": *[_type == "cavePageHero"][0] { titre, description, heroImages[] { asset->{ url } } },
+  "valeurs": *[_type == "cavePageValeurs"][0] { valeursTitre, valeursTexte, valeursImage { asset->{ url } } },
+  "equipe": *[_type == "cavePageEquipe"][0] { equipeTitre, equipe[] { nom, description, photo { asset->{ url } } } },
+  "projets": *[_type == "cavePageProjets"][0] { projetsTitre, projetsTexte, projets[] { label, description, lien } },
+  "avisDoc": *[_type == "cavePageAvis"][0] { avisTitre, googleNote, googleAvisCount, googleUrl, avis[] { citation, auteur } },
+  "galerieDoc": *[_type == "cavePageGalerie"][0] { galerie[] { asset->{ url } } }
 }`
 
 export interface CavePageData {
@@ -160,25 +160,30 @@ export interface CavePageData {
   heroImages?: Array<{ asset?: { url: string } }>
   valeursTitre?: string
   valeursTexte?: PortableTextBlock[]
+  valeursImage?: { asset?: { url: string } }
   equipeTitre?: string
-  equipe?: Array<{ nom?: string; photo?: { asset?: { url: string } } }>
+  equipe?: Array<{ nom?: string; description?: string; photo?: { asset?: { url: string } } }>
   projetsTitre?: string
   projetsTexte?: string
-  projets?: Array<{ label?: string; lien?: string }>
+  projets?: Array<{ label?: string; description?: string; lien?: string }>
+  avisTitre?: string
+  googleNote?: number
+  googleAvisCount?: number
+  googleUrl?: string
+  avis?: Array<{ citation?: string; auteur?: string }>
   galerie?: Array<{ asset?: { url: string } }>
 }
 
-export const evenementsPageQuery = groq`*[_type == "evenementsPage"][0] {
-  titre,
-  description,
-  image { asset->{ url } },
-  sections[] {
-    badge, couleur, titre, texte, points, ctaLabel, ctaLien,
-    image { asset->{ url } }
+export const evenementsPageQuery = groq`{
+  "hero": *[_type == "evenementsPageHero"][0] { titre, description, image { asset->{ url } } },
+  "sectionsDoc": *[_type == "evenementsPageSections"][0] {
+    sections[] {
+      badge, couleur, titre, texte, points, ctaLabel, ctaLien,
+      image { asset->{ url } }
+    }
   },
-  commentCaMarcheTitre,
-  etapes[] { label, texte },
-  bandeauImage { asset->{ url } }
+  "commentCaMarche": *[_type == "evenementsPageCommentCaMarche"][0] { commentCaMarcheTitre, etapes[] { label, texte } },
+  "bandeau": *[_type == "evenementsPageBandeau"][0] { bandeauImage { asset->{ url } } }
 }`
 
 export interface EvenementsSection {
@@ -202,20 +207,13 @@ export interface EvenementsPageData {
   bandeauImage?: { asset?: { url: string } }
 }
 
-export const proPageQuery = groq`*[_type == "proPage"][0] {
-  titre,
-  description,
-  image { asset->{ url } },
-  avantagesTitre,
-  avantages[] { titre, texte },
-  offreTitre,
-  offre[] { titre, texte },
-  commentCaMarcheTitre,
-  etapes[] { label, texte },
-  temoignagesTitre,
-  temoignages[] { citation, auteur, etablissement },
-  faqTitre,
-  faq[] { question, reponse }
+export const proPageQuery = groq`{
+  "hero": *[_type == "proPageHero"][0] { titre, description, image { asset->{ url } } },
+  "avantagesDoc": *[_type == "proPageAvantages"][0] { avantagesTitre, avantages[] { titre, texte } },
+  "offreDoc": *[_type == "proPageOffre"][0] { offreTitre, offre[] { titre, texte } },
+  "commentCaMarche": *[_type == "proPageCommentCaMarche"][0] { commentCaMarcheTitre, etapes[] { label, texte } },
+  "temoignagesDoc": *[_type == "proPageTemoignages"][0] { temoignagesTitre, temoignages[] { citation, auteur, etablissement } },
+  "faqDoc": *[_type == "proPageFaq"][0] { faqTitre, faq[] { question, reponse } }
 }`
 
 export interface ProPageData {

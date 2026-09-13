@@ -35,12 +35,12 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
           <p className="max-w-md">
             {texte ?? "Une équipe passionnée vous accueille pour vous guider dans la découverte de vins naturels, bio et biodynamiques choisis avec soin auprès de producteurs engagés."}
           </p>
-          <span
-            aria-disabled="true"
-            className="font-semibold text-2xl font-fontjek text-zinc-400 w-fit flex items-center gap-2 border-b border-zinc-300 pb-0.5 cursor-not-allowed"
+          <Link
+            href="/cave"
+            className="font-semibold text-2xl font-fontjek text-black w-fit flex items-center gap-2 border-b border-zinc-400 pb-0.5 hover:text-orange hover:border-orange transition-colors"
           >
             {ctaLabel ?? 'Découvrir la cave'} &nbsp;⟶
-          </span>
+          </Link>
         </div>
 
         {/* Badge horaires — cercle centré en flux sur mobile, flottant en absolu dès md */}

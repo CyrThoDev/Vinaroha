@@ -20,7 +20,7 @@ export function RencontrerProducteurs({ titre, texte }: RencontrerProducteursPro
       />
       <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-4">
         <h2 className="font-black text-2xl md:text-3xl text-white leading-tight">
-          {titre ?? 'Envie de les rencontrer nos producteurs en vrai ?'}
+          {titre ?? 'Envie de rencontrer nos producteurs en vrai ?'}
         </h2>
         <p className="text-white/80">
           {texte ?? TEXTE_DEFAUT}

@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 
 const NAV = [
   { label: 'La Box',                   href: '/box'        },
-  { label: 'La Cave',                  href: '/cave',       disabled: true },
+  { label: 'La Cave',                  href: '/cave'        },
   { label: 'Nos Producteurs',          href: '/producteurs' },
   { label: 'Agenda',                   href: '/agenda'     },
   { label: 'Vos Événements & Cadeaux', href: '/evenements', disabled: true },

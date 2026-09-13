@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 const TYPES_ETABLISSEMENT = ['Restaurant', 'Caviste', 'Épicerie', 'Hôtel', 'Autre']
+const OPTIONS_CARTE = ['Carte des vins existante', 'Carte à créer', 'Je ne sais pas encore']
 
 export function ContactProForm() {
   const [nom, setNom] = useState('')
@@ -10,6 +11,8 @@ export function ContactProForm() {
   const [typeEtablissement, setTypeEtablissement] = useState(TYPES_ETABLISSEMENT[0])
   const [email, setEmail] = useState('')
   const [telephone, setTelephone] = useState('')
+  const [volumeEstime, setVolumeEstime] = useState('')
+  const [carteExistante, setCarteExistante] = useState(OPTIONS_CARTE[0])
   const [message, setMessage] = useState('')
   const [website, setWebsite] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -22,7 +25,7 @@ export function ContactProForm() {
     const res = await fetch('/api/pro-contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nom, etablissement, typeEtablissement, email, telephone, message, website }),
+      body: JSON.stringify({ nom, etablissement, typeEtablissement, email, telephone, volumeEstime, carteExistante, message, website }),
     })
     const data = await res.json()
 
@@ -104,6 +107,24 @@ export function ContactProForm() {
         disabled={status === 'loading'}
         className="px-4 py-3 rounded-lg border border-zinc-200 focus:outline-none focus:border-orange disabled:opacity-60"
       />
+      <input
+        type="text"
+        value={volumeEstime}
+        onChange={(e) => setVolumeEstime(e.target.value)}
+        placeholder="Volume estimé (ex : carte de 10 vins, renouvellement mensuel...)"
+        disabled={status === 'loading'}
+        className="px-4 py-3 rounded-lg border border-zinc-200 focus:outline-none focus:border-orange disabled:opacity-60"
+      />
+
+      <select
+        value={carteExistante}
+        onChange={(e) => setCarteExistante(e.target.value)}
+        disabled={status === 'loading'}
+        className="px-4 py-3 rounded-lg border border-zinc-200 focus:outline-none focus:border-orange disabled:opacity-60 bg-background"
+      >
+        {OPTIONS_CARTE.map((o) => <option key={o} value={o}>{o}</option>)}
+      </select>
+
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -112,6 +133,10 @@ export function ContactProForm() {
         disabled={status === 'loading'}
         className="px-4 py-3 rounded-lg border border-zinc-200 focus:outline-none focus:border-orange disabled:opacity-60 resize-none"
       />
+
+      <p className="text-sm text-zinc-500">
+        Réponse sous 24-48h.
+      </p>
 
       <button
         type="submit"

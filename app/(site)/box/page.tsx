@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { boxPageQuery } from '@/sanity/lib/queries'
+import { boxPageQuery, mergeSections } from '@/sanity/lib/queries'
 import type { BoxPageData } from '@/sanity/lib/queries'
 import { PageHero } from '../_components/PageHero'
 import { OffresBox } from './OffresBox'
@@ -21,7 +21,8 @@ const DESCRIPTION_DEFAUT = [
 ].join('\n')
 
 export default async function BoxPage() {
-  const page = await client.fetch<BoxPageData | null>(boxPageQuery as string).catch(() => null)
+  const raw = await client.fetch<Record<string, unknown> | null>(boxPageQuery as string).catch(() => null)
+  const page = raw ? mergeSections<BoxPageData>(raw) : null
 
   return (
    

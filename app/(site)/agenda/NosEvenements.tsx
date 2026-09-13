@@ -106,7 +106,7 @@ export function NosEvenements({ titre, evenements }: NosEvenementsProps) {
   return (
     <section className="bg-background py-12 md:py-16 px-6">
       <div className="max-w-5xl mx-auto">
-        <h2 className="font-accent text-2xl sm:text-3xl md:text-4xl uppercase text-zinc-900 mb-8 md:mb-12">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-8 md:mb-12">
           {titre ?? 'Nos événements'}
         </h2>
 

@@ -19,7 +19,7 @@ export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCad
   return (
     <section className="bg-background py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-5xl md:text-6xl uppercase leading-none mb-4 text-zinc-900">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none mb-4 text-zinc-900">
           Vos événements et cadeaux
         </h2>
         <p className=" max-w-xl mb-12">

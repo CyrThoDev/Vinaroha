@@ -9,8 +9,9 @@ export const producteurSchema = defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Nom',
+      title: 'Nom catalogue',
       type: 'string',
+      description: 'Nom du domaine, ex : Château Barouillet',
       validation: (r) => r.required(),
     }),
     defineField({
@@ -20,14 +21,50 @@ export const producteurSchema = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: 'domaine',
-      title: 'Domaine',
+      name: 'typeArticle',
+      title: 'Type article',
       type: 'string',
+      options: {
+        list: [
+          { title: 'Vin',              value: 'vin'            },
+          { title: 'Champagne',        value: 'champagne'      },
+          { title: 'Effervescent',     value: 'effervescent'   },
+          { title: 'Bières',           value: 'bieres'         },
+          { title: 'Rhum',             value: 'rhum'           },
+          { title: 'Gin',              value: 'gin'            },
+          { title: 'Armagnac',         value: 'armagnac'       },
+          { title: 'Whisky / Bourbon', value: 'whisky-bourbon' },
+          { title: 'Soft',             value: 'soft'           },
+          { title: 'Épicerie',         value: 'epicerie'       },
+        ],
+      },
+      initialValue: 'vin',
     }),
     defineField({
       name: 'region',
       title: 'Région',
       type: 'string',
+    }),
+    defineField({
+      name: 'appellationPrincipale',
+      title: 'Appellation principale',
+      type: 'string',
+      description: 'Ex : Bergerac / Pécharmant',
+    }),
+    defineField({
+      name: 'certifications',
+      title: 'Certifications',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Bio', value: 'bio' },
+          { title: 'Biodynamie', value: 'biodynamie' },
+          { title: 'Nature', value: 'nature' },
+          { title: 'Terra Vitis / HVE', value: 'terravitis-hve' },
+          { title: 'Conventionnel', value: 'conventionnel' },
+        ],
+      },
     }),
     defineField({
       name: 'photo',
@@ -37,48 +74,25 @@ export const producteurSchema = defineType({
     }),
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Descriptif domaine',
       type: 'array',
       of: [{ type: 'block' }],
-    }),
-    defineField({
-      name: 'descriptionDomaine',
-      title: 'Description du domaine',
-      description: 'Texte affiché dans le bloc "Son domaine" (page Nos Producteurs)',
-      type: 'array',
-      of: [{ type: 'block' }],
-    }),
-    defineField({
-      name: 'cepages',
-      title: 'Cépages',
-      type: 'string',
-    }),
-    defineField({
-      name: 'ethique',
-      title: 'Éthique / Certification',
-      type: 'string',
-      description: 'Ex : Agriculture biologique, biodynamie, nature…',
-    }),
-    defineField({
-      name: 'siteWeb',
-      title: 'Site web',
-      type: 'url',
     }),
     defineField({
       name: 'producteurDuMois',
       title: 'Producteur du mois',
       type: 'boolean',
       initialValue: false,
-      description: 'Mis en avant sur la page d\'accueil',
+      description: 'Mis en avant sur la page d\'accueil et sur la page Nos Producteurs',
     }),
   ],
   orderings: [
     { title: 'Nom A→Z', name: 'nameAsc', by: [{ field: 'name', direction: 'asc' }] },
   ],
   preview: {
-    select: { title: 'name', subtitle: 'domaine', media: 'photo' },
+    select: { title: 'name', subtitle: 'region', media: 'photo' },
     prepare({ title, subtitle, media }) {
-      return { title, subtitle: subtitle ?? 'Domaine non renseigné', media }
+      return { title, subtitle: subtitle ?? 'Région non renseignée', media }
     },
   },
 })

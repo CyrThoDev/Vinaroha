@@ -29,7 +29,7 @@ export function SectionFeature({
       <span className={`inline-block ${bg} text-white rounded-full px-4 py-1 text-xs font-black uppercase  w-fit`}>
         {badge}
       </span>
-      <h2 className="font-accent text-3xl md:text-4xl text-zinc-900 leading-none">
+      <h2 className="font-accent text-4xl md:text-5xl uppercase text-zinc-900 leading-none">
         {titre}
       </h2>
       <p className="text-zinc-600 leading-relaxed max-w-md">{texte}</p>

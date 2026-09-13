@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { proPageQuery } from '@/sanity/lib/queries'
+import { proPageQuery, siteSettingsQuery, mergeSections } from '@/sanity/lib/queries'
 import type { ProPageData } from '@/sanity/lib/queries'
 import { ProHero } from './ProHero'
 import { Avantages } from './Avantages'
@@ -17,11 +17,21 @@ export const metadata: Metadata = {
 }
 
 export default async function ProPage() {
-  const page = await client.fetch<ProPageData | null>(proPageQuery as string).catch(() => null)
+  const [raw, settings] = await Promise.all([
+    client.fetch<Record<string, unknown> | null>(proPageQuery as string).catch(() => null),
+    client.fetch(siteSettingsQuery as string).catch(() => null) as Promise<{ telephone?: string; whatsapp?: string } | null>,
+  ])
+  const page = raw ? mergeSections<ProPageData>(raw) : null
 
   return (
     <main>
-      <ProHero titre={page?.titre} description={page?.description} imageUrl={page?.image?.asset?.url} />
+      <ProHero
+        titre={page?.titre}
+        description={page?.description}
+        imageUrl={page?.image?.asset?.url}
+        telephone={settings?.telephone}
+        whatsapp={settings?.whatsapp}
+      />
       <Avantages titre={page?.avantagesTitre} avantages={page?.avantages} />
       <Offre titre={page?.offreTitre} offre={page?.offre} />
       <CommentCaMarchePro titre={page?.commentCaMarcheTitre} etapes={page?.etapes} />
@@ -30,7 +40,7 @@ export default async function ProPage() {
 
       <section className="bg-background py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-4">
+          <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-4">
             Devenir partenaire
           </h2>
           <p className="text-zinc-600 mb-10">

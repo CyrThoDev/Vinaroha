@@ -1,17 +1,47 @@
 import { type SchemaTypeDefinition } from 'sanity'
-import { pageType } from './page'
 import { eventSchema } from './event'
 import { eventTypeSchema } from './eventType'
 import { siteSettingsSchema, plageHoraire } from './siteSettings'
 import { producteurSchema } from './producteur'
-import { vinSchema } from './vin'
 import { homePageSchema } from './homePage'
-import { boxPageSchema } from './boxPage'
-import { producteursPageSchema } from './producteursPage'
-import { agendaPageSchema } from './agendaPage'
-import { cavePageSchema } from './cavePage'
-import { evenementsPageSchema } from './evenementsPage'
-import { proPageSchema } from './proPage'
+import {
+  boxPageHeroSchema,
+  boxPageOffresSchema,
+  boxPageCommentCaMarcheSchema,
+  boxPageTemoignageSchema,
+  boxPageFaqSchema,
+} from './boxPage'
+import {
+  producteursPageHeroSchema,
+  producteursPageRencontrerSchema,
+  producteursPageGalerieSchema,
+} from './producteursPage'
+import {
+  agendaPageHeroSchema,
+  agendaPageEvenementsSchema,
+} from './agendaPage'
+import {
+  cavePageHeroSchema,
+  cavePageValeursSchema,
+  cavePageEquipeSchema,
+  cavePageProjetsSchema,
+  cavePageAvisSchema,
+  cavePageGalerieSchema,
+} from './cavePage'
+import {
+  evenementsPageHeroSchema,
+  evenementsPageSectionsSchema,
+  evenementsPageCommentCaMarcheSchema,
+  evenementsPageBandeauSchema,
+} from './evenementsPage'
+import {
+  proPageHeroSchema,
+  proPageAvantagesSchema,
+  proPageOffreSchema,
+  proPageCommentCaMarcheSchema,
+  proPageTemoignagesSchema,
+  proPageFaqSchema,
+} from './proPage'
 import { formeDecorativeSchema } from './formeDecorative'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -19,18 +49,36 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // Singletons
     siteSettingsSchema,
     homePageSchema,
-    boxPageSchema,
-    producteursPageSchema,
-    agendaPageSchema,
-    cavePageSchema,
-    evenementsPageSchema,
-    proPageSchema,
+    boxPageHeroSchema,
+    boxPageOffresSchema,
+    boxPageCommentCaMarcheSchema,
+    boxPageTemoignageSchema,
+    boxPageFaqSchema,
+    producteursPageHeroSchema,
+    producteursPageRencontrerSchema,
+    producteursPageGalerieSchema,
+    agendaPageHeroSchema,
+    agendaPageEvenementsSchema,
+    cavePageHeroSchema,
+    cavePageValeursSchema,
+    cavePageEquipeSchema,
+    cavePageProjetsSchema,
+    cavePageAvisSchema,
+    cavePageGalerieSchema,
+    evenementsPageHeroSchema,
+    evenementsPageSectionsSchema,
+    evenementsPageCommentCaMarcheSchema,
+    evenementsPageBandeauSchema,
+    proPageHeroSchema,
+    proPageAvantagesSchema,
+    proPageOffreSchema,
+    proPageCommentCaMarcheSchema,
+    proPageTemoignagesSchema,
+    proPageFaqSchema,
     // Documents
     producteurSchema,
-    vinSchema,
     eventTypeSchema,
     eventSchema,
-    pageType,
     // Objects
     plageHoraire,
     formeDecorativeSchema,

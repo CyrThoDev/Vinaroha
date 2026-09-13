@@ -1,19 +1,18 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useState } from 'react'
 
 type CaveHeroProps = {
   images?: string[]
-  children?: ReactNode
 }
 
-export function CaveHero({ images, children }: CaveHeroProps) {
+export function CaveHero({ images }: CaveHeroProps) {
   const [index, setIndex] = useState(0)
   const photos = images && images.length > 0 ? images : []
   const current = photos[index]
 
   return (
-    <section className="relative h-80 md:h-[28rem] overflow-hidden bg-linear-to-br from-green/15 via-yellow/10 to-orange/15">
+    <section className="relative h-[50vh] md:h-[60vh] overflow-hidden bg-linear-to-br from-green/15 via-yellow/10 to-orange/15">
       {current ? (
         <img src={current} alt="" className="w-full h-full object-cover" />
       ) : (
@@ -31,8 +30,6 @@ export function CaveHero({ images, children }: CaveHeroProps) {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#232526" strokeWidth="2.5"><path d="M9 6l6 6-6 6" /></svg>
         </button>
       )}
-
-      {children}
     </section>
   )
 }

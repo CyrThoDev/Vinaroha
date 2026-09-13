@@ -177,7 +177,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           {/* Col 3 — Navigation */}
           <div>
             <ul className="flex flex-col items-center gap-3 sm:items-end">
-              <li><span aria-disabled="true" className="text-base text-background/30 cursor-not-allowed">La cave</span></li>
+              <li><Link href="/cave" className="text-base text-background/70 hover:text-background transition-colors">La cave</Link></li>
               <li><Link href="/producteurs" className="text-base text-background/70 hover:text-background transition-colors">Nos producteurs</Link></li>
               <li><Link href="/agenda" className="text-base text-background/70 hover:text-background transition-colors">Agenda</Link></li>
               <li><span aria-disabled="true" className="text-base text-background/30 cursor-not-allowed">Vos évènements et cadeaux</span></li>
