@@ -67,7 +67,7 @@ export interface SanityProducteur {
 
 
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
-  adresse, telephone, whatsapp, email, latitude, longitude, latitudeHalles, longitudeHalles, googlePlaceId, socials, horairesCave, horairesHalles
+  adresse, telephone, whatsapp, email, latitude, longitude, latitudeHalles, longitudeHalles, socials, horairesCave, horairesHalles
 }`
 
 const pageHeroFields = groq`titre, description, image { asset->{ url } }`

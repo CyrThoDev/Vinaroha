@@ -39,12 +39,6 @@ export const siteSettingsSchema = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'googlePlaceId',
-      title: 'Google Place ID',
-      type: 'string',
-      description: "Identifiant de la fiche Google Business, utilisé pour récupérer automatiquement la note et les avis Google sur le site.",
-    }),
-    defineField({
       name: 'latitude',
       title: 'Latitude — La Cave',
       type: 'number',
