@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { evenementsPageQuery } from '@/sanity/lib/queries'
+import { evenementsPageQuery, mergeSections } from '@/sanity/lib/queries'
 import type { EvenementsPageData, EvenementsSection } from '@/sanity/lib/queries'
 import { EvenementsHero } from './EvenementsHero'
 import { SectionFeature } from './SectionFeature'
@@ -59,7 +59,8 @@ const SECTIONS_DEFAUT: EvenementsSection[] = [
 ]
 
 export default async function EvenementsPage() {
-  const page = await client.fetch<EvenementsPageData | null>(evenementsPageQuery as string).catch(() => null)
+  const raw = await client.fetch<Record<string, unknown> | null>(evenementsPageQuery as string).catch(() => null)
+  const page = raw ? mergeSections<EvenementsPageData>(raw) : null
   const sections = page?.sections && page.sections.length > 0 ? page.sections : SECTIONS_DEFAUT
 
   return (

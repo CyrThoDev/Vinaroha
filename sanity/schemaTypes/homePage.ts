@@ -39,9 +39,9 @@ export const homePageSchema = defineType({
       name: 'coupsDeCoeur',
       title: 'Coups de cœur du mois',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'vin' }] }],
+      of: [{ type: 'reference', to: [{ type: 'producteur' }] }],
       validation: (r) => r.max(3),
-      description: '3 vins maximum',
+      description: '3 références du catalogue maximum',
     }),
     defineField({
       name: 'coupsDeCoeurFond',

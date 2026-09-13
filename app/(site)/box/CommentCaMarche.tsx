@@ -13,7 +13,7 @@ export function CommentCaMarche({ titre, etape1Texte, etape2Texte, etape2Note }:
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-0 md:divide-x md:divide-zinc-900/15">
 
         <div className="flex items-center md:pr-10">
-          <p className="font-accent text-3xl uppercase leading-tight text-zinc-900">
+          <p className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900">
             {titre ?? 'Comment ça marche ?'}
           </p>
         </div>

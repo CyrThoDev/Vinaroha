@@ -47,7 +47,7 @@ export function OffresBox({ titre, offres, abonnementTitre, abonnementTexte }: O
       </div>
 
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-14">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-14">
           {titre ?? 'À chacun sa box'}
         </h2>
 

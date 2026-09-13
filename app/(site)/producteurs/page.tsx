@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import type { PortableTextBlock } from '@portabletext/react'
 import { client } from '@/sanity/lib/client'
-import { producteursPageQuery, producteurDuMoisQuery, produitsQuery } from '@/sanity/lib/queries'
-import type { ProducteursPageData, SanityProduit } from '@/sanity/lib/queries'
+import { producteursPageQuery, producteurDuMoisQuery, producteursListQuery, mergeSections } from '@/sanity/lib/queries'
+import type { ProducteursPageData, SanityProducteur } from '@/sanity/lib/queries'
 import { Asset } from '@/app/components/Asset'
 import { PageHero } from '../_components/PageHero'
 import { ProRestaurateurs } from '../_components/ProRestaurateurs'
 import { ProducteurDuMoisSection } from './ProducteurDuMoisSection'
-import { Etageres } from './Etageres'
+import { Catalogue } from './Catalogue'
 import { RencontrerProducteurs } from './RencontrerProducteurs'
 import { Galerie } from './Galerie'
 
@@ -20,18 +20,19 @@ export const metadata: Metadata = {
 type ProducteurDuMois = {
   _id: string
   name: string
-  domaine?: string
+  region?: string
+  appellationPrincipale?: string
   description?: PortableTextBlock[]
-  descriptionDomaine?: PortableTextBlock[]
   photo?: { asset?: { url: string } }
 }
 
 export default async function ProducteursPage() {
-  const [page, producteur, produits] = await Promise.all([
-    client.fetch<ProducteursPageData | null>(producteursPageQuery as string).catch(() => null),
+  const [raw, producteur, producteurs] = await Promise.all([
+    client.fetch<Record<string, unknown> | null>(producteursPageQuery as string).catch(() => null),
     client.fetch<ProducteurDuMois | null>(producteurDuMoisQuery as string).catch(() => null),
-    client.fetch<SanityProduit[]>(produitsQuery as string).catch(() => []),
+    client.fetch<SanityProducteur[]>(producteursListQuery as string).catch(() => []),
   ])
+  const page = raw ? mergeSections<ProducteursPageData>(raw) : null
 
   return (
     <main>
@@ -49,12 +50,14 @@ export default async function ProducteursPage() {
         decoVigne
       />
       <ProducteurDuMoisSection producteur={producteur ?? undefined} />
-      <Etageres
-        produits={produits}
+      <Catalogue
+        producteurs={producteurs}
         icons={{
-          vin: <Asset name="bouteillevin" color="#1a1a1a" className="h-24 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
-          biere: <Asset name="beer" color="#1a1a1a" className="h-24 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
-          spiritueux: <Asset name="spirit" color="#1a1a1a" className="h-24 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
+          vin: <Asset name="bouteillevin" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
+          bieres: <Asset name="beer" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
+          spiritueux: <Asset name="spirit" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
+          'champagne-bulles': <Asset name="bulles" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
+          soft: <Asset name="soft" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
         }}
       />
       <ProRestaurateurs />

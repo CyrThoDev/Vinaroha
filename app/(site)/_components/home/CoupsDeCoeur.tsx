@@ -1,19 +1,17 @@
 import { Asset } from '@/app/components/Asset'
 
 type CoupsDeCoeurProps = {
-  vins: Array<{
+  items: Array<{
     _id: string
     name: string
-    appellation?: string
-    prix?: number
-    type?: string
-    image?: { asset?: { url: string } }
-    producteur?: { name: string }
+    region?: string
+    appellationPrincipale?: string
+    photo?: { asset?: { url: string } }
   }>
   backgroundImageUrl?: string
 }
 
-export function CoupsDeCoeur({ vins, backgroundImageUrl }: CoupsDeCoeurProps) {
+export function CoupsDeCoeur({ items, backgroundImageUrl }: CoupsDeCoeurProps) {
   return (
     <section className=" py-16 px-6 relative overflow-hidden">
 
@@ -33,29 +31,31 @@ export function CoupsDeCoeur({ vins, backgroundImageUrl }: CoupsDeCoeurProps) {
       </div>
 
       <div className="relative max-w-6xl mx-auto">
-        <h2 className="font-accent text-5xl md:text-6xl uppercase text-black leading-none mb-14">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase text-zinc-900 leading-none mb-14">
           Nos coups de cœur
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {vins.length > 0 ? vins.map((vin) => (
-            <div key={vin._id} className=" rounded-3xl overflow-hidden flex flex-col">
+          {items.length > 0 ? items.map((item) => (
+            <div key={item._id} className="max-w-72 mx-auto w-full rounded-3xl overflow-hidden flex flex-col">
               <div className="rounded-t-full overflow-hidden aspect-4/5 bg-zinc-100">
-                {vin.image?.asset?.url ? (
-                  <img src={vin.image.asset.url} alt={vin.name} className="w-full h-full object-cover" />
+                {item.photo?.asset?.url ? (
+                  <img src={item.photo.asset.url} alt={item.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-zinc-200" />
                 )}
               </div>
               <div className="bg-white px-6 py-5 flex flex-col gap-1 flex-1">
-                <p className="font-black uppercase   text-zinc-900">{vin.name}</p>
-                {vin.appellation && <p className=" ">{vin.appellation}</p>}
-                {vin.producteur?.name && <p className="text-zinc-400 ">{vin.producteur.name}</p>}
-                {vin.prix && <p className="font-black text-orange  mt-2">{vin.prix}&nbsp;€</p>}
+                <p className="font-black uppercase   text-zinc-900">{item.name}</p>
+                {(item.region || item.appellationPrincipale) && (
+                  <p className="text-zinc-400">
+                    {[item.region, item.appellationPrincipale].filter(Boolean).join(' · ')}
+                  </p>
+                )}
               </div>
             </div>
           )) : [0, 1, 2].map((i) => (
-            <div key={i} className=" rounded-3xl overflow-hidden flex flex-col">
+            <div key={i} className="max-w-72 mx-auto w-full rounded-3xl overflow-hidden flex flex-col">
               <div className="rounded-t-full overflow-hidden aspect-4/5 bg-zinc-200" />
               <div className="bg-white px-6 py-5 flex flex-col gap-1 flex-1">
                 <p className="font-black uppercase   text-zinc-900">Vin Aroha</p>

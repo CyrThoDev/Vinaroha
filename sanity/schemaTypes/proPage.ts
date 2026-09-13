@@ -1,28 +1,28 @@
 import { defineField, defineType } from 'sanity'
 import { CaseIcon } from '@sanity/icons'
 
-export const proPageSchema = defineType({
-  name: 'proPage',
-  title: 'Page Pro & Restaurateurs',
+export const proPageHeroSchema = defineType({
+  name: 'proPageHero',
+  title: 'Page Pro & Restaurateurs — En-tête',
   type: 'document',
   icon: CaseIcon,
-  groups: [
-    { name: 'hero', title: 'En-tête' },
-    { name: 'avantages', title: 'Avantages' },
-    { name: 'offre', title: 'Notre offre' },
-    { name: 'commentCaMarche', title: 'Comment ça marche' },
-    { name: 'temoignages', title: 'Témoignages' },
-    { name: 'faq', title: 'FAQ' },
-  ],
   fields: [
-    // ── En-tête ──────────────────────────────────────
-    defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : Professionnels & restaurateurs', group: 'hero' }),
-    defineField({ name: 'description', title: 'Description', type: 'text', rows: 3, group: 'hero' }),
-    defineField({ name: 'image', title: 'Photo', type: 'image', options: { hotspot: true }, group: 'hero' }),
-    // ── Avantages ────────────────────────────────────
-    defineField({ name: 'avantagesTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Pourquoi nous faire confiance', group: 'avantages' }),
+    defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : Professionnels & restaurateurs' }),
+    defineField({ name: 'description', title: 'Description', type: 'text', rows: 3 }),
+    defineField({ name: 'image', title: 'Photo', type: 'image', options: { hotspot: true } }),
+  ],
+  preview: { prepare: () => ({ title: 'En-tête' }) },
+})
+
+export const proPageAvantagesSchema = defineType({
+  name: 'proPageAvantages',
+  title: 'Page Pro & Restaurateurs — Avantages',
+  type: 'document',
+  icon: CaseIcon,
+  fields: [
+    defineField({ name: 'avantagesTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Pourquoi nous faire confiance' }),
     defineField({
-      name: 'avantages', title: 'Avantages', type: 'array', group: 'avantages',
+      name: 'avantages', title: 'Avantages', type: 'array',
       of: [{
         type: 'object', name: 'avantage',
         fields: [
@@ -32,10 +32,19 @@ export const proPageSchema = defineType({
         preview: { select: { title: 'titre' } },
       }],
     }),
-    // ── Notre offre ──────────────────────────────────
-    defineField({ name: 'offreTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Ce que nous proposons', group: 'offre' }),
+  ],
+  preview: { prepare: () => ({ title: 'Avantages' }) },
+})
+
+export const proPageOffreSchema = defineType({
+  name: 'proPageOffre',
+  title: 'Page Pro & Restaurateurs — Notre offre',
+  type: 'document',
+  icon: CaseIcon,
+  fields: [
+    defineField({ name: 'offreTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Ce que nous proposons' }),
     defineField({
-      name: 'offre', title: 'Services', type: 'array', group: 'offre',
+      name: 'offre', title: 'Services', type: 'array',
       of: [{
         type: 'object', name: 'service',
         fields: [
@@ -45,10 +54,19 @@ export const proPageSchema = defineType({
         preview: { select: { title: 'titre' } },
       }],
     }),
-    // ── Comment ça marche ────────────────────────────
-    defineField({ name: 'commentCaMarcheTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Comment ça marche ?', group: 'commentCaMarche' }),
+  ],
+  preview: { prepare: () => ({ title: 'Notre offre' }) },
+})
+
+export const proPageCommentCaMarcheSchema = defineType({
+  name: 'proPageCommentCaMarche',
+  title: 'Page Pro & Restaurateurs — Comment ça marche',
+  type: 'document',
+  icon: CaseIcon,
+  fields: [
+    defineField({ name: 'commentCaMarcheTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Comment ça marche ?' }),
     defineField({
-      name: 'etapes', title: 'Étapes', type: 'array', group: 'commentCaMarche',
+      name: 'etapes', title: 'Étapes', type: 'array',
       of: [{
         type: 'object', name: 'etape',
         fields: [
@@ -58,10 +76,19 @@ export const proPageSchema = defineType({
         preview: { select: { title: 'label' } },
       }],
     }),
-    // ── Témoignages ──────────────────────────────────
-    defineField({ name: 'temoignagesTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Ils nous font confiance', group: 'temoignages' }),
+  ],
+  preview: { prepare: () => ({ title: 'Comment ça marche' }) },
+})
+
+export const proPageTemoignagesSchema = defineType({
+  name: 'proPageTemoignages',
+  title: 'Page Pro & Restaurateurs — Témoignages',
+  type: 'document',
+  icon: CaseIcon,
+  fields: [
+    defineField({ name: 'temoignagesTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Ils nous font confiance' }),
     defineField({
-      name: 'temoignages', title: 'Témoignages', type: 'array', group: 'temoignages',
+      name: 'temoignages', title: 'Témoignages', type: 'array',
       of: [{
         type: 'object', name: 'temoignage',
         fields: [
@@ -72,10 +99,19 @@ export const proPageSchema = defineType({
         preview: { select: { title: 'auteur', subtitle: 'etablissement' } },
       }],
     }),
-    // ── FAQ ───────────────────────────────────────────
-    defineField({ name: 'faqTitre', title: 'Titre de la section', type: 'string', description: 'Ex : FAQ', group: 'faq' }),
+  ],
+  preview: { prepare: () => ({ title: 'Témoignages' }) },
+})
+
+export const proPageFaqSchema = defineType({
+  name: 'proPageFaq',
+  title: 'Page Pro & Restaurateurs — FAQ',
+  type: 'document',
+  icon: CaseIcon,
+  fields: [
+    defineField({ name: 'faqTitre', title: 'Titre de la section', type: 'string', description: 'Ex : FAQ' }),
     defineField({
-      name: 'faq', title: 'Questions / réponses', type: 'array', group: 'faq',
+      name: 'faq', title: 'Questions / réponses', type: 'array',
       of: [{
         type: 'object', name: 'question',
         fields: [
@@ -86,5 +122,5 @@ export const proPageSchema = defineType({
       }],
     }),
   ],
-  preview: { prepare: () => ({ title: 'Page Pro & Restaurateurs' }) },
+  preview: { prepare: () => ({ title: 'FAQ' }) },
 })

@@ -13,7 +13,7 @@ const plageHoraire = defineType({
 
 export const siteSettingsSchema = defineType({
   name: 'siteSettings',
-  title: 'Paramètres du site',
+  title: 'Coordonnées',
   type: 'document',
   icon: CogIcon,
   fields: [
@@ -28,9 +28,45 @@ export const siteSettingsSchema = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'whatsapp',
+      title: 'Numéro WhatsApp',
+      type: 'string',
+      description: 'Format international sans espaces ni « + », ex : 33612345678. Utilisé pour le bouton WhatsApp de l\'espace pro.',
+    }),
+    defineField({
       name: 'email',
       title: 'Email',
       type: 'string',
+    }),
+    defineField({
+      name: 'googlePlaceId',
+      title: 'Google Place ID',
+      type: 'string',
+      description: "Identifiant de la fiche Google Business, utilisé pour récupérer automatiquement la note et les avis Google sur le site.",
+    }),
+    defineField({
+      name: 'latitude',
+      title: 'Latitude — La Cave',
+      type: 'number',
+      description: 'Coordonnée GPS de la cave, pour la carte. Ex : 44.2140973',
+    }),
+    defineField({
+      name: 'longitude',
+      title: 'Longitude — La Cave',
+      type: 'number',
+      description: 'Coordonnée GPS de la cave, pour la carte. Ex : -1.293793',
+    }),
+    defineField({
+      name: 'latitudeHalles',
+      title: 'Latitude — Les Halles',
+      type: 'number',
+      description: 'Coordonnée GPS des Halles, pour la carte (2e repère).',
+    }),
+    defineField({
+      name: 'longitudeHalles',
+      title: 'Longitude — Les Halles',
+      type: 'number',
+      description: 'Coordonnée GPS des Halles, pour la carte (2e repère).',
     }),
     defineField({
       name: 'socials',
@@ -55,7 +91,7 @@ export const siteSettingsSchema = defineType({
       of: [{ type: 'plageHoraire' }],
     }),
   ],
-  preview: { prepare: () => ({ title: 'Paramètres du site' }) },
+  preview: { prepare: () => ({ title: 'Coordonnées' }) },
 })
 
 export { plageHoraire }

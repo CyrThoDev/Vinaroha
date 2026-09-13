@@ -5,7 +5,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const DEST_EMAIL = process.env.BOX_COMMANDE_EMAIL || 'contact@vinaroha.com'
 
 export async function POST(req: Request) {
-  const { nom, etablissement, typeEtablissement, email, telephone, message, website } = await req.json()
+  const { nom, etablissement, typeEtablissement, email, telephone, volumeEstime, carteExistante, message, website } = await req.json()
 
   // Honeypot : champ invisible qui ne doit jamais être rempli par un humain
   if (typeof website === 'string' && website.trim()) {
@@ -33,6 +33,8 @@ export async function POST(req: Request) {
     <p><strong>Nom :</strong> ${nom}</p>
     <p><strong>Email :</strong> ${email}</p>
     ${telephone ? `<p><strong>Téléphone :</strong> ${telephone}</p>` : ''}
+    ${volumeEstime ? `<p><strong>Volume estimé :</strong> ${volumeEstime}</p>` : ''}
+    ${carteExistante ? `<p><strong>Carte des vins :</strong> ${carteExistante}</p>` : ''}
     ${message ? `<p><strong>Message :</strong><br/>${String(message).replace(/\n/g, '<br/>')}</p>` : ''}
   `
 

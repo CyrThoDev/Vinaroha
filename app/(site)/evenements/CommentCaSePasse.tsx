@@ -30,7 +30,7 @@ export function CommentCaSePasse({ titre, etapes }: CommentCaSePasseProps) {
   return (
     <section className="px-6 py-4">
       <div className="max-w-6xl mx-auto bg-green rounded-3xl px-8 py-14 md:px-14">
-        <h2 className="font-accent text-3xl md:text-4xl uppercase text-white text-center mb-12">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-white text-center mb-12">
           {titre ?? 'Comment ça se passe ?'}
         </h2>
 

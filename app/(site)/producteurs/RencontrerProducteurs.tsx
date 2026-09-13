@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Asset } from '@/app/components/Asset'
 
 type RencontrerProducteursProps = {
@@ -19,17 +20,17 @@ export function RencontrerProducteurs({ titre, texte }: RencontrerProducteursPro
       />
       <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-4">
         <h2 className="font-black text-2xl md:text-3xl text-white leading-tight">
-          {titre ?? 'Envie de les rencontrer nos producteurs en vrai ?'}
+          {titre ?? 'Envie de rencontrer nos producteurs en vrai ?'}
         </h2>
         <p className="text-white/80">
           {texte ?? TEXTE_DEFAUT}
         </p>
-        <span
-          aria-disabled="true"
-          className="font-fontjek text-2xl border-b border-white/20 pb-1 flex items-center gap-2 text-white/40 cursor-not-allowed mt-2"
+        <Link
+          href="/agenda"
+          className="font-fontjek text-2xl border-b border-white/40 pb-1 flex items-center gap-2 text-white hover:text-background hover:border-background transition-colors mt-2"
         >
           Voir tout l&apos;agenda &nbsp;⟶
-        </span>
+        </Link>
       </div>
     </section>
   )

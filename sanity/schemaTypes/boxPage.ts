@@ -1,32 +1,31 @@
 import { defineField, defineType } from 'sanity'
 import { PackageIcon } from '@sanity/icons'
 
-export const boxPageSchema = defineType({
-  name: 'boxPage',
-  title: 'Page La Box',
+export const boxPageHeroSchema = defineType({
+  name: 'boxPageHero',
+  title: 'Page La Box — En-tête',
   type: 'document',
   icon: PackageIcon,
-  groups: [
-    { name: 'hero', title: 'En-tête' },
-    { name: 'offres', title: 'Offres' },
-    { name: 'commentCaMarche', title: 'Comment ça marche' },
-    { name: 'temoignage', title: 'Témoignage' },
-    { name: 'faq', title: 'FAQ' },
-  ],
   fields: [
-    // ── En-tête ──────────────────────────────────────
-    defineField({ name: 'eyebrow', title: 'Sur-titre', type: 'string', description: 'Ex : Abonnement', group: 'hero' }),
-    defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : La Box', group: 'hero' }),
-    defineField({ name: 'description', title: 'Description', type: 'text', rows: 3, group: 'hero' }),
-    defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true }, group: 'hero' }),
+    defineField({ name: 'eyebrow', title: 'Sur-titre', type: 'string', description: 'Ex : Abonnement' }),
+    defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : La Box' }),
+    defineField({ name: 'description', title: 'Description', type: 'text', rows: 3 }),
+    defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true } }),
+  ],
+  preview: { prepare: () => ({ title: 'En-tête' }) },
+})
 
-    // ── Offres ───────────────────────────────────────
-    defineField({ name: 'offresTitre', title: 'Titre de la section', type: 'string', description: 'Ex : À chacun sa box', group: 'offres' }),
+export const boxPageOffresSchema = defineType({
+  name: 'boxPageOffres',
+  title: 'Page La Box — Offres',
+  type: 'document',
+  icon: PackageIcon,
+  fields: [
+    defineField({ name: 'offresTitre', title: 'Titre de la section', type: 'string', description: 'Ex : À chacun sa box' }),
     defineField({
       name: 'offres',
       title: 'Offres',
       type: 'array',
-      group: 'offres',
       of: [
         {
           type: 'object',
@@ -43,26 +42,49 @@ export const boxPageSchema = defineType({
         },
       ],
     }),
-    defineField({ name: 'abonnementTitre', title: 'Ligne durées', type: 'string', description: 'Ex : Abonnements de 3, 6 ou 12 mois', group: 'offres' }),
-    defineField({ name: 'abonnementTexte', title: 'Précision tarifaire', type: 'string', description: 'Ex : Tarif dégressif suivant la durée d\'abonnement', group: 'offres' }),
+    defineField({ name: 'abonnementTitre', title: 'Ligne durées', type: 'string', description: 'Ex : Abonnements de 3, 6 ou 12 mois' }),
+    defineField({ name: 'abonnementTexte', title: 'Précision tarifaire', type: 'string', description: 'Ex : Tarif dégressif suivant la durée d\'abonnement' }),
+  ],
+  preview: { prepare: () => ({ title: 'Offres' }) },
+})
 
-    // ── Comment ça marche ────────────────────────────
-    defineField({ name: 'commentCaMarcheTitre', title: 'Titre', type: 'string', description: 'Ex : Comment ça marche ?', group: 'commentCaMarche' }),
-    defineField({ name: 'etape1Texte', title: 'Étape 1', type: 'string', description: 'Ex : Je m\'abonne à la box de mon choix', group: 'commentCaMarche' }),
-    defineField({ name: 'etape2Texte', title: 'Étape 2', type: 'string', description: 'Ex : Je réceptionne ma commande à la cave le 10 du mois', group: 'commentCaMarche' }),
-    defineField({ name: 'etape2Note', title: 'Étape 2 — précision', type: 'string', description: 'Ex : (Pas d\'expédition possible)', group: 'commentCaMarche' }),
+export const boxPageCommentCaMarcheSchema = defineType({
+  name: 'boxPageCommentCaMarche',
+  title: 'Page La Box — Comment ça marche',
+  type: 'document',
+  icon: PackageIcon,
+  fields: [
+    defineField({ name: 'commentCaMarcheTitre', title: 'Titre', type: 'string', description: 'Ex : Comment ça marche ?' }),
+    defineField({ name: 'etape1Texte', title: 'Étape 1', type: 'string', description: 'Ex : Je m\'abonne à la box de mon choix' }),
+    defineField({ name: 'etape2Texte', title: 'Étape 2', type: 'string', description: 'Ex : Je réceptionne ma commande à la cave le 10 du mois' }),
+    defineField({ name: 'etape2Note', title: 'Étape 2 — précision', type: 'string', description: 'Ex : (Pas d\'expédition possible)' }),
+  ],
+  preview: { prepare: () => ({ title: 'Comment ça marche' }) },
+})
 
-    // ── Témoignage ───────────────────────────────────
-    defineField({ name: 'temoignage', title: 'Citation', type: 'text', rows: 3, group: 'temoignage' }),
-    defineField({ name: 'temoignageAuteur', title: 'Auteur', type: 'string', description: 'Ex : Claire, cliente depuis 2024 (optionnel)', group: 'temoignage' }),
+export const boxPageTemoignageSchema = defineType({
+  name: 'boxPageTemoignage',
+  title: 'Page La Box — Témoignage',
+  type: 'document',
+  icon: PackageIcon,
+  fields: [
+    defineField({ name: 'temoignage', title: 'Citation', type: 'text', rows: 3 }),
+    defineField({ name: 'temoignageAuteur', title: 'Auteur', type: 'string', description: 'Ex : Claire, cliente depuis 2024 (optionnel)' }),
+  ],
+  preview: { prepare: () => ({ title: 'Témoignage' }) },
+})
 
-    // ── FAQ ──────────────────────────────────────────
-    defineField({ name: 'faqTitre', title: 'Titre de la section', type: 'string', description: 'Ex : FAQ', group: 'faq' }),
+export const boxPageFaqSchema = defineType({
+  name: 'boxPageFaq',
+  title: 'Page La Box — FAQ',
+  type: 'document',
+  icon: PackageIcon,
+  fields: [
+    defineField({ name: 'faqTitre', title: 'Titre de la section', type: 'string', description: 'Ex : FAQ' }),
     defineField({
       name: 'faq',
       title: 'Questions / réponses',
       type: 'array',
-      group: 'faq',
       of: [
         {
           type: 'object',
@@ -78,5 +100,5 @@ export const boxPageSchema = defineType({
       ],
     }),
   ],
-  preview: { prepare: () => ({ title: 'Page La Box' }) },
+  preview: { prepare: () => ({ title: 'FAQ' }) },
 })

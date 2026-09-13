@@ -30,7 +30,7 @@ export function Offre({ titre, offre }: OffreProps) {
   return (
     <section className="bg-[#EDE1C0] py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900 mb-12 text-center">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12 text-center">
           {titre ?? 'Ce que nous proposons'}
         </h2>
 

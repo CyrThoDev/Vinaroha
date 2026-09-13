@@ -14,7 +14,7 @@ export function Temoignage({ citation, auteur }: TemoignageProps) {
           {citation ?? 'Renseignez un avis client dans le studio Sanity.'}
         </p>
         {auteur && (
-          <p className="text-sm text-zinc-500 mt-3">— {auteur}</p>
+          <p className="text-base text-zinc-500 mt-3">— {auteur}</p>
         )}
       </div>
     </section>

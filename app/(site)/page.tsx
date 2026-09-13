@@ -27,11 +27,11 @@ type HomePage = {
   heroCave?: { photo?: { asset?: { url: string } }; titre?: string; texte?: string; ctaLabel?: string }
   hero?: { image?: { asset?: { url: string } } }
   agendaAffiche?: { asset?: { url: string } }
-  coupsDeCoeur?: Array<{ _id: string; name: string; appellation?: string; prix?: number; type?: string; image?: { asset?: { url: string } }; producteur?: { name: string } }>
+  coupsDeCoeur?: Array<{ _id: string; name: string; region?: string; appellationPrincipale?: string; photo?: { asset?: { url: string } } }>
   coupsDeCoeurFond?: { asset?: { url: string } }
 }
 
-type Producteur = { _id: string; name: string; domaine?: string; region?: string; description?: PortableTextBlock[]; photo?: { asset?: { url: string } } }
+type Producteur = { _id: string; name: string; region?: string; appellationPrincipale?: string; description?: PortableTextBlock[]; photo?: { asset?: { url: string } } }
 
 type Settings = {
   horairesCave?: PlageHoraire[]
@@ -67,7 +67,7 @@ export default async function HomePage() {
       <BoxAbonnement imageUrl={hero?.image?.asset?.url} />
       <ProchainesDates events={nextEvents} posterUrl={homepage?.agendaAffiche?.asset?.url} />
       <ProducteurDuMois producteur={producteur ?? undefined} />
-      <CoupsDeCoeur vins={coupsDeCoeur} backgroundImageUrl={homepage?.coupsDeCoeurFond?.asset?.url} />
+      <CoupsDeCoeur items={coupsDeCoeur} backgroundImageUrl={homepage?.coupsDeCoeurFond?.asset?.url} />
       <EvenementsEtCadeaux
         items={(evenementsPage?.sections ?? []).map((s) => ({
           label: s.badge,

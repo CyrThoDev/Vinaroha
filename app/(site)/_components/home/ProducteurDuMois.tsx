@@ -6,8 +6,8 @@ type ProducteurDuMoisProps = {
   producteur?: {
     _id: string
     name: string
-    domaine?: string
     region?: string
+    appellationPrincipale?: string
     description?: PortableTextBlock[]
     photo?: { asset?: { url: string } }
   }
@@ -28,15 +28,15 @@ export function ProducteurDuMois({ producteur }: ProducteurDuMoisProps) {
           {/* Col gauche — texte */}
           <div className="flex flex-col gap-6">
             <div>
-              <h2 className="font-accent text-5xl md:text-6xl uppercase leading-none text-zinc-900">
+              <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900">
                 Le producteur du mois
               </h2>
               <p className="font-accent text-2xl uppercase text-orange mt-3">
                 {producteur?.name ?? 'Producteur du mois'}
               </p>
-              {(producteur?.domaine || producteur?.region) && (
+              {(producteur?.region || producteur?.appellationPrincipale) && (
                 <p className="  mt-1">
-                  {[producteur.domaine, producteur.region].filter(Boolean).join(' · ')}
+                  {[producteur.region, producteur.appellationPrincipale].filter(Boolean).join(' · ')}
                 </p>
               )}
             </div>

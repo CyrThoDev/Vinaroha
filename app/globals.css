@@ -49,3 +49,18 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-accent);
 }
+
+/* La carte de la cave est clippée dans une forme organique (blob) : le coin par défaut
+   du contrôle de zoom Leaflet tombe pile sur la courbe du blob et se retrouve coupé. */
+.leaflet-control-zoom {
+  margin: 20px 0 0 25px !important;
+}
+
+/* Masque la scrollbar d'un conteneur défilable (carrousels tactiles) tout en gardant le scroll fonctionnel */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
