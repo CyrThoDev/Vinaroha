@@ -36,18 +36,21 @@ export default async function ProPage() {
       <Offre titre={page?.offreTitre} offre={page?.offre} />
       <CommentCaMarchePro titre={page?.commentCaMarcheTitre} etapes={page?.etapes} />
       <Temoignages titre={page?.temoignagesTitre} temoignages={page?.temoignages} />
-      <FAQPro titre={page?.faqTitre} questions={page?.faq} />
 
       <section className="bg-background py-16 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-4">
-            Devenir partenaire
-          </h2>
-          <p className="text-zinc-600 mb-10">
-            Parlez-nous de votre établissement, on revient vers vous rapidement pour construire ensemble votre sélection.
-          </p>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+          <FAQPro titre={page?.faqTitre} questions={page?.faq} />
+
+          <div>
+            <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-4">
+              Devenir partenaire
+            </h2>
+            <p className="text-zinc-600 mb-10">
+              Parlez-nous de votre établissement, on revient vers vous rapidement pour construire ensemble votre sélection.
+            </p>
+            <ContactProForm />
+          </div>
         </div>
-        <ContactProForm />
       </section>
     </main>
   )

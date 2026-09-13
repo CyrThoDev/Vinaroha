@@ -34,11 +34,9 @@ export function FAQPro({ titre, questions }: FAQProProps) {
   const items = questions && questions.length > 0 ? questions : QUESTIONS_DEFAUT
 
   return (
-    <section className="bg-background py-16 px-6">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-8">{titre ?? 'FAQ'}</h2>
-        <FAQAccordionPro questions={items} />
-      </div>
-    </section>
+    <div>
+      <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-8">{titre ?? 'FAQ'}</h2>
+      <FAQAccordionPro questions={items} />
+    </div>
   )
 }
