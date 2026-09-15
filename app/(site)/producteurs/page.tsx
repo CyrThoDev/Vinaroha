@@ -11,6 +11,8 @@ import { Catalogue } from './Catalogue'
 import { RencontrerProducteurs } from './RencontrerProducteurs'
 import { Galerie } from './Galerie'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Nos Producteurs',
   description:

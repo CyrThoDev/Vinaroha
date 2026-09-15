@@ -43,8 +43,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Configuration email manquante.' }, { status: 500 })
   }
 
-  const htmlContent = `
-    <h2>${TYPES[type]} — ${FORMULES[formule]}</h2>
+  const recap = `
     <p><strong>Durée :</strong> ${duree}</p>
     <p><strong>Nom :</strong> ${nom}</p>
     <p><strong>Email :</strong> ${email}</p>
@@ -63,14 +62,36 @@ export async function POST(req: Request) {
       to: [{ email: DEST_EMAIL, name: "Vin'Aroha" }],
       replyTo: { email, name: nom },
       subject: `${TYPES[type]} — ${FORMULES[formule]} (${duree})`,
-      htmlContent,
+      htmlContent: `<h2>${TYPES[type]} — ${FORMULES[formule]}</h2>${recap}`,
     }),
   })
 
-  if (res.ok) {
-    return NextResponse.json({ success: true, message: 'Votre demande a bien été envoyée !' })
+  if (!res.ok) {
+    const error = await res.json().catch(() => null)
+    return NextResponse.json({ error: error?.message ?? 'Une erreur est survenue.' }, { status: res.status })
   }
 
-  const error = await res.json().catch(() => null)
-  return NextResponse.json({ error: error?.message ?? 'Une erreur est survenue.' }, { status: res.status })
+  // Email de confirmation au client avec le récapitulatif de sa demande.
+  // On n'échoue pas la requête si cet envoi rate : la demande a bien été reçue côté équipe.
+  await fetch(BREVO_EMAIL_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey,
+    },
+    body: JSON.stringify({
+      sender: { name: "Vin'Aroha", email: DEST_EMAIL },
+      to: [{ email, name: nom }],
+      subject: 'Votre demande a bien été envoyée — Vin\'Aroha',
+      htmlContent: `
+        <p>Bonjour ${nom},</p>
+        <p>Nous avons bien reçu votre demande pour <strong>${FORMULES[formule]}</strong> (${TYPES[type]}). Voici un récapitulatif :</p>
+        ${recap}
+        <p>Delphine revient vers vous très vite à cette adresse.</p>
+        <p>À bientôt,<br/>L'équipe Vin'Aroha</p>
+      `,
+    }),
+  }).catch(() => null)
+
+  return NextResponse.json({ success: true, message: 'Votre demande a bien été envoyée !' })
 }

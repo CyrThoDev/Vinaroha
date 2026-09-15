@@ -7,6 +7,8 @@ import { SectionFeature } from './SectionFeature'
 import { CommentCaSePasse } from './CommentCaSePasse'
 import { BandeauPhoto } from './BandeauPhoto'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Vos Événements & Cadeaux',
   description:

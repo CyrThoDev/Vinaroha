@@ -13,6 +13,8 @@ import { Galerie } from './Galerie'
 import { ProRestaurateurs } from '../_components/ProRestaurateurs'
 import { getGoogleReviews } from '@/app/lib/googlePlaces'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'La Cave',
   description:

@@ -10,6 +10,8 @@ import { Temoignages } from './Temoignages'
 import { FAQPro } from './FAQPro'
 import { ContactProForm } from './ContactProForm'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'Professionnels & Restaurateurs',
   description:
