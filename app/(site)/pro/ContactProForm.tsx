@@ -40,7 +40,7 @@ export function ContactProForm() {
 
   if (status === 'success') {
     return (
-      <div className="max-w-lg mx-auto p-8 text-center">
+      <div className="max-w-lg p-8 text-center">
         <p className="font-accent text-3xl uppercase text-zinc-900 mb-2">Merci !</p>
         <p className="text-zinc-600">{feedback}</p>
         <p className="text-zinc-500 mt-4">Delphine vous recontactera très vite à l&apos;adresse indiquée.</p>
@@ -49,7 +49,7 @@ export function ContactProForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg flex flex-col gap-3 mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-lg flex flex-col gap-3">
 
       {/* Piège anti-robots — invisible et ignoré par les humains */}
       <input

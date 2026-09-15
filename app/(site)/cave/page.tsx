@@ -13,6 +13,8 @@ import { Galerie } from './Galerie'
 import { ProRestaurateurs } from '../_components/ProRestaurateurs'
 import { getGoogleReviews } from '@/app/lib/googlePlaces'
 
+export const revalidate = 60
+
 export const metadata: Metadata = {
   title: 'La Cave',
   description:
@@ -26,10 +28,12 @@ type SiteSettings = {
   longitude?: number
   latitudeHalles?: number
   longitudeHalles?: number
-  googlePlaceId?: string
   horairesCave?: Array<{ jours?: string; heures?: string }>
   horairesHalles?: Array<{ jours?: string; heures?: string }>
 }
+
+// Fiche Google Business de la cave — volontairement en dur (pas modifiable depuis le Studio).
+const GOOGLE_PLACE_ID = 'ChIJUwi7LzKPUw0R4bPDQxb8Iy8'
 
 export default async function CavePage() {
   const [raw, settings] = await Promise.all([
@@ -37,7 +41,7 @@ export default async function CavePage() {
     client.fetch<SiteSettings | null>(siteSettingsQuery as string).catch(() => null),
   ])
   const page = raw ? mergeSections<CavePageData>(raw) : null
-  const googleReviews = settings?.googlePlaceId ? await getGoogleReviews(settings.googlePlaceId) : null
+  const googleReviews = await getGoogleReviews(GOOGLE_PLACE_ID)
 
   return (
     <main>

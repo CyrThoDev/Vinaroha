@@ -39,7 +39,7 @@ export function Avantages({ titre, avantages }: AvantagesProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
           {items.map((a, i) => (
             <div key={a.titre ?? i} className="flex gap-4">
-              <Asset name="leaf" color="#D25200" className="w-8 shrink-0 [&_svg]:w-full [&_svg]:h-auto" />
+              <Asset name="leaf" color="#D25200" color2="#EBB132" className="w-12 shrink-0 [&_svg]:w-full [&_svg]:h-auto" />
               <div>
                 <p className="font-black text-zinc-900 mb-1">{a.titre}</p>
                 <p className="text-zinc-600">{a.texte}</p>

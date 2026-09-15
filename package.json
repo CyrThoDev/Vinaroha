@@ -12,6 +12,7 @@
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",
     "@portabletext/react": "^7.0.1",
+    "@sanity/locale-fr-fr": "^1.2.37",
     "@sanity/vision": "^5.28.0",
     "leaflet": "^1.9.4",
     "next": "16.2.6",
