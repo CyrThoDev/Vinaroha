@@ -10,7 +10,7 @@ import { ProducteurDuMois } from './_components/home/ProducteurDuMois'
 import { CoupsDeCoeur } from './_components/home/CoupsDeCoeur'
 import { EvenementsEtCadeaux } from './_components/home/EvenementsEtCadeaux'
 
-export const revalidate = 60
+export const revalidate = 30
 
 export const metadata: Metadata = {
   title: "Accueil",

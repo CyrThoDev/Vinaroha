@@ -8,7 +8,7 @@ import { CommentCaMarche } from './CommentCaMarche'
 import { Temoignage } from './Temoignage'
 import { FAQ } from './FAQ'
 
-export const revalidate = 60
+export const revalidate = 30
 
 export const metadata: Metadata = {
   title: 'La Box',

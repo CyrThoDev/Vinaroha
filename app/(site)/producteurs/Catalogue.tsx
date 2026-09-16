@@ -168,54 +168,54 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
                 key={p._id}
                 type="button"
                 onClick={() => setSelected(p)}
-                className="flex flex-col items-start text-left gap-2 p-4 rounded-xl border border-zinc-200 cursor-pointer hover:border-orange has-[.cert-tag:hover]:border-zinc-200 transition-colors"
+                className="flex items-center text-left gap-3 p-4 rounded-xl border border-zinc-200 cursor-pointer hover:border-orange has-[.cert-tag:hover]:border-zinc-200 transition-colors"
               >
-                <div className="flex items-center gap-3 w-full">
-                  {p.photo?.asset?.url ? (
-                    <img src={p.photo.asset.url} alt={p.name} className="h-10 w-10 rounded-md object-cover shrink-0" />
-                  ) : (
-                    <div className="h-7 w-7 shrink-0 flex items-center justify-center">
-                      {icons?.[groupOf(p.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'champagne-bulles' | 'soft']}
-                    </div>
-                  )}
-                  <p className="font-black uppercase text-base text-zinc-900 leading-tight">{p.name}</p>
-                </div>
-                {(p.region || p.appellationPrincipale) && (
-                  <p className="text-sm text-orange">
-                    {[p.region, p.appellationPrincipale].filter(Boolean).join(' · ')}
-                  </p>
-                )}
-                {p.certifications && p.certifications.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {p.certifications.map(c => (
-                      <span
-                        key={c}
-                        role="button"
-                        tabIndex={0}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setCertification(c)
-                          setVisible(PAGE_SIZE)
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key !== 'Enter' && e.key !== ' ') return
-                          e.stopPropagation()
-                          e.preventDefault()
-                          setCertification(c)
-                          setVisible(PAGE_SIZE)
-                        }}
-                        className="cert-tag text-[0.6875rem] bg-green text-white rounded-full px-2 py-0.5 hover:opacity-80 transition-opacity"
-                      >
-                        {CERT_LABELS[c] ?? c}
-                      </span>
-                    ))}
+                {p.photo?.asset?.url ? (
+                  <img src={p.photo.asset.url} alt={p.name} className="w-16 h-16 rounded-md object-cover shrink-0" />
+                ) : (
+                  <div className="w-20 h-20 shrink-0 flex items-center justify-center">
+                    {icons?.[groupOf(p.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'champagne-bulles' | 'soft']}
                   </div>
                 )}
-                {p.description && p.description.length > 0 && (
-                  <span className="font-fontjek text-sm border-b border-zinc-400 pb-0.5 mt-1">
-                    En savoir plus &nbsp;⟶
-                  </span>
-                )}
+                <div className="flex flex-col gap-2 min-w-0 flex-1">
+                  <p className="font-black uppercase text-base text-zinc-900 leading-tight">{p.name}</p>
+                  {(p.region || p.appellationPrincipale) && (
+                    <p className="text-sm text-orange">
+                      {[p.region, p.appellationPrincipale].filter(Boolean).join(' · ')}
+                    </p>
+                  )}
+                  {p.certifications && p.certifications.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {p.certifications.map(c => (
+                        <span
+                          key={c}
+                          role="button"
+                          tabIndex={0}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setCertification(c)
+                            setVisible(PAGE_SIZE)
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key !== 'Enter' && e.key !== ' ') return
+                            e.stopPropagation()
+                            e.preventDefault()
+                            setCertification(c)
+                            setVisible(PAGE_SIZE)
+                          }}
+                          className="cert-tag text-[0.6875rem] bg-green text-white rounded-full px-2 py-0.5 hover:opacity-80 transition-opacity"
+                        >
+                          {CERT_LABELS[c] ?? c}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {p.description && p.description.length > 0 && (
+                    <span className="font-fontjek text-sm border-b border-zinc-400 pb-0.5 mt-1 w-fit">
+                      En savoir plus &nbsp;⟶
+                    </span>
+                  )}
+                </div>
               </button>
             ))}
           </div>
