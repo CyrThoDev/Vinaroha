@@ -37,7 +37,7 @@ export function AvisClients({ titre, googleNote, googleAvisCount, googleUrl, avi
             href={googleUrl ?? undefined}
             target={googleUrl ? '_blank' : undefined}
             rel={googleUrl ? 'noopener noreferrer' : undefined}
-            className={`inline-flex items-center gap-3 mb-10 ${googleUrl ? 'hover:opacity-80 transition-opacity' : ''}`}
+            className={`flex w-fit mx-auto items-center gap-3 mb-10 ${googleUrl ? 'hover:opacity-80 transition-opacity' : ''}`}
           >
             <Etoiles note={googleNote} />
             <span className="font-black text-zinc-900">{googleNote.toFixed(1)}/5</span>
@@ -46,7 +46,7 @@ export function AvisClients({ titre, googleNote, googleAvisCount, googleUrl, avi
             )}
           </a>
         ) : (
-          <p className="text-zinc-400 italic mb-10">Note Google à renseigner dans le studio</p>
+          <p className="text-zinc-400 italic mb-10 text-center">Note Google à renseigner dans le studio</p>
         )}
 
         {hasAvis ? (
