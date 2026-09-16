@@ -16,7 +16,7 @@ export function AvisSlider({ avis }: { avis: Avis[] }) {
       <div className="max-w-2xl min-h-40 text-center flex flex-col gap-3">
         <span className="font-black text-4xl text-zinc-300 leading-none" aria-hidden="true">&ldquo;</span>
         <p className="text-zinc-700 -mt-4">{current.citation}</p>
-        {current.auteur && <p className="text-zinc-500 text-sm">— {current.auteur}</p>}
+        {current.auteur && <p className="text-zinc-500 text-sm">- {current.auteur}</p>}
       </div>
 
       {total > 1 && (
@@ -24,7 +24,7 @@ export function AvisSlider({ avis }: { avis: Avis[] }) {
           <button
             onClick={() => setIndex((i) => (i - 1 + total) % total)}
             aria-label="Avis précédent"
-            className="w-9 h-9 rounded-full border border-zinc-300 flex items-center justify-center hover:bg-zinc-100 transition-colors"
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#232526" strokeWidth="2.5"><path d="M15 6l-6 6 6 6" /></svg>
           </button>
@@ -43,7 +43,7 @@ export function AvisSlider({ avis }: { avis: Avis[] }) {
           <button
             onClick={() => setIndex((i) => (i + 1) % total)}
             aria-label="Avis suivant"
-            className="w-9 h-9 rounded-full border border-zinc-300 flex items-center justify-center hover:bg-zinc-100 transition-colors"
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#232526" strokeWidth="2.5"><path d="M9 6l6 6-6 6" /></svg>
           </button>

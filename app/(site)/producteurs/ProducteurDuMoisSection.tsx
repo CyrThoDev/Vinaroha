@@ -44,9 +44,9 @@ export function ProducteurDuMoisSection({ producteur }: ProducteurDuMoisSectionP
           {/* Col droite — nom + bio */}
           <div className="flex flex-col gap-3">
             <div>
-              <p className="font-black uppercase text-zinc-900">{producteur?.name ?? 'Producteur du mois'}</p>
+              <p className="font-accent text-2xl uppercase text-orange mt-3">{producteur?.name ?? 'Producteur du mois'}</p>
               {(producteur?.region || producteur?.appellationPrincipale) && (
-                <p className="text-zinc-500 text-sm">
+                <p className="mt-1">
                   {[producteur.region, producteur.appellationPrincipale].filter(Boolean).join(' · ')}
                 </p>
               )}
