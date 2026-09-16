@@ -6,7 +6,7 @@ import { PageHero } from '../_components/PageHero'
 import { NosEvenements } from './NosEvenements'
 import AgendaView from './AgendaView'
 
-export const revalidate = 60
+export const revalidate = 30
 
 export const metadata: Metadata = {
   title: "Agenda",

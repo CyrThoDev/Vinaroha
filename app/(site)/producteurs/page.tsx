@@ -11,7 +11,7 @@ import { Catalogue } from './Catalogue'
 import { RencontrerProducteurs } from './RencontrerProducteurs'
 import { Galerie } from './Galerie'
 
-export const revalidate = 60
+export const revalidate = 30
 
 export const metadata: Metadata = {
   title: 'Nos Producteurs',
@@ -55,11 +55,11 @@ export default async function ProducteursPage() {
       <Catalogue
         producteurs={producteurs}
         icons={{
-          vin: <Asset name="bouteillevin" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
-          bieres: <Asset name="beer" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
-          spiritueux: <Asset name="spirit" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
-          'champagne-bulles': <Asset name="bulles" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
-          soft: <Asset name="soft" color="#d4d4d8" className="h-7 w-auto [&_svg]:h-full [&_svg]:w-auto" />,
+          vin: <Asset name="bouteillevin" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
+          bieres: <Asset name="beer" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
+          spiritueux: <Asset name="spirit" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
+          'champagne-bulles': <Asset name="bulles" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
+          soft: <Asset name="soft" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
         }}
       />
       <ProRestaurateurs />
