@@ -122,7 +122,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           <div className="flex flex-col items-center text-center gap-6 sm:items-start sm:text-left">
             <Asset name="logo2" color="#FCF7EA" className="[&_svg]:h-16 [&_svg]:w-auto" />
             <a href="mailto:contact@vinaroha.com" className="text-background hover:underline text-sm transition-colors">
-              contact@vinaroha.com
+              contact(@)vinaroha.com
             </a>
             <div className="flex items-center gap-3">
               {settings?.socials?.instagram && (
@@ -180,7 +180,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
               <li><Link href="/cave" className="text-base text-background/70 hover:text-background transition-colors">La cave</Link></li>
               <li><Link href="/producteurs" className="text-base text-background/70 hover:text-background transition-colors">Nos producteurs</Link></li>
               <li><Link href="/agenda" className="text-base text-background/70 hover:text-background transition-colors">Agenda</Link></li>
-              <li><span aria-disabled="true" className="text-base text-background/30 cursor-not-allowed">Vos évènements et cadeaux</span></li>
+              <li><Link href="/evenements" className="text-base text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
             </ul>
           </div>
 
@@ -191,13 +191,13 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <CookieBanner />
 
       {/* Bandeau orange — copyright + légal alcool */}
-      <div className="bg-orange py-1.5 select-none">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
-          <span className="text-xs text-white/70 shrink-0">© {new Date().getFullYear()} Vin&apos;Aroha</span>
-          <span className="text-xs uppercase  text-white/90 text-center flex-1">
+      <div className="bg-orange py-2 sm:py-1.5 select-none">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col items-center gap-1.5 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:text-left">
+          <span className="text-xs uppercase text-white/90 text-center order-1 sm:order-2 sm:flex-1">
             L&apos;abus d&apos;alcool est dangereux pour la santé · Interdit aux moins de 18 ans
           </span>
-          <div className="flex gap-4 shrink-0">
+          <span className="text-xs text-white/70 shrink-0 order-2 sm:order-1">© {new Date().getFullYear()} Vin&apos;Aroha</span>
+          <div className="flex gap-4 shrink-0 order-3">
             <Link href="/mentions-legales" className="text-xs text-white/70 hover:text-white transition-colors">Mentions légales</Link>
             <Link href="/mentions-legales#confidentialite" className="text-xs text-white/70 hover:text-white transition-colors">Confidentialité</Link>
           </div>

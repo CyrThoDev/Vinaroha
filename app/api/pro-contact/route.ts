@@ -1,10 +1,22 @@
 import { NextResponse } from 'next/server'
+import { rateLimit, getClientIp } from '@/app/lib/rateLimit'
 
 const BREVO_EMAIL_URL = 'https://api.brevo.com/v3/smtp/email'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const DEST_EMAIL = process.env.BOX_COMMANDE_EMAIL || 'contact@vinaroha.com'
+const RATE_LIMIT = 5
+const RATE_WINDOW_MS = 10 * 60 * 1000
 
 export async function POST(req: Request) {
+  const ip = getClientIp(req)
+  const { ok, retryAfterSeconds } = rateLimit(`pro-contact:${ip}`, RATE_LIMIT, RATE_WINDOW_MS)
+  if (!ok) {
+    return NextResponse.json(
+      { error: 'Trop de demandes envoyées. Réessayez dans quelques minutes.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } }
+    )
+  }
+
   const { nom, etablissement, typeEtablissement, email, telephone, volumeEstime, carteExistante, message, website } = await req.json()
 
   // Honeypot : champ invisible qui ne doit jamais être rempli par un humain

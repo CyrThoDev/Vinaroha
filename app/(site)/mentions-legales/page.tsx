@@ -11,7 +11,7 @@ export default function MentionsLegalesPage() {
     <main className="bg-background min-h-screen">
 
       {/* Hero */}
-      <section className="max-w-3xl mx-auto px-6 pt-20 pb-10">
+      <section className="max-w-4xl mx-auto px-6 pt-20 pb-10">
         <p className="text-[0.625rem] font-black uppercase  text-orange mb-4">Informations légales</p>
         <h1 className="text-4xl md:text-5xl font-black uppercase leading-tight">
           Mentions légales<br />
@@ -20,7 +20,7 @@ export default function MentionsLegalesPage() {
       </section>
 
       {/* Contenu */}
-      <section className="max-w-3xl mx-auto px-6 pb-24 flex flex-col gap-14">
+      <section className="max-w-4xl mx-auto px-6 pb-24 flex flex-col gap-14">
 
         {/* 1. Éditeur */}
         <Block title="1. Éditeur du site">
@@ -31,8 +31,14 @@ export default function MentionsLegalesPage() {
             <li><strong>SIRET :</strong> [à compléter]</li>
             <li><strong>Adresse :</strong> [adresse complète]</li>
             <li><strong>Téléphone :</strong> [numéro]</li>
-            <li><strong>Email :</strong> contact@vinaroha.com</li>
+            <li><strong>Email :</strong> contact(@)vinaroha.com</li>
             <li><strong>Directrice de publication :</strong> Delphine [nom à compléter]</li>
+            <li>
+              <strong>Création graphique &amp; développement :</strong>{' '}
+              <a href="https://cyrielle-webdev.fr" target="_blank" rel="noopener noreferrer" className="text-orange underline underline-offset-2">
+                Cyrielle Thomas
+              </a>
+            </li>
           </ul>
         </Block>
 
@@ -71,7 +77,7 @@ export default function MentionsLegalesPage() {
             <li>Droit à la portabilité</li>
           </ul>
           <p>
-            Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@vinaroha.com" className="text-orange underline underline-offset-2">contact@vinaroha.com</a>
+            Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@vinaroha.com" className="text-orange underline underline-offset-2">contact(@)vinaroha.com</a>
           </p>
           <p>
             Vous pouvez également introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-orange underline underline-offset-2">cnil.fr</a>).
@@ -128,7 +134,7 @@ export default function MentionsLegalesPage() {
           <p>
             Pour toute question relative à ces mentions légales :{' '}
             <a href="mailto:contact@vinaroha.com" className="text-orange underline underline-offset-2">
-              contact@vinaroha.com
+              contact(@)vinaroha.com
             </a>
           </p>
           <p className="text-zinc-400  mt-2">

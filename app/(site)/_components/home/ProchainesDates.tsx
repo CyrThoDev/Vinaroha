@@ -17,7 +17,7 @@ type ProchainesDatesProps = {
 
 export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
   return (
-    <section className="bg-green text-white py-16 overflow-hidden relative">
+    <section className="bg-green text-white py-12 lg:py-24 overflow-hidden relative">
       {/* Bouteille décorative haut droite */}
       <Asset
         name="bouteille"

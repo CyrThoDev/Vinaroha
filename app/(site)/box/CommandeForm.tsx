@@ -40,7 +40,7 @@ export function CommandeForm({ type }: CommandeFormProps) {
       setFeedback(data.message)
     } else {
       setStatus('error')
-      setFeedback(data.error ?? 'Une erreur est survenue. Vous pouvez aussi nous écrire directement à contact@vinaroha.com.')
+      setFeedback(data.error ?? 'Une erreur est survenue. Vous pouvez aussi nous écrire directement à contact(@)vinaroha.com.')
     }
   }
 

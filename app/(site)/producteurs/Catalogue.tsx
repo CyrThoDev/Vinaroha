@@ -87,9 +87,9 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
   const visibleItems = filtres.slice(0, visible)
 
   return (
-    <section className="bg-background pb-24 px-6">
+    <section className="bg-background py-16 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-8 text-center">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 pb-16 text-center">
           Ils sont sur nos étagères
         </h2>
 
