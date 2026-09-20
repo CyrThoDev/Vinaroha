@@ -63,12 +63,16 @@ export const cavePageProjetsSchema = defineType({
   type: 'document',
   icon: HomeIcon,
   fields: [
+    defineField({ name: 'projetsEyebrow', title: 'Accroche', type: 'string', description: 'Ex : Pour vos moments à partager' }),
     defineField({ name: 'projetsTitre', title: 'Titre de la section', type: 'string', description: 'Ex : La cave, aussi pour vos projets' }),
     defineField({ name: 'projetsTexte', title: 'Texte', type: 'text', rows: 2 }),
+    defineField({ name: 'projetsCtaLabel', title: 'Texte du bouton', type: 'string', description: 'Ex : Parlons de votre projet' }),
+    defineField({ name: 'projetsCtaLien', title: 'Lien du bouton', type: 'string', description: 'Ex : /evenements' }),
     defineField({
       name: 'projets',
-      title: 'Cartes',
+      title: 'Lignes',
       type: 'array',
+      validation: (r) => r.max(3),
       of: [{
         type: 'object', name: 'projet',
         fields: [

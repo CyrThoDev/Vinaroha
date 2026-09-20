@@ -15,10 +15,10 @@ type ProducteurDuMoisProps = {
 
 export function ProducteurDuMois({ producteur }: ProducteurDuMoisProps) {
   return (
-    <section className="bg-background py-16 px-6 relative">
+    <section className="bg-background py-12 lg:py-24 px-6 relative">
 
       {/* Bouteille déco bas-gauche */}
-      <div className="absolute -bottom-6 left-0 pointer-events-none select-none z-20">
+      <div className="absolute top-2 left-4 pointer-events-none select-none z-20">
         <Asset name="bouteille" color="#E56B00" className="w-32  [&_svg]:w-full [&_svg]:h-auto" />
       </div>
 
@@ -70,14 +70,14 @@ export function ProducteurDuMois({ producteur }: ProducteurDuMoisProps) {
                 name="topandbottom"
                 imageUrl={producteur.photo.asset.url}
                 alt={producteur.name}
-                className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-128 [&_svg]:max-w-full [&_svg]:block"
+                className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-96 [&_svg]:max-w-full [&_svg]:block"
               />
             ) : (
               <div className="relative">
                 <Asset
                   name="topandbottom"
                   color="#f4f4f5"
-                  className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-128 [&_svg]:max-w-full [&_svg]:block"
+                  className="w-full flex justify-center [&_svg]:w-auto [&_svg]:h-auto [&_svg]:max-h-96 [&_svg]:max-w-full [&_svg]:block"
                 />
                 <div className="absolute inset-0 flex items-center justify-center px-8 text-center">
                   <p className="text-zinc-300 ">Photo à ajouter dans le studio</p>

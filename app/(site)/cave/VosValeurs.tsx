@@ -19,7 +19,7 @@ const PARAGRAPHES_DEFAUT = [
 
 export function VosValeurs({ titre, texte, imageUrl }: VosValeursProps) {
   return (
-    <section className="bg-background pb-16 px-6">
+    <section className="bg-background py-16 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:items-center">
         <div className="md:order-2">
           <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-6">
@@ -30,7 +30,7 @@ export function VosValeurs({ titre, texte, imageUrl }: VosValeursProps) {
             {BADGES.map((label) => (
               <span
                 key={label}
-                className="inline-block bg-yellow rounded-lg px-5 py-2 text-zinc-900 w-fit"
+                className="inline-block bg-yellow rounded-lg font-accent  text-2xl px-5 py-2 text-zinc-900 w-fit"
               >
                 {label}
               </span>

@@ -86,7 +86,7 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
 
           {/* [1,1] Texte La Cave */}
           <div className="order-1 flex flex-col gap-4 justify-center">
-            <span className="inline-block bg-yellow rounded-lg font-accent font-bold text-2xl px-5 py-2 text-zinc-900 w-fit">
+            <span className="inline-block bg-yellow rounded-lg font-accent  text-2xl px-5 py-2 text-zinc-900 w-fit">
               La Cave
             </span>
             <p className="text-zinc-600">
@@ -107,7 +107,7 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
 
           {/* [2,2] Texte Les Halles — avant sa photo sur mobile, après sur desktop */}
           <div className="order-3 md:order-4 flex flex-col gap-4 justify-center">
-            <span className="inline-block bg-yellow rounded-lg font-accent font-bold text-2xl px-5 py-2 text-zinc-900 w-fit">
+            <span className="inline-block bg-yellow rounded-lg font-accent  text-2xl px-5 py-2 text-zinc-900 w-fit">
               Les Halles
             </span>
             <p className="text-zinc-600">

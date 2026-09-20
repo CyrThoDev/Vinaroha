@@ -6,50 +6,76 @@ type Item = { label?: string; description?: string; href?: string; imageUrl?: st
 type EvenementsEtCadeauxProps = { items?: Item[]; disabled?: boolean }
 
 const ITEMS_DEFAUT: Item[] = [
-  { label: 'Privatisation de la cave', description: 'Un lieu unique pour vos réceptions privées.',        href: '/evenements' },
-  { label: 'Mariages et réceptions',   description: 'Célébrez vos plus grands moments entourés de vignes.', href: '/evenements' },
-  { label: 'Cadeaux et entreprises',   description: 'Coffrets et séminaires sur mesure.',                   href: '/evenements' },
+  { label: 'Privatisation de la cave', description: 'Un lieu chaleureux pour vos réceptions privées.',          href: '/evenements' },
+  { label: 'Mariages & réceptions',    description: 'Des cuvées choisies pour accompagner vos grands moments.', href: '/evenements' },
+  { label: 'Cadeaux d’entreprise',     description: 'Coffrets et sélections personnalisés, à votre image.',     href: '/evenements' },
 ]
-
-const COULEUR = '#357d4f'
 
 export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCadeauxProps) {
   const cards = items && items.length > 0 ? items : ITEMS_DEFAUT
 
   return (
-    <section className="bg-background py-16 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none mb-4 text-zinc-900">
-          Vos événements et cadeaux
-        </h2>
-        <p className=" max-w-xl mb-12">
-          Privatisation, mariages, séminaires ou coffrets cadeaux - nous imaginons avec vous des moments autour du vin, sur mesure et inoubliables.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-          {cards.map(({ label, description, href, imageUrl }, i) => {
-            const content = (
+    <section className="bg-background py-12 lg:py-24 px-6">
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+        {/* Col gauche — texte + CTA */}
+        <div className="flex flex-col gap-4">
+          <p className="font-black uppercase text-xs md:text-sm tracking-wide text-orange">
+            Pour vos moments à partager
+          </p>
+          <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900">
+            Vos événements et cadeaux
+          </h2>
+          <p className="max-w-md text-zinc-600">
+            Privatisation, mariages, séminaires ou coffrets cadeaux — nous imaginons avec vous des moments autour du vin, sur mesure et inoubliables.
+          </p>
+
+          {disabled ? (
+            <span
+              aria-disabled="true"
+              className="font-fontjek text-2xl text-zinc-400 flex items-center gap-2 border-b border-zinc-300 pb-1 w-fit mt-2 cursor-not-allowed"
+            >
+              Bientôt disponible
+            </span>
+          ) : (
+            <Link
+              href="/evenements"
+              className="font-fontjek text-2xl text-zinc-900 flex items-center gap-2 border-b border-zinc-400 pb-1 w-fit mt-2 hover:text-orange hover:border-orange transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow"
+            >
+              Découvrir &nbsp;⟶
+            </Link>
+          )}
+
+          <div className="hidden md:flex flex-col items-start gap-3 mt-8">
+            <Asset name="bouteille" color="#D25200" className="w-16 [&_svg]:w-full [&_svg]:h-auto" />
+          </div>
+        </div>
+
+        {/* Col droite — liste numérotée */}
+        <div className="flex flex-col divide-y divide-zinc-900/10 border-t border-zinc-900/10">
+          {cards.map(({ label, description, href }, i) => {
+            const rowContent = (
               <>
-                <Asset
-                  name="square"
-                  color={imageUrl ? undefined : COULEUR}
-                  imageUrl={imageUrl}
-                  className={`absolute inset-0 w-full h-full pointer-events-none [&_svg]:w-full [&_svg]:h-full ${disabled ? 'grayscale opacity-60' : ''}`}
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-7 text-white text-center">
-                  <p className="font-accent text-lg uppercase leading-tight ">
+                <span className="font-accent text-3xl md:text-4xl text-orange shrink-0 w-10 md:w-12">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="w-px self-stretch bg-zinc-900/10 shrink-0" aria-hidden="true" />
+                <span className="flex-1 min-w-0">
+                  <span className="block font-accent uppercase text-lg md:text-xl text-zinc-900 leading-tight">
                     {label}
-                  </p>
+                  </span>
                   {description && (
-                    <p className=" text-white/90 mt-1 ">
+                    <span className="block text-zinc-500 text-sm mt-1">
                       {description}
-                    </p>
-                  )}
-                  {!disabled && (
-                    <span className="font-fontjek text-2xl mt-4 group-hover:text-yellow group-hover:translate-x-1 transition-all ">
-                      ⟶
                     </span>
                   )}
-                </div>
+                </span>
+                {!disabled && (
+                  <span className="font-fontjek text-2xl text-zinc-900 shrink-0 transition-transform group-hover:translate-x-1">
+                    ⟶
+                  </span>
+                )}
               </>
             )
 
@@ -57,17 +83,17 @@ export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCad
               <div
                 key={label ?? i}
                 aria-disabled="true"
-                className="relative block w-full max-w-64 mx-auto aspect-square overflow-hidden cursor-not-allowed"
+                className="flex items-center gap-4 sm:gap-6 min-h-11 py-5 sm:py-6 px-3 -mx-3 grayscale opacity-50 cursor-not-allowed"
               >
-                {content}
+                {rowContent}
               </div>
             ) : (
               <Link
                 key={label ?? i}
                 href={href ?? '/evenements'}
-                className="relative group block w-full max-w-64 mx-auto aspect-square overflow-hidden transition-transform hover:scale-[1.03]"
+                className="group flex items-center gap-4 sm:gap-6 min-h-11 py-5 sm:py-6 px-3 -mx-3  transition-colors hover:bg-zinc-900/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-yellow"
               >
-                {content}
+                {rowContent}
               </Link>
             )
           })}

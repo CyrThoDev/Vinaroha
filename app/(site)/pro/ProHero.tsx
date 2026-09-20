@@ -16,7 +16,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
     <section className="bg-background pt-10 pb-16 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div className="flex flex-col gap-5">
-          <span className="inline-block bg-orange text-white rounded-full px-4 py-1 text-xs font-black uppercase  w-fit">
+          <span className="inline-block bg-orange text-white rounded-lg px-4 py-1 text-xs font-black uppercase  w-fit">
             Espace pro
           </span>
           <h1 className="font-accent text-5xl md:text-6xl uppercase leading-none text-zinc-900">
@@ -31,7 +31,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
               {telephone && (
                 <a
                   href={`tel:${telephone.replace(/\s+/g, '')}`}
-                  className="font-fontjek text-2xl border-b border-zinc-400 pb-1 flex items-center gap-2 hover:text-orange hover:border-orange transition-colors w-fit"
+                  className="font-accent uppercase text-sm bg-zinc-900 text-white rounded-lg px-6 py-3.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow"
                 >
                   Appeler &nbsp;⟶
                 </a>
@@ -41,7 +41,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
                   href={`https://wa.me/${whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-fontjek text-2xl border-b border-zinc-400 pb-1 flex items-center gap-2 hover:text-[#25D366] hover:border-[#25D366] transition-colors w-fit"
+                  className="font-accent uppercase text-sm bg-yellow text-zinc-900 rounded-lg px-6 py-3.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange"
                 >
                   WhatsApp &nbsp;⟶
                 </a>

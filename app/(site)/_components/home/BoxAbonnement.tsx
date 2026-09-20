@@ -7,7 +7,7 @@ type BoxAbonnementProps = {
 
 export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
   return (
-    <section className="py-10 px-6">
+    <section className="py-12 lg:py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <div className=" p-8 relative grid grid-cols-1 md:grid-cols-2 items-stretch overflow-hidden">
 
@@ -22,8 +22,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           {/* Col gauche — contenu */}
           <div className="flex flex-col gap-5 px-12 pt-14  relative z-10">
             <div className="flex flex-col gap-2">
-              <p className="font-accent text-2xl md:text-3xl
-             uppercase  text-zinc-900">Abonnement</p>
+              <p className="font-black uppercase text-xs md:text-sm tracking-wide text-orange">Abonnement</p>
               <h2 className="font-lovelo text-5xl md:text-6xl uppercase leading-none text-zinc-900">La Box</h2>
             </div>
             <p className="  max-w-sm">
@@ -32,7 +31,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
             </p>
             <Link
               href="/box"
-              className="hidden md:inline-flex bg-black text-white font-black uppercase   px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit mt-2"
+              className="hidden md:inline-flex  bg-black text-white rounded-lg font-accent  text-2xl px-5 py-2  w-fit hover:opacity-80 transition-opacity "
             >
               Découvrez la box
             </Link>
@@ -71,7 +70,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           <div className="md:hidden flex justify-center pb-14 relative z-10">
             <Link
               href="/box"
-              className="bg-black text-white font-black uppercase   px-8 py-3.5 rounded-lg hover:opacity-80 transition-opacity w-fit"
+              className="inline-flex  bg-black text-white rounded-lg font-accent  text-2xl px-5 py-2  w-fit hover:opacity-80 transition-opacity"
             >
               Découvrez la box
             </Link>

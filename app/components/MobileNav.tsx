@@ -9,7 +9,7 @@ const NAV = [
   { label: 'La Cave',                  href: '/cave'        },
   { label: 'Nos Producteurs',          href: '/producteurs' },
   { label: 'Agenda',                   href: '/agenda'     },
-  { label: 'Vos Événements & Cadeaux', href: '/evenements', disabled: true },
+  { label: 'Vos Événements & Cadeaux', href: '/evenements' },
 ]
 
 export function MobileNav() {
@@ -60,25 +60,15 @@ export function MobileNav() {
 
           {/* Liens */}
           <nav className="flex-1 flex flex-col justify-center px-8 gap-2">
-            {NAV.map(({ label, href, disabled }) => (
-              disabled ? (
-                <span
-                  key={href}
-                  aria-disabled="true"
-                  className="font-accent text-2xl uppercase text-white/30 cursor-not-allowed py-3 border-b border-white/10 last:border-0"
-                >
-                  {label}
-                </span>
-              ) : (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className="font-accent text-2xl uppercase text-white hover:text-yellow transition-colors py-3 border-b border-white/10 last:border-0"
-                >
-                  {label}
-                </Link>
-              )
+            {NAV.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className="font-accent text-2xl uppercase text-white hover:text-yellow transition-colors py-3 border-b border-white/10 last:border-0"
+              >
+                {label}
+              </Link>
             ))}
           </nav>
 

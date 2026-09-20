@@ -149,7 +149,7 @@ export const cavePageQuery = groq`{
   "hero": *[_type == "cavePageHero"][0] { titre, description, heroImages[] { asset->{ url } } },
   "valeurs": *[_type == "cavePageValeurs"][0] { valeursTitre, valeursTexte, valeursImage { asset->{ url } } },
   "equipe": *[_type == "cavePageEquipe"][0] { equipeTitre, equipe[] { nom, description, photo { asset->{ url } } } },
-  "projets": *[_type == "cavePageProjets"][0] { projetsTitre, projetsTexte, projets[] { label, description, lien } },
+  "projets": *[_type == "cavePageProjets"][0] { projetsEyebrow, projetsTitre, projetsTexte, projetsCtaLabel, projetsCtaLien, projets[] { label, description, lien } },
   "avisDoc": *[_type == "cavePageAvis"][0] { avisTitre, googleNote, googleAvisCount, googleUrl, avis[] { citation, auteur } },
   "galerieDoc": *[_type == "cavePageGalerie"][0] { galerie[] { asset->{ url } } }
 }`
@@ -163,8 +163,11 @@ export interface CavePageData {
   valeursImage?: { asset?: { url: string } }
   equipeTitre?: string
   equipe?: Array<{ nom?: string; description?: string; photo?: { asset?: { url: string } } }>
+  projetsEyebrow?: string
   projetsTitre?: string
   projetsTexte?: string
+  projetsCtaLabel?: string
+  projetsCtaLien?: string
   projets?: Array<{ label?: string; description?: string; lien?: string }>
   avisTitre?: string
   googleNote?: number

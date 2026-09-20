@@ -3,7 +3,7 @@ import { Asset } from '@/app/components/Asset'
 
 export function DecouvrirProducteurs() {
   return (
-    <section className="py-10 px-6">
+    <section className="py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className=" p-8 relative grid grid-cols-1 md:grid-cols-2 items-stretch overflow-hidden">
 

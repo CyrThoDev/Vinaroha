@@ -4,7 +4,7 @@ type BandeauPhotoProps = {
 
 export function BandeauPhoto({ imageUrl }: BandeauPhotoProps) {
   return (
-    <section className="h-64 md:h-96 bg-linear-to-br from-green/15 via-yellow/10 to-orange/15 overflow-hidden">
+    <section className="h-96 md:h-140 overflow-hidden py-16 ">
       {imageUrl && <img src={imageUrl} alt="" className="w-full h-full object-cover" />}
     </section>
   )

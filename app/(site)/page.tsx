@@ -76,7 +76,6 @@ export default async function HomePage() {
           href: '/evenements',
           imageUrl: s.image?.asset?.url,
         }))}
-        disabled
       />
     </main>
   )

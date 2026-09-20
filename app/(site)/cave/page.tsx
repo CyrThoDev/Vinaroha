@@ -60,8 +60,9 @@ export default async function CavePage() {
         horairesCave={settings?.horairesCave}
         horairesHalles={settings?.horairesHalles}
       />
+       <NotreEquipe titre={page?.equipeTitre} equipe={page?.equipe} />
       <VosValeurs titre={page?.valeursTitre} texte={page?.valeursTexte} imageUrl={page?.valeursImage?.asset?.url} />
-      <NotreEquipe titre={page?.equipeTitre} equipe={page?.equipe} />
+     
       <DecouvrirProducteurs />
       <AvisClients
         titre={page?.avisTitre}
@@ -70,7 +71,14 @@ export default async function CavePage() {
         googleUrl={googleReviews?.url ?? page?.googleUrl}
         avis={googleReviews?.avis ?? page?.avis}
       />
-            <LaCaveProjets titre={page?.projetsTitre} texte={page?.projetsTexte} projets={page?.projets} />
+            <LaCaveProjets
+              eyebrow={page?.projetsEyebrow}
+              titre={page?.projetsTitre}
+              texte={page?.projetsTexte}
+              ctaLabel={page?.projetsCtaLabel}
+              ctaLien={page?.projetsCtaLien}
+              projets={page?.projets}
+            />
 
       <ProRestaurateurs />
       <Galerie images={(page?.galerie ?? []).map(i => i.asset?.url).filter((u): u is string => Boolean(u))} />
