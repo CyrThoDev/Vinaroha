@@ -153,14 +153,14 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
     <section className="bg-background py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 pb-16 text-center">
-          Ils sont sur nos étagères
+          Ce qu&apos;on a en rayon
         </h2>
 
         {/* Niveau 1 — grands boutons de catégorie, premier choix du visiteur */}
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-8">
           <button
             onClick={() => selectionnerCategorie('')}
-            className={`rounded-lg px-5 py-3 text-sm sm:text-base font-black uppercase transition-colors ${
+            className={`rounded-lg px-6 py-2.5 text-sm sm:text-base font-black uppercase transition-colors ${
               categorie === ''
                 ? 'bg-orange text-white'
                 : 'text-zinc-700 hover:text-orange'
@@ -172,7 +172,7 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
             <button
               key={g.key}
               onClick={() => selectionnerCategorie(g.key)}
-              className={`rounded-lg px-5 py-3 text-sm sm:text-base font-black uppercase transition-colors ${
+              className={`rounded-lg px-6 py-2.5 text-sm sm:text-base font-black uppercase transition-colors ${
                 categorie === g.key
                   ? 'bg-orange text-white'
                   : 'text-zinc-700 hover:text-orange'

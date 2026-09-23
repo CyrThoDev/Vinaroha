@@ -26,6 +26,8 @@ const AVANTAGES_DEFAUT: Avantage[] = [
   },
 ]
 
+const ICONES = ['grapes', 'leaf', 'gift', 'bouteillevin'] as const
+
 export function Avantages({ titre, avantages }: AvantagesProps) {
   const items = avantages && avantages.length > 0 ? avantages : AVANTAGES_DEFAUT
 
@@ -37,15 +39,25 @@ export function Avantages({ titre, avantages }: AvantagesProps) {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-          {items.map((a, i) => (
-            <div key={a.titre ?? i} className="flex gap-4">
-              <Asset name="leaf" color="#D25200" color2="#EBB132" className="w-12 shrink-0 [&_svg]:w-full [&_svg]:h-auto" />
-              <div>
-                <p className="font-black text-zinc-900 mb-1">{a.titre}</p>
-                <p className="text-zinc-600">{a.texte}</p>
+          {items.map((a, i) => {
+            const icone = ICONES[i % ICONES.length]
+            return (
+              <div key={a.titre ?? i} className="flex gap-4">
+                <div className="w-12 h-12 shrink-0 flex items-center justify-center">
+                  <Asset
+                    name={icone}
+                    color="#D25200"
+                    color2={icone === 'leaf' ? '#EBB132' : undefined}
+                    className="w-full h-full [&_svg]:w-full [&_svg]:h-full"
+                  />
+                </div>
+                <div>
+                  <p className="font-black text-zinc-900 mb-1">{a.titre}</p>
+                  <p className="text-zinc-600">{a.texte}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>
