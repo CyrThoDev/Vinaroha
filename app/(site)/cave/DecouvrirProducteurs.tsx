@@ -18,7 +18,7 @@ export function DecouvrirProducteurs() {
           {/* Col gauche — contenu */}
           <div className="flex flex-col gap-3 px-4 md:px-8 py-10 relative z-10 text-white">
             <p className="font-accent text-4xl md:text-5xl uppercase leading-none">
-              Nos producteurs
+              Sur nos étagères
             </p>
             <p className="text-white/90 max-w-md">
               Envie de voir ce qu&apos;on a en rayon&nbsp;? Découvrez les vignerons et domaines qu&apos;on a sélectionnés pour vous.

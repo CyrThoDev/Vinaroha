@@ -1,3 +1,5 @@
+import { Asset } from '@/app/components/Asset'
+
 type Service = { titre?: string; texte?: string }
 
 type OffreProps = {
@@ -24,6 +26,8 @@ const OFFRE_DEFAUT: Service[] = [
   },
 ]
 
+const ICONES = ['bouteillevin', 'leaf', 'glass', 'gift'] as const
+
 export function Offre({ titre, offre }: OffreProps) {
   const items = offre && offre.length > 0 ? offre : OFFRE_DEFAUT
 
@@ -35,12 +39,23 @@ export function Offre({ titre, offre }: OffreProps) {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-          {items.map((s, i) => (
-            <div key={s.titre ?? i} className="bg-background rounded-2xl p-6">
-              <p className="font-black uppercase text-zinc-900 mb-2">{s.titre}</p>
-              <p className="text-zinc-600">{s.texte}</p>
-            </div>
-          ))}
+          {items.map((s, i) => {
+            const icone = ICONES[i % ICONES.length]
+            return (
+              <div key={s.titre ?? i} className="bg-background rounded-2xl p-6">
+                <div className="w-10 h-10 mb-4 rounded-lg bg-orange flex items-center justify-center p-2">
+                  <Asset
+                    name={icone}
+                    color="#ffffff"
+                    color2={icone === 'leaf' ? '#EBB132' : undefined}
+                    className="w-full h-full [&_svg]:w-full [&_svg]:h-full"
+                  />
+                </div>
+                <p className="font-black uppercase text-zinc-900 mb-2">{s.titre}</p>
+                <p className="text-zinc-600">{s.texte}</p>
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

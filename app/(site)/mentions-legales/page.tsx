@@ -91,7 +91,7 @@ export default function MentionsLegalesPage() {
             Un cookie est un petit fichier texte enregistré sur votre appareil qui permet d&apos;améliorer votre expérience de navigation.
           </p>
 
-          <h3 className="text-lg font-black uppercase tracking-wide text-black mt-2">Cookies utilisés</h3>
+          <h3 className="font-urbanist text-lg font-black uppercase tracking-wide text-black mt-2">Cookies utilisés</h3>
           <table className="w-full  border-collapse mt-2">
             <thead>
               <tr className="border-b border-zinc-400">
@@ -114,7 +114,7 @@ export default function MentionsLegalesPage() {
             Brevo est utilisé pour l&apos;envoi de la newsletter via une API — aucun cookie n&apos;est déposé sur votre navigateur lors de votre inscription.
           </p>
 
-          <h3 className="text-lg font-black uppercase tracking-wide text-black mt-4">Gérer vos préférences</h3>
+          <h3 className="font-urbanist text-lg font-black uppercase tracking-wide text-black mt-4">Gérer vos préférences</h3>
           <p>
             Vous pouvez accepter ou refuser les cookies via la bannière affichée lors de votre première visite.
             Vous pouvez également vider les données de votre navigateur pour ce site pour réinitialiser votre choix, ou cliquer ici :{' '}
@@ -150,7 +150,7 @@ export default function MentionsLegalesPage() {
 function Block({ title, id, children }: { title: string; id?: string; children: React.ReactNode }) {
   return (
     <div id={id} className="scroll-mt-24">
-      <h2 className="text-base font-black uppercase tracking-wide text-zinc-900 mb-5 pb-3 border-b border-zinc-200">
+      <h2 className="font-urbanist text-base font-black uppercase tracking-wide text-zinc-900 mb-5 pb-3 border-b border-zinc-200">
         {title}
       </h2>
       <div className="flex flex-col gap-3  text-zinc-600  [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5 [&_ul]:pl-4 [&_ul]:list-disc [&_ul]:marker:text-zinc-400 [&_strong]:text-black [&_strong]:font-semibold">

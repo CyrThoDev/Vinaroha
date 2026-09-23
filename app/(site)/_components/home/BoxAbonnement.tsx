@@ -22,7 +22,7 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           {/* Col gauche — contenu */}
           <div className="flex flex-col gap-5 px-12 pt-14  relative z-10">
             <div className="flex flex-col gap-2">
-              <p className="font-black uppercase text-xs md:text-sm tracking-wide text-orange">Abonnement</p>
+              <p className="font-black uppercase   tracking-wide text-black">Abonnement</p>
               <h2 className="font-lovelo text-5xl md:text-6xl uppercase leading-none text-zinc-900">La Box</h2>
             </div>
             <p className="  max-w-sm">

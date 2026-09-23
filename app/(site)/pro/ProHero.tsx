@@ -13,16 +13,21 @@ const DESCRIPTION_DEFAUT =
 
 export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: ProHeroProps) {
   return (
-    <section className="bg-background pt-10 pb-16 px-6">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <section className="relative overflow-hidden bg-green">
+      <Asset
+        name="grapes"
+        color="#ffffff"
+        className="absolute -top-8 -right-10 w-40 md:w-56 opacity-10 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+      />
+      <div className="relative max-w-6xl mx-auto px-6 pt-10 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div className="flex flex-col gap-5">
-          <span className="inline-block bg-orange text-white rounded-lg px-4 py-1 text-xs font-black uppercase  w-fit">
+          <span className="inline-block bg-orange text-white rounded-lg px-4 py-2  font-black uppercase  w-fit">
             Espace pro
           </span>
-          <h1 className="font-accent text-5xl md:text-6xl uppercase leading-none text-zinc-900">
+          <h1 className="font-accent text-5xl md:text-6xl uppercase leading-none text-white">
             {titre ?? 'Professionnels & restaurateurs'}
           </h1>
-          <p className="max-w-md text-zinc-600 whitespace-pre-line">
+          <p className="max-w-md text-white/85 whitespace-pre-line">
             {description ?? DESCRIPTION_DEFAUT}
           </p>
 
@@ -31,7 +36,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
               {telephone && (
                 <a
                   href={`tel:${telephone.replace(/\s+/g, '')}`}
-                  className="font-accent uppercase text-sm bg-zinc-900 text-white rounded-lg px-6 py-3.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow"
+                  className="font-urbanist font-bold uppercase  bg-zinc-900 text-white rounded-lg px-6 py-2.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow"
                 >
                   Appeler &nbsp;⟶
                 </a>
@@ -41,7 +46,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
                   href={`https://wa.me/${whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-accent uppercase text-sm bg-yellow text-zinc-900 rounded-lg px-6 py-3.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange"
+                  className="font-urbanist font-bold uppercase  bg-yellow text-zinc-900 rounded-lg px-6 py-2.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange"
                 >
                   WhatsApp &nbsp;⟶
                 </a>
@@ -54,13 +59,13 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
           <div className="w-64 h-64">
             {imageUrl ? (
               <Asset
-                name="rounded"
+                name="topandbottom"
                 imageUrl={imageUrl}
                 alt={titre ?? 'Professionnels & restaurateurs'}
                 className="w-full h-full [&_svg]:w-full [&_svg]:h-full"
               />
             ) : (
-              <Asset name="rounded" color="#e4e4e7" className="w-full h-full [&_svg]:w-full [&_svg]:h-full" />
+              <Asset name="topandbottom" color="#ffffff" className="w-full h-full opacity-20 [&_svg]:w-full [&_svg]:h-full" />
             )}
           </div>
         </div>

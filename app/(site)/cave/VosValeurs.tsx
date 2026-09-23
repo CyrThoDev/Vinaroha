@@ -4,7 +4,6 @@ import { Asset } from '@/app/components/Asset'
 type VosValeursProps = {
   titre?: string
   texte?: PortableTextBlock[]
-  imageUrl?: string
 }
 
 const BADGES = ['Bio', 'Biodynamie', 'Vin nature', 'Circuit court']
@@ -17,7 +16,7 @@ const PARAGRAPHES_DEFAUT = [
   'Cras ut fermentum enim, sit amet tempor purus. Curabitur risus purus, fringilla eu dignissim ut, posuere non est. Sed mollis ornare orci id suscipit.',
 ]
 
-export function VosValeurs({ titre, texte, imageUrl }: VosValeursProps) {
+export function VosValeurs({ titre, texte }: VosValeursProps) {
   return (
     <section className="bg-background py-16 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:items-center">
@@ -30,7 +29,7 @@ export function VosValeurs({ titre, texte, imageUrl }: VosValeursProps) {
             {BADGES.map((label) => (
               <span
                 key={label}
-                className="inline-block bg-yellow rounded-lg font-accent  text-2xl px-5 py-2 text-zinc-900 w-fit"
+                className="inline-block bg-green rounded-lg font-bold font-urbanist  text-xl px-6 py-2.5 text-white w-fit"
               >
                 {label}
               </span>
@@ -48,14 +47,8 @@ export function VosValeurs({ titre, texte, imageUrl }: VosValeursProps) {
           )}
         </div>
 
-        <div className="w-full h-80 md:h-112 md:order-1">
-          {imageUrl ? (
-            <Asset name="square" imageUrl={imageUrl} className="w-full h-full [&_svg]:w-full [&_svg]:h-full" alt={titre ?? 'Vos valeurs'} />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-zinc-400 italic rounded-lg">
-              Image à renseigner dans le studio
-            </div>
-          )}
+        <div className="w-full h-80 md:h-112 md:order-1 flex items-center justify-center">
+          <Asset name="grapes" color="#232526" className="w-48 md:w-64 [&_svg]:w-full [&_svg]:h-auto" />
         </div>
       </div>
     </section>

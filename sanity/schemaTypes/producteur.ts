@@ -67,6 +67,62 @@ export const producteurSchema = defineType({
       },
     }),
     defineField({
+      name: 'couleur',
+      title: 'Couleur',
+      type: 'string',
+      description: 'Filtre spécifique aux vins',
+      options: {
+        list: [
+          { title: 'Rouge', value: 'rouge' },
+          { title: 'Blanc', value: 'blanc' },
+          { title: 'Rosé', value: 'rose' },
+          { title: 'Pétillant', value: 'petillant' },
+        ],
+      },
+      hidden: ({ document }) => document?.typeArticle !== 'vin',
+    }),
+    defineField({
+      name: 'styleBiere',
+      title: 'Style',
+      type: 'string',
+      description: 'Filtre spécifique aux bières — texte libre, ex : Blonde, Ambrée, IPA...',
+      hidden: ({ document }) => document?.typeArticle !== 'bieres',
+    }),
+    defineField({
+      name: 'sucreOuSale',
+      title: 'Sucré ou salé',
+      type: 'string',
+      description: 'Filtre spécifique à l\'épicerie',
+      options: {
+        list: [
+          { title: 'Sucré', value: 'sucre' },
+          { title: 'Salé', value: 'sale' },
+        ],
+      },
+      hidden: ({ document }) => document?.typeArticle !== 'epicerie',
+    }),
+    defineField({
+      name: 'idealApero',
+      title: 'Idéal pour l\'apéro',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Filtre spécifique à l\'épicerie',
+      hidden: ({ document }) => document?.typeArticle !== 'epicerie',
+    }),
+    defineField({
+      name: 'prix',
+      title: 'Prix (€)',
+      type: 'number',
+      description: 'Utilisé pour le filtre "gamme de prix", toutes catégories',
+    }),
+    defineField({
+      name: 'origineLocale',
+      title: 'Origine locale (Landes / Sud-Ouest)',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Utilisé pour le filtre "origine locale", toutes catégories',
+    }),
+    defineField({
       name: 'photo',
       title: 'Photo',
       type: 'image',

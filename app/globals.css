@@ -46,8 +46,10 @@ body {
 .font-script  { font-family: var(--nf-fontjek), cursive;    }
 .font-railey  { font-family: var(--nf-caveat), cursive;     }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-accent);
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-accent);
+  }
 }
 
 /* La carte de la cave est clippée dans une forme organique (blob) : le coin par défaut

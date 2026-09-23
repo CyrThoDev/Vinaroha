@@ -61,7 +61,7 @@ export default async function CavePage() {
         horairesHalles={settings?.horairesHalles}
       />
        <NotreEquipe titre={page?.equipeTitre} equipe={page?.equipe} />
-      <VosValeurs titre={page?.valeursTitre} texte={page?.valeursTexte} imageUrl={page?.valeursImage?.asset?.url} />
+      <VosValeurs titre={page?.valeursTitre} texte={page?.valeursTexte} />
      
       <DecouvrirProducteurs />
       <AvisClients

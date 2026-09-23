@@ -92,7 +92,7 @@ export default function AgendaView({ events }: { events: SanityEvent[] }) {
 
                 <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="min-w-0">
-                    <h3 className="font-black text-base sm:text-lg text-black leading-tight">{ev.title}</h3>
+                    <h3 className="font-urbanist font-black text-base sm:text-lg text-black leading-tight">{ev.title}</h3>
                     {details && <p className="text-zinc-500 text-base sm:text-base mt-0.5">{details}</p>}
                     {ev.eventType && (
                       <span className="inline-block bg-green text-white text-base font-black px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full mt-2">

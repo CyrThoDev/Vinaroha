@@ -14,7 +14,7 @@ import { Galerie } from './Galerie'
 export const revalidate = 30
 
 export const metadata: Metadata = {
-  title: 'Nos Producteurs',
+  title: 'Sur nos étagères',
   description:
     "Découvrez les producteurs engagés sélectionnés par Vin'Aroha : vignerons naturels, bio et biodynamiques.",
 }
@@ -39,7 +39,7 @@ export default async function ProducteursPage() {
   return (
     <main>
       <PageHero
-        title={page?.titre ?? 'Nos Producteurs'}
+        title={page?.titre ?? 'Sur nos étagères'}
         description={
           page?.description ??
           'Des femmes et des hommes engagés, choisis avec soin pour la qualité et l\'authenticité de leurs vins.'
@@ -58,8 +58,9 @@ export default async function ProducteursPage() {
           vin: <Asset name="bouteillevin" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
           bieres: <Asset name="beer" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
           spiritueux: <Asset name="spirit" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
-          'champagne-bulles': <Asset name="bulles" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
+          bulles: <Asset name="bulles" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
           soft: <Asset name="soft" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
+          epicerie: <Asset name="gift" color="#1a1a1a" className="h-full w-full [&_svg]:h-full [&_svg]:w-full" />,
         }}
       />
       <ProRestaurateurs />

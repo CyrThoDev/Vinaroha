@@ -13,6 +13,7 @@ const ASSETS = {
   soft:         'soft.svg',
   grapes:       'grapes.svg',
   gift:         'gift.svg',
+  box:          'box.svg',
   square:       'square.svg',
   rounded:      'rounded.svg',
   rectangle:    'rectangle.svg',
@@ -151,6 +152,8 @@ export function Asset({
   for (const id of ids) {
     svg = svg.replaceAll(`id="${id}"`, `id="${id}-${uid}"`)
     svg = svg.replaceAll(`url(#${id})`, `url(#${id}-${uid})`)
+    svg = svg.replaceAll(`xlink:href="#${id}"`, `xlink:href="#${id}-${uid}"`)
+    svg = svg.replaceAll(`href="#${id}"`, `href="#${id}-${uid}"`)
   }
 
   return (

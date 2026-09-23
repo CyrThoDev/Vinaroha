@@ -7,7 +7,7 @@ import { MobileNav } from './MobileNav'
 const NAV = [
   { label: 'La Box',                   href: '/box'         },
   { label: 'La Cave',                  href: '/cave'         },
-  { label: 'Nos Producteurs',          href: '/producteurs' },
+  { label: 'Sur nos étagères',         href: '/producteurs' },
   { label: 'Agenda',                   href: '/agenda'      },
   { label: 'Vos Événements & Cadeaux', href: '/evenements' },
 ]

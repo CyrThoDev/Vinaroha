@@ -10,11 +10,12 @@ type PageHeroProps = {
   titleFont?: 'lovelo' | 'accent'
   imageShape?: 'square' | 'topandbottom'
   decoVigne?: boolean
+  decoVigneSide?: 'left' | 'right'
 }
 
 export function PageHero({
   eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false,
-  titleFont = 'lovelo', imageShape = 'square', decoVigne = false,
+  titleFont = 'lovelo', imageShape = 'square', decoVigne = false, decoVigneSide = 'left',
 }: PageHeroProps) {
   return (
     <section className=" relative">
@@ -45,7 +46,9 @@ export function PageHero({
                 <Asset
                   name="grapes"
                   color={lightText ? '#ffffff' : '#232526'}
-                  className="absolute -top-6 -left-4 md:-top-10 md:-left-8 w-24 md:w-32 opacity-40 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+                  className={`absolute -top-6 md:-top-10 w-24 md:w-32 opacity-40 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto ${
+                    decoVigneSide === 'right' ? '-right-4 md:-right-8' : '-left-4 md:-left-8'
+                  }`}
                 />
               )}
               <h1 className={`relative z-10 ${titleFont === 'accent' ? 'font-accent' : 'font-lovelo'} text-5xl md:text-6xl uppercase leading-none ${lightText ? 'text-white' : 'text-zinc-900'}`}>

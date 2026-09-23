@@ -1,3 +1,5 @@
+import { Asset } from '@/app/components/Asset'
+
 type Temoignage = { citation?: string; auteur?: string; etablissement?: string }
 
 type TemoignagesProps = {
@@ -30,8 +32,14 @@ export function Temoignages({ titre, temoignages }: TemoignagesProps) {
   const items = temoignages && temoignages.length > 0 ? temoignages : TEMOIGNAGES_DEFAUT
 
   return (
-    <section className="bg-background py-16 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative bg-background py-16 px-6 overflow-hidden">
+      <Asset
+        name="leaf"
+        color="#D25200"
+        color2="#EBB132"
+        className="absolute -top-6 left-6 md:left-16 w-16 md:w-20 -rotate-12 opacity-70 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+      />
+      <div className="relative max-w-6xl mx-auto">
         <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12 text-center">
           {titre ?? 'Ils nous font confiance'}
         </h2>
@@ -39,7 +47,7 @@ export function Temoignages({ titre, temoignages }: TemoignagesProps) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {items.map((t, i) => (
             <div key={t.auteur ?? i} className="flex flex-col gap-4">
-              <span className="font-black text-4xl text-zinc-300 leading-none" aria-hidden="true">&ldquo;</span>
+              <span className="font-black text-4xl text-orange leading-none" aria-hidden="true">&ldquo;</span>
               <p className="text-zinc-700 leading-relaxed">{t.citation}</p>
               <p className=" text-zinc-500 mt-auto">
                 — {t.auteur}{t.etablissement ? `, ${t.etablissement}` : ''}

@@ -9,6 +9,7 @@ import { CommentCaMarchePro } from './CommentCaMarchePro'
 import { Temoignages } from './Temoignages'
 import { FAQPro } from './FAQPro'
 import { ContactProForm } from './ContactProForm'
+import { Asset } from '@/app/components/Asset'
 
 export const revalidate = 30
 
@@ -44,9 +45,16 @@ export default async function ProPage() {
           <FAQPro titre={page?.faqTitre} questions={page?.faq} />
 
           <div>
-            <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-4">
-              Devenir partenaire
-            </h2>
+            <div className="relative w-fit">
+              <Asset
+                name="grapes"
+                color="#357d4f"
+                className="absolute -top-6 -left-8 w-14 opacity-40 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+              />
+              <h2 className="relative font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-4">
+                Devenir partenaire
+              </h2>
+            </div>
             <p className="text-zinc-600 mb-10">
               Parlez-nous de votre établissement, on revient vers vous rapidement pour construire ensemble votre sélection.
             </p>

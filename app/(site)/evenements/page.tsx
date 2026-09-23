@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
+import { Fragment } from 'react'
 import { client } from '@/sanity/lib/client'
 import { evenementsPageQuery, mergeSections } from '@/sanity/lib/queries'
 import type { EvenementsPageData, EvenementsSection } from '@/sanity/lib/queries'
+import { Asset } from '@/app/components/Asset'
+import { ProRestaurateurs } from '../_components/ProRestaurateurs'
 import { EvenementsHero } from './EvenementsHero'
 import { SectionFeature } from './SectionFeature'
 import { CommentCaSePasse } from './CommentCaSePasse'
@@ -18,7 +21,7 @@ export const metadata: Metadata = {
 const SECTIONS_DEFAUT: EvenementsSection[] = [
   {
     badge: 'Privatisation de la cave',
-    couleur: 'orange',
+    couleur: 'yellow',
     titre: 'La cave rien que pour vous',
     texte:
       "Réservez l'espace pour une soirée entre amis, un anniversaire ou un moment d'équipe. On vous accueille comme à la maison, entouré de nos cuvées, avec de quoi grignoter et beaucoup à découvrir.",
@@ -74,10 +77,27 @@ export default async function EvenementsPage() {
       />
 
       {sections.map((section, i) => (
-        <SectionFeature key={section.titre ?? i} {...section} imageSide={i % 2 === 0 ? 'right' : 'left'} />
+        <Fragment key={section.titre ?? i}>
+          <SectionFeature
+            {...section}
+            imageSide={i % 2 === 0 ? 'right' : 'left'}
+            leafColor2={i === 0 ? '#357d4f' : undefined}
+          />
+          {i === 0 && sections.length > 1 && (
+            <div className="hidden md:block relative max-w-6xl mx-auto px-6" aria-hidden="true">
+              <Asset
+                name="bouteille"
+                color="#EBB132"
+                className="absolute right-6 -top-16 w-24 -rotate-6 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+              />
+            </div>
+          )}
+        </Fragment>
       ))}
 
       <CommentCaSePasse titre={page?.commentCaMarcheTitre} etapes={page?.etapes} />
+
+      <ProRestaurateurs />
 
       <BandeauPhoto imageUrl={page?.bandeauImage?.asset?.url} />
     </main>

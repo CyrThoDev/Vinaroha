@@ -100,7 +100,7 @@ export function Etageres({ produits, icons }: EtageresProps) {
             type="text"
             value={recherche}
             onChange={(e) => { setRecherche(e.target.value); setVisible(PAGE_SIZE) }}
-            placeholder="Rechercher une trouvaille..."
+            placeholder="Rechercher ..."
             className="rounded-full border border-zinc-400 px-4 py-1.5  min-w-56 focus:outline-none focus:border-orange"
           />
         </div>
@@ -153,7 +153,7 @@ export function Etageres({ produits, icons }: EtageresProps) {
             ))}
           </div>
         ) : (
-          <p className="text-center text-zinc-400 italic">Aucune trouvaille ne correspond à ces filtres.</p>
+          <p className="text-center text-zinc-400 italic">Nous n'avons rien correspondant à ces filtres.</p>
         )}
 
         {visible < filtres.length && (

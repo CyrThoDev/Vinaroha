@@ -19,16 +19,16 @@ export function CommentCaMarche({ titre, etape1Texte, etape2Texte, etape2Note }:
         </div>
 
         <div className="flex flex-col items-center text-center gap-4 md:px-10">
-          <Asset name="bouteille" color="#1a1a1a" className="w-8 [&_svg]:w-full [&_svg]:h-auto" />
+          <div className="h-24 flex items-center justify-center">
+            <Asset name="bouteillevin" color="#1a1a1a" className="h-full w-auto [&_svg]:h-full [&_svg]:w-auto" />
+          </div>
           <p className="italic text-zinc-800">{etape1Texte ?? "Je m'abonne à la box de mon choix"}</p>
         </div>
 
         <div className="flex flex-col items-center text-center gap-4 md:pl-10">
-          <svg width="40" height="40" viewBox="0 0 64 64" fill="none" stroke="#1a1a1a" strokeWidth="1.5" className="text-zinc-900">
-            <rect x="8" y="22" width="40" height="24" rx="3" transform="rotate(-8 28 34)" />
-            <rect x="16" y="16" width="40" height="24" rx="3" transform="rotate(4 36 28)" />
-            <circle cx="36" cy="28" r="6" transform="rotate(4 36 28)" />
-          </svg>
+          <div className="h-24 flex items-center justify-center">
+            <Asset name="box" color="#1a1a1a" className="h-full w-auto [&_svg]:h-full [&_svg]:w-auto" />
+          </div>
           <p className="italic text-zinc-800">
             {etape2Texte ?? 'Je réceptionne ma commande à la cave le 10 du mois'}
           </p>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
 import { agendaPageQuery, eventsQuery, mergeSections } from '@/sanity/lib/queries'
 import type { AgendaPageData, SanityEvent } from '@/sanity/lib/queries'
+import { Asset } from '@/app/components/Asset'
 import { PageHero } from '../_components/PageHero'
 import { NosEvenements } from './NosEvenements'
 import AgendaView from './AgendaView'
@@ -39,10 +40,17 @@ export default async function AgendaPage() {
         color="#357d4f"
         lightText
         titleFont="accent"
+        decoVigne
+        decoVigneSide="right"
       />
       <NosEvenements titre={page?.evenementsTitre} evenements={page?.evenements} />
-      <section className="bg-background py-12 md:py-16 px-6">
-        <div className="max-w-5xl mx-auto">
+      <section className="bg-background py-12 md:py-16 px-6 relative overflow-hidden">
+        <Asset
+          name="bouteille"
+          color="#357d4f"
+          className="hidden md:block absolute top-4 right-12 w-32 opacity-20 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+        />
+        <div className="max-w-5xl mx-auto relative">
           <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-6 sm:mb-10">
             Nos prochaines dates
           </h2>

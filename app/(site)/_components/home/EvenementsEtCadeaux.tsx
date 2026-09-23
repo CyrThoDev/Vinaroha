@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Asset } from '@/app/components/Asset'
+import { Asset, type AssetName } from '@/app/components/Asset'
 
 type Item = { label?: string; description?: string; href?: string; imageUrl?: string }
 
@@ -11,13 +11,16 @@ const ITEMS_DEFAUT: Item[] = [
   { label: 'Cadeaux d’entreprise',     description: 'Coffrets et sélections personnalisés, à votre image.',     href: '/evenements' },
 ]
 
+const ICONES: AssetName[] = ['glass', 'bulles', 'gift']
+const CERCLE_COULEURS = ['bg-yellow', 'bg-orange', 'bg-yellow']
+
 export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCadeauxProps) {
   const cards = items && items.length > 0 ? items : ITEMS_DEFAUT
 
   return (
-    <section className="bg-background py-12 lg:py-24 px-6">
+    <section className="bg-background py-16 px-6">
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
         {/* Col gauche — texte + CTA */}
         <div className="flex flex-col gap-4">
@@ -46,10 +49,6 @@ export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCad
               Découvrir &nbsp;⟶
             </Link>
           )}
-
-          <div className="hidden md:flex flex-col items-start gap-3 mt-8">
-            <Asset name="bouteille" color="#D25200" className="w-16 [&_svg]:w-full [&_svg]:h-auto" />
-          </div>
         </div>
 
         {/* Col droite — liste numérotée */}

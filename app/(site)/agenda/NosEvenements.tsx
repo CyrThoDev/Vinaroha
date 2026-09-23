@@ -104,8 +104,14 @@ export function NosEvenements({ titre, evenements }: NosEvenementsProps) {
   const avecLien = items.filter((ev) => ev.ctaLabel)
 
   return (
-    <section className="bg-background py-12 md:py-16 px-6">
-      <div className="max-w-5xl mx-auto">
+    <section className="bg-background py-12 md:py-16 px-6 relative">
+      <Asset
+        name="leaf"
+        color="#D25200"
+        color2="#357d4f"
+        className="hidden md:block absolute -top-16 left-8 w-24 -rotate-12 pointer-events-none select-none z-10 [&_svg]:w-full [&_svg]:h-auto"
+      />
+      <div className="max-w-5xl mx-auto relative">
         <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-8 md:mb-12">
           {titre ?? 'Nos événements'}
         </h2>
