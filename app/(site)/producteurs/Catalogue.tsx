@@ -7,16 +7,18 @@ import type { SanityProducteur } from '@/sanity/lib/queries'
 // Regroupe les typeArticle bruts (saisis dans le Studio) en catégories affichées côté site.
 const CATEGORY_GROUPS: Array<{ key: string; label: string; types: string[] }> = [
   { key: 'vin', label: 'Vins', types: ['vin'] },
+  { key: 'bulles', label: 'Bulles', types: ['champagne', 'effervescent'] },
   { key: 'bieres', label: 'Bières', types: ['bieres'] },
-  { key: 'soft', label: 'Soft', types: ['soft'] },
   { key: 'spiritueux', label: 'Spiritueux', types: ['gin', 'rhum', 'armagnac', 'whisky-bourbon'] },
-  { key: 'champagne-bulles', label: 'Champagne / Bulles', types: ['champagne', 'effervescent'] },
+  { key: 'soft', label: 'Soft', types: ['soft'] },
   { key: 'epicerie', label: 'Épicerie', types: ['epicerie'] },
 ]
 
 function groupOf(typeArticle: string | null): string | undefined {
   return CATEGORY_GROUPS.find(g => typeArticle && g.types.includes(typeArticle))?.key
 }
+
+const CERT_NEUTRE = '__neutre__'
 
 const CERT_LABELS: Record<string, string> = {
   bio: 'Bio',
@@ -26,11 +28,25 @@ const CERT_LABELS: Record<string, string> = {
   conventionnel: 'Conventionnel',
 }
 
+const COULEUR_LABELS: Record<string, string> = {
+  rouge: 'Rouge',
+  blanc: 'Blanc',
+  rose: 'Rosé',
+  petillant: 'Pétillant',
+}
+
+const TYPE_SPIRITUEUX_LABELS: Record<string, string> = {
+  rhum: 'Rhum',
+  gin: 'Gin',
+  armagnac: 'Armagnac',
+  'whisky-bourbon': 'Whisky / Bourbon',
+}
+
 const PAGE_SIZE = 12
 
 type CatalogueProps = {
   producteurs: SanityProducteur[]
-  icons?: Partial<Record<'vin' | 'bieres' | 'spiritueux' | 'champagne-bulles' | 'soft', ReactNode>>
+  icons?: Partial<Record<'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie', ReactNode>>
 }
 
 export function Catalogue({ producteurs, icons }: CatalogueProps) {
@@ -38,6 +54,10 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
   const [recherche, setRecherche] = useState('')
   const [region, setRegion] = useState('')
   const [certification, setCertification] = useState('')
+  const [couleur, setCouleur] = useState('')
+  const [style, setStyle] = useState('')
+  const [typeSpiritueux, setTypeSpiritueux] = useState('')
+  const [origineLocale, setOrigineLocale] = useState(false)
   const [visible, setVisible] = useState(PAGE_SIZE)
   const [selected, setSelected] = useState<SanityProducteur | null>(null)
 
@@ -56,31 +76,74 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
     () => CATEGORY_GROUPS.filter(g => presentGroupKeys.has(g.key)),
     [presentGroupKeys]
   )
-  const regions = useMemo(
-    () => [...new Set(
-      producteurs
-        .filter(p => !categorie || groupOf(p.typeArticle) === categorie)
-        .map(p => p.region)
-        .filter((v): v is string => Boolean(v))
-    )].sort(),
+
+  // Sous-ensemble de la catégorie active, avant application des filtres de 2e niveau —
+  // sert de base pour calculer dynamiquement les options disponibles (région, style, etc).
+  const dansCategorie = useMemo(
+    () => producteurs.filter(p => !categorie || groupOf(p.typeArticle) === categorie),
     [producteurs, categorie]
   )
+
+  const hasOrigineLocale = useMemo(
+    () => producteurs.some(p => p.origineLocale),
+    [producteurs]
+  )
+  const regions = useMemo(
+    () => [...new Set(dansCategorie.map(p => p.region).filter((v): v is string => Boolean(v)))].sort(),
+    [dansCategorie]
+  )
+  const couleurs = useMemo(
+    () => [...new Set(dansCategorie.map(p => p.couleur).filter((v): v is string => Boolean(v)))],
+    [dansCategorie]
+  )
+  const styles = useMemo(
+    () => [...new Set(dansCategorie.map(p => p.styleBiere).filter((v): v is string => Boolean(v)))].sort(),
+    [dansCategorie]
+  )
+  const typesSpiritueux = useMemo(
+    () => [...new Set(
+      dansCategorie
+        .map(p => p.typeArticle)
+        .filter((v): v is string => Boolean(v))
+        .filter(v => v in TYPE_SPIRITUEUX_LABELS)
+    )],
+    [dansCategorie]
+  )
+
+  const selectionnerCategorie = (key: string) => {
+    setCategorie(key)
+    setRegion('')
+    setCertification('')
+    setCouleur('')
+    setStyle('')
+    setTypeSpiritueux('')
+    setVisible(PAGE_SIZE)
+  }
 
   const filtres = useMemo(() => {
     return producteurs.filter(p => {
       if (categorie && groupOf(p.typeArticle) !== categorie) return false
       if (region && p.region !== region) return false
-      if (certification && !p.certifications?.includes(certification)) return false
+      if (certification === CERT_NEUTRE && p.certifications && p.certifications.length > 0) return false
+      if (certification && certification !== CERT_NEUTRE && !p.certifications?.includes(certification)) return false
+      if (couleur && p.couleur !== couleur) return false
+      if (style && p.styleBiere !== style) return false
+      if (typeSpiritueux && p.typeArticle !== typeSpiritueux) return false
+      if (origineLocale && !p.origineLocale) return false
       if (recherche && !p.name.toLowerCase().includes(recherche.toLowerCase())) return false
       return true
     })
-  }, [producteurs, categorie, region, certification, recherche])
+  }, [producteurs, categorie, region, certification, couleur, style, typeSpiritueux, origineLocale, recherche])
 
   const reinitialiser = () => {
     setCategorie('')
     setRecherche('')
     setRegion('')
     setCertification('')
+    setCouleur('')
+    setStyle('')
+    setTypeSpiritueux('')
+    setOrigineLocale(false)
     setVisible(PAGE_SIZE)
   }
 
@@ -93,68 +156,127 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
           Ils sont sur nos étagères
         </h2>
 
-        {/* Pills catégorie + recherche */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-          <div className="flex flex-wrap items-center gap-2">
+        {/* Niveau 1 — grands boutons de catégorie, premier choix du visiteur */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-8">
+          <button
+            onClick={() => selectionnerCategorie('')}
+            className={`rounded-lg px-5 py-3 text-sm sm:text-base font-black uppercase transition-colors ${
+              categorie === ''
+                ? 'bg-orange text-white'
+                : 'text-zinc-700 hover:text-orange'
+            }`}
+          >
+            Tout
+          </button>
+          {categories.map(g => (
             <button
-              onClick={() => { setCategorie(''); setRegion(''); setVisible(PAGE_SIZE) }}
-              className={`rounded-full px-4 py-1.5 text-sm border transition-colors ${
-                categorie === ''
-                  ? 'bg-orange text-white border-orange'
-                  : 'border-zinc-400 text-zinc-700 hover:border-orange hover:text-orange'
+              key={g.key}
+              onClick={() => selectionnerCategorie(g.key)}
+              className={`rounded-lg px-5 py-3 text-sm sm:text-base font-black uppercase transition-colors ${
+                categorie === g.key
+                  ? 'bg-orange text-white'
+                  : 'text-zinc-700 hover:text-orange'
               }`}
             >
-              Tout
+              {g.label}
             </button>
-            {categories.map(g => (
-              <button
-                key={g.key}
-                onClick={() => { setCategorie(g.key); setRegion(''); setVisible(PAGE_SIZE) }}
-                className={`rounded-full px-4 py-1.5 text-sm border transition-colors ${
-                  categorie === g.key
-                    ? 'bg-orange text-white border-orange'
-                    : 'border-zinc-400 text-zinc-700 hover:border-orange hover:text-orange'
-                }`}
-              >
-                {g.label}
-              </button>
-            ))}
-          </div>
+          ))}
+        </div>
 
+        {/* Niveau 2 — filtres spécifiques à la catégorie + filtres transversaux */}
+        <div className="flex flex-wrap items-center gap-3 mb-4">
           <input
             type="text"
             value={recherche}
             onChange={(e) => { setRecherche(e.target.value); setVisible(PAGE_SIZE) }}
-            placeholder="Rechercher une trouvaille..."
-            className="rounded-full border border-zinc-400 px-4 py-1.5 text-sm min-w-56 focus:outline-none focus:border-orange"
+            placeholder="Rechercher ..."
+            className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm min-w-56 focus:outline-none focus:border-orange"
           />
+
+          {/* Vins */}
+          {categorie === 'vin' && couleurs.length > 0 && (
+            <select
+              value={couleur}
+              onChange={(e) => { setCouleur(e.target.value); setVisible(PAGE_SIZE) }}
+              className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            >
+              <option value="">Couleur</option>
+              {couleurs.map(c => (
+                <option key={c} value={c}>{COULEUR_LABELS[c] ?? c}</option>
+              ))}
+            </select>
+          )}
+
+          {/* Bières */}
+          {categorie === 'bieres' && styles.length > 0 && (
+            <select
+              value={style}
+              onChange={(e) => { setStyle(e.target.value); setVisible(PAGE_SIZE) }}
+              className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            >
+              <option value="">Style</option>
+              {styles.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          )}
+
+          {/* Spiritueux */}
+          {categorie === 'spiritueux' && typesSpiritueux.length > 0 && (
+            <select
+              value={typeSpiritueux}
+              onChange={(e) => { setTypeSpiritueux(e.target.value); setVisible(PAGE_SIZE) }}
+              className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            >
+              <option value="">Type</option>
+              {typesSpiritueux.map(t => <option key={t} value={t}>{TYPE_SPIRITUEUX_LABELS[t] ?? t}</option>)}
+            </select>
+          )}
+
+          {/* Région — pertinent pour vins et bulles, affiché dès qu'il y a des valeurs dans la catégorie active */}
+          {(categorie === 'vin' || categorie === 'bulles' || categorie === '') && regions.length > 0 && (
+            <select
+              value={region}
+              onChange={(e) => { setRegion(e.target.value); setVisible(PAGE_SIZE) }}
+              className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            >
+              <option value="">Région</option>
+              {regions.map(r => <option key={r} value={r}>{r}</option>)}
+            </select>
+          )}
+
+          {/* Bio / nature — pertinent pour vins et bulles */}
+          {(categorie === 'vin' || categorie === 'bulles' || categorie === '') && (
+            <select
+              value={certification}
+              onChange={(e) => { setCertification(e.target.value); setVisible(PAGE_SIZE) }}
+              className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
+            >
+              <option value="">Bio / nature</option>
+              {Object.entries(CERT_LABELS).map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+              <option value={CERT_NEUTRE}>Tous</option>
+            </select>
+          )}
         </div>
 
-        {/* Filtres région + type de culture */}
+        {/* Filtres transversaux — toutes catégories confondues */}
         <div className="flex flex-wrap items-center gap-3 mb-12">
-          <select
-            value={region}
-            onChange={(e) => { setRegion(e.target.value); setVisible(PAGE_SIZE) }}
-            className="rounded-full border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
-          >
-            <option value="">Choisir une région</option>
-            {regions.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
-
-          <select
-            value={certification}
-            onChange={(e) => { setCertification(e.target.value); setVisible(PAGE_SIZE) }}
-            className="rounded-full border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
-          >
-            <option value="">Choisir un type de culture</option>
-            {Object.entries(CERT_LABELS).map(([key, label]) => (
-              <option key={key} value={key}>{label}</option>
-            ))}
-          </select>
+          {hasOrigineLocale && (
+            <button
+              onClick={() => { setOrigineLocale(v => !v); setVisible(PAGE_SIZE) }}
+              className={`rounded-lg px-4 py-1.5 text-sm border transition-colors ${
+                origineLocale
+                  ? 'bg-green text-white border-green'
+                  : 'border-zinc-400 text-zinc-700 hover:border-green hover:text-green'
+              }`}
+            >
+              Origine locale (Landes / Sud-Ouest)
+            </button>
+          )}
 
           <button
             onClick={reinitialiser}
-            className="rounded-full bg-orange text-white px-4 py-1.5 text-sm hover:opacity-90 transition-opacity"
+            className="rounded-lg bg-orange text-white px-4 py-1.5 text-sm hover:opacity-90 transition-opacity"
           >
             Réinitialiser
           </button>
@@ -170,13 +292,9 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
                 onClick={() => setSelected(p)}
                 className="flex items-center text-left gap-3 p-4 rounded-xl border border-zinc-200 cursor-pointer hover:border-orange has-[.cert-tag:hover]:border-zinc-200 transition-colors"
               >
-                {p.photo?.asset?.url ? (
-                  <img src={p.photo.asset.url} alt={p.name} className="w-16 h-16 rounded-md object-cover shrink-0" />
-                ) : (
-                  <div className="w-20 h-20 shrink-0 flex items-center justify-center">
-                    {icons?.[groupOf(p.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'champagne-bulles' | 'soft']}
-                  </div>
-                )}
+                <div className="w-20 h-20 shrink-0 flex items-center justify-center">
+                  {icons?.[groupOf(p.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']}
+                </div>
                 <div className="flex flex-col gap-2 min-w-0 flex-1">
                   <p className="font-black uppercase text-base text-zinc-900 leading-tight">{p.name}</p>
                   {(p.region || p.appellationPrincipale) && (
@@ -220,7 +338,7 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
             ))}
           </div>
         ) : (
-          <p className="text-center text-zinc-400 italic">Aucune trouvaille ne correspond à ces filtres.</p>
+          <p className="text-center text-zinc-400 italic">Nous n'avons rien correspondant à ces filtres.</p>
         )}
 
         {visible < filtres.length && (
@@ -265,9 +383,9 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
               </svg>
             </button>
 
-            {selected.photo?.asset?.url && (
-              <img src={selected.photo.asset.url} alt={selected.name} className="w-full h-48 object-cover rounded-lg" />
-            )}
+            {/* <div className="w-full h-48 rounded-lg bg-zinc-50 flex items-center justify-center p-10">
+              {icons?.[groupOf(selected.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']}
+            </div> */}
 
             <h3 className="font-accent text-3xl uppercase text-zinc-900">{selected.name}</h3>
 
@@ -275,6 +393,10 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
               <p className="text-orange">
                 {[selected.region, selected.appellationPrincipale].filter(Boolean).join(' · ')}
               </p>
+            )}
+
+            {selected.prix != null && (
+              <p className="font-black text-zinc-900">{selected.prix}&nbsp;€</p>
             )}
 
             {selected.certifications && selected.certifications.length > 0 && (

@@ -19,7 +19,7 @@ export function RencontrerProducteurs({ titre, texte }: RencontrerProducteursPro
         className="absolute -top-20 left-6 md:left-16 w-28 md:w-32 -rotate-12 pointer-events-none select-none z-10 [&_svg]:w-full [&_svg]:h-auto"
       />
       <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-4">
-        <h2 className="font-urbanist font-black text-2xl md:text-3xl text-white leading-tight">
+        <h2 className="font-accent font-black text-2xl md:text-3xl text-white leading-tight">
           {titre ?? 'Envie de rencontrer nos producteurs en vrai ?'}
         </h2>
         <p className="text-white/80">

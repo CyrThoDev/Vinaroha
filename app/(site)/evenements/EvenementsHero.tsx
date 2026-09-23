@@ -11,7 +11,7 @@ const DESCRIPTION_DEFAUT =
 
 export function EvenementsHero({ titre, description, imageUrl }: EvenementsHeroProps) {
   return (
-    <section className="bg-background pt-10 pb-16 px-6">
+    <section className="bg-background py-12 lg:py-16 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div className="flex flex-col gap-5">
           <h1 className="font-accent text-5xl md:text-6xl uppercase leading-none text-zinc-900">
@@ -23,18 +23,16 @@ export function EvenementsHero({ titre, description, imageUrl }: EvenementsHeroP
         </div>
 
         <div className="hidden md:flex items-center justify-center">
-          <div className="w-64 h-64">
-            {imageUrl ? (
-              <Asset
-                name="rounded"
-                imageUrl={imageUrl}
-                alt={titre ?? 'Vos événements & cadeaux'}
-                className="w-full h-full [&_svg]:w-full [&_svg]:h-full"
-              />
-            ) : (
-              <Asset name="rounded" color="#e4e4e7" className="w-full h-full [&_svg]:w-full [&_svg]:h-full" />
-            )}
-          </div>
+          {imageUrl ? (
+            <Asset
+              name="topandbottom"
+              imageUrl={imageUrl}
+              alt={titre ?? 'Vos événements & cadeaux'}
+              className="w-96 [&_svg]:w-full [&_svg]:h-auto"
+            />
+          ) : (
+            <Asset name="topandbottom" color="#e4e4e7" className="w-96 [&_svg]:w-full [&_svg]:h-auto" />
+          )}
         </div>
       </div>
     </section>
