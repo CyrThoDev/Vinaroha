@@ -7,7 +7,7 @@ export function ProRestaurateurs() {
         <div className=" border border-zinc-300 rounded-lg px-10 py-16 flex flex-col md:flex-row items-center gap-10">
           <div className="flex-1">
             <p className="text-2xl font-black font-accent text-yellow  mb-3">
-              Professionnels, restaurateurs&nbsp;?
+            PROFESSIONNELS, RESTAURATEURS ? 
             </p>
             <p className="   ">
               Un espace dédié pour vos commandes, tarifs pros et sélections pour vos cartes.

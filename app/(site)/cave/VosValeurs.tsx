@@ -29,7 +29,7 @@ export function VosValeurs({ titre, texte }: VosValeursProps) {
             {BADGES.map((label) => (
               <span
                 key={label}
-                className="inline-block bg-green rounded-lg font-bold font-urbanist  text-xl px-6 py-2.5 text-white w-fit"
+                className="inline-block bg-green rounded-lg font-bold font-urbanist  text-lg px-5 py-2.5 text-white w-fit"
               >
                 {label}
               </span>

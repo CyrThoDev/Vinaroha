@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { rateLimit, getClientIp } from '@/app/lib/rateLimit'
+import { renderEmailLayout, renderEmailText, escapeHtml, nl2br, type EmailRow } from '@/app/lib/email'
 
 const BREVO_EMAIL_URL = 'https://api.brevo.com/v3/smtp/email'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -55,13 +56,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Configuration email manquante.' }, { status: 500 })
   }
 
-  const recap = `
-    <p><strong>Durée :</strong> ${duree}</p>
-    <p><strong>Nom :</strong> ${nom}</p>
-    <p><strong>Email :</strong> ${email}</p>
-    ${telephone ? `<p><strong>Téléphone :</strong> ${telephone}</p>` : ''}
-    ${message ? `<p><strong>Message :</strong><br/>${String(message).replace(/\n/g, '<br/>')}</p>` : ''}
-  `
+  const recapRows: EmailRow[] = [
+    { label: 'Formule', value: escapeHtml(FORMULES[formule]) },
+    { label: 'Durée', value: escapeHtml(duree) },
+    { label: 'Type', value: escapeHtml(TYPES[type]) },
+  ]
+
+  const teamLayout = {
+    preheader: `${TYPES[type]} — ${FORMULES[formule]} (${duree})`,
+    eyebrow: 'Nouvelle commande Box',
+    title: `${TYPES[type]} — ${FORMULES[formule]}`,
+    rows: [
+      ...recapRows,
+      { label: 'Nom', value: escapeHtml(nom) },
+      { label: 'Email', value: escapeHtml(email) },
+      telephone && { label: 'Téléphone', value: escapeHtml(telephone) },
+    ].filter((r): r is EmailRow => Boolean(r)),
+    message: message ? { label: 'Message', value: nl2br(escapeHtml(message)) } : undefined,
+    ctaLabel: `Répondre à ${nom}`,
+    ctaUrl: `mailto:${email}`,
+  }
 
   const res = await fetch(BREVO_EMAIL_URL, {
     method: 'POST',
@@ -74,7 +88,8 @@ export async function POST(req: Request) {
       to: [{ email: DEST_EMAIL, name: "Vin'Aroha" }],
       replyTo: { email, name: nom },
       subject: `${TYPES[type]} — ${FORMULES[formule]} (${duree})`,
-      htmlContent: `<h2>${TYPES[type]} — ${FORMULES[formule]}</h2>${recap}`,
+      htmlContent: renderEmailLayout(teamLayout),
+      textContent: renderEmailText(teamLayout),
     }),
   })
 
@@ -85,6 +100,15 @@ export async function POST(req: Request) {
 
   // Email de confirmation au client avec le récapitulatif de sa demande.
   // On n'échoue pas la requête si cet envoi rate : la demande a bien été reçue côté équipe.
+  const clientLayout = {
+    preheader: 'Votre demande a bien été reçue par Vin\'Aroha',
+    eyebrow: 'Merci !',
+    title: 'Votre demande a bien été envoyée',
+    intro: `Bonjour ${escapeHtml(nom)},<br/>Nous avons bien reçu votre demande. Voici un récapitulatif :`,
+    rows: recapRows,
+    outro: "Delphine revient vers vous très vite à cette adresse.<br/>À bientôt,<br/>L'équipe Vin'Aroha",
+  }
+
   await fetch(BREVO_EMAIL_URL, {
     method: 'POST',
     headers: {
@@ -95,13 +119,8 @@ export async function POST(req: Request) {
       sender: { name: "Vin'Aroha", email: DEST_EMAIL },
       to: [{ email, name: nom }],
       subject: 'Votre demande a bien été envoyée — Vin\'Aroha',
-      htmlContent: `
-        <p>Bonjour ${nom},</p>
-        <p>Nous avons bien reçu votre demande pour <strong>${FORMULES[formule]}</strong> (${TYPES[type]}). Voici un récapitulatif :</p>
-        ${recap}
-        <p>Delphine revient vers vous très vite à cette adresse.</p>
-        <p>À bientôt,<br/>L'équipe Vin'Aroha</p>
-      `,
+      htmlContent: renderEmailLayout(clientLayout),
+      textContent: renderEmailText(clientLayout),
     }),
   }).catch(() => null)
 
