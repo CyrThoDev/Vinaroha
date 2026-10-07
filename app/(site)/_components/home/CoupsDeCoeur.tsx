@@ -28,8 +28,8 @@ export function CoupsDeCoeur({ items, backgroundImageUrl }: CoupsDeCoeurProps) {
       )}
 
       {/* Leaf déco haut-droite, déborde volontairement sur la section précédente */}
-      <div className="absolute -top-8 right-6 pointer-events-none select-none z-10">
-        <Asset name="leaf" color="#E56B00" color2="#EBB132" className="w-40 [&_svg]:w-full [&_svg]:h-auto" />
+      <div className="absolute -top-12 md:-top-8 right-6 pointer-events-none select-none z-10">
+        <Asset name="leaf" color="#E56B00" color2="#EBB132" className="w-24 md:w-40 [&_svg]:w-full [&_svg]:h-auto" />
       </div>
 
       <div className="relative max-w-6xl mx-auto">

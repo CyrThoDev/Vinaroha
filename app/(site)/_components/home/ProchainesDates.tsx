@@ -22,7 +22,7 @@ export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
       <Asset
         name="bouteille"
         color="#ffffff"
-        className="absolute top-4 right-12 w-32 opacity-30 pointer-events-none [&_svg]:w-full [&_svg]:h-auto"
+        className="absolute top-4 left-4 md:left-auto md:right-12 w-32 opacity-30 pointer-events-none [&_svg]:w-full [&_svg]:h-auto"
       />
       <div className="relative max-w-6xl mx-auto px-6">
         <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none mb-10">Les prochaines dates</h2>

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { rateLimit, getClientIp } from '@/app/lib/rateLimit'
+import { renderEmailLayout, renderEmailText, escapeHtml, nl2br } from '@/app/lib/email'
 
 const BREVO_EMAIL_URL = 'https://api.brevo.com/v3/smtp/email'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -39,16 +40,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Configuration email manquante.' }, { status: 500 })
   }
 
-  const htmlContent = `
-    <h2>Demande espace pro — ${etablissement}</h2>
-    ${typeEtablissement ? `<p><strong>Type d'établissement :</strong> ${typeEtablissement}</p>` : ''}
-    <p><strong>Nom :</strong> ${nom}</p>
-    <p><strong>Email :</strong> ${email}</p>
-    ${telephone ? `<p><strong>Téléphone :</strong> ${telephone}</p>` : ''}
-    ${volumeEstime ? `<p><strong>Volume estimé :</strong> ${volumeEstime}</p>` : ''}
-    ${carteExistante ? `<p><strong>Carte des vins :</strong> ${carteExistante}</p>` : ''}
-    ${message ? `<p><strong>Message :</strong><br/>${String(message).replace(/\n/g, '<br/>')}</p>` : ''}
-  `
+  const rows = [
+    typeEtablissement && { label: "Type d'établissement", value: escapeHtml(typeEtablissement) },
+    { label: 'Nom', value: escapeHtml(nom) },
+    { label: 'Email', value: escapeHtml(email) },
+    telephone && { label: 'Téléphone', value: escapeHtml(telephone) },
+    volumeEstime && { label: 'Volume estimé', value: escapeHtml(volumeEstime) },
+    carteExistante && { label: 'Carte des vins', value: escapeHtml(carteExistante) },
+  ].filter((r): r is { label: string; value: string } => Boolean(r))
+
+  const layoutOptions = {
+    preheader: `Nouvelle demande espace pro de ${etablissement}`,
+    eyebrow: 'Espace pro',
+    title: `Nouvelle demande — ${etablissement}`,
+    rows,
+    message: message ? { label: 'Message', value: nl2br(escapeHtml(message)) } : undefined,
+    ctaLabel: `Répondre à ${nom}`,
+    ctaUrl: `mailto:${email}`,
+  }
+
+  const htmlContent = renderEmailLayout(layoutOptions)
+  const textContent = renderEmailText(layoutOptions)
 
   const res = await fetch(BREVO_EMAIL_URL, {
     method: 'POST',
@@ -62,6 +74,7 @@ export async function POST(req: Request) {
       replyTo: { email, name: nom },
       subject: `Demande espace pro — ${etablissement}`,
       htmlContent,
+      textContent,
     }),
   })
 
