@@ -11,17 +11,19 @@ type PageHeroProps = {
   imageShape?: 'square' | 'topandbottom'
   decoVigne?: boolean
   decoVigneSide?: 'left' | 'right'
+  largeMobile?: boolean
 }
 
 export function PageHero({
   eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false,
   titleFont = 'lovelo', imageShape = 'square', decoVigne = false, decoVigneSide = 'left',
+  largeMobile = false,
 }: PageHeroProps) {
   return (
     <section className=" relative">
 
       {/* Fond rectangle SVG pleine largeur — étiré pour garder les vagues du haut et du bas sans recadrage */}
-      <div className="w-full h-64 md:h-120 overflow-hidden">
+      <div className={`w-full ${largeMobile ? 'h-80' : 'h-64'} md:h-120 overflow-hidden`}>
         <Asset
           name="rectangle"
           color={color}

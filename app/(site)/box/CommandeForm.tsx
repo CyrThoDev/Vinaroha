@@ -24,6 +24,8 @@ export function CommandeForm({ type }: CommandeFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [feedback, setFeedback] = useState('')
 
+  const formuleActuelle = FORMULES.find((f) => f.value === formule) ?? FORMULES[0]
+
   const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault()
     setStatus('loading')
@@ -161,6 +163,19 @@ export function CommandeForm({ type }: CommandeFormProps) {
           disabled={status === 'loading'}
           className="px-4 py-3 rounded-lg border border-zinc-200 focus:outline-none focus:border-yellow disabled:opacity-60 resize-none"
         />
+      </div>
+
+      {/* Récapitulatif de la sélection */}
+      <div className="rounded-xl border border-yellow bg-yellow/10 px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <p className="text-xs uppercase font-black text-zinc-500 mb-1">Votre sélection</p>
+          <p className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="font-lovelo text-lg uppercase leading-none text-zinc-900">La Box</span>
+            <span className="font-railey text-xl text-yellow">{formuleActuelle.nom}</span>
+            <span className="text-zinc-500">· {duree}</span>
+          </p>
+        </div>
+        <p className="font-black text-yellow sm:text-right shrink-0">{formuleActuelle.prix}</p>
       </div>
 
       <button
