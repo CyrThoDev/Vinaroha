@@ -11,7 +11,7 @@ import { Catalogue } from './Catalogue'
 import { RencontrerProducteurs } from './RencontrerProducteurs'
 import { Galerie } from './Galerie'
 
-export const revalidate = 30
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Sur nos étagères',

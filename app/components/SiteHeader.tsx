@@ -27,7 +27,7 @@ export function SiteHeader() {
         </div>
       )}
 
-      <header className={`sticky top-0 z-50 bg-background px-6 ${isHome ? 'pt-4 pb-10' : 'py-4'}`}>
+      <header className={`sticky top-0 z-50 bg-background px-6 py-4 ${isHome ? 'md:pt-4 md:pb-10' : 'md:py-4'}`}>
         {isHome ? (
           <nav className="hidden md:flex items-center justify-center">
             <ul className="flex items-center gap-12">
