@@ -62,11 +62,11 @@ export function LaCaveProjets({ eyebrow, titre, texte, ctaLabel, ctaLien, projet
               </span>
               <span className="w-px self-stretch bg-zinc-900/10 shrink-0" aria-hidden="true" />
               <span className="flex-1 min-w-0">
-                <span className="block font-accent uppercase text-lg md:text-xl text-zinc-900 leading-tight">
+                <span className="block font-accent uppercase text-xl md:text-2xl text-zinc-900 leading-none">
                   {p.label}
                 </span>
                 {p.description && (
-                  <span className="block text-zinc-500 text-sm mt-1">
+                  <span className="block text-zinc-500 mt-1">
                     {p.description}
                   </span>
                 )}
