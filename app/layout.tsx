@@ -53,6 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${workSans.variable} ${leagueGothic.variable} ${urbanist.variable} ${lovelo.variable} ${avallon.variable} ${fontjek.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-zinc-900">{children}</body>
