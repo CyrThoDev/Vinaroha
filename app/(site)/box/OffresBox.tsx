@@ -54,17 +54,17 @@ export function OffresBox({ titre, offres, abonnementTitre, abonnementTexte }: O
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
           {items.map((offre, i) => (
             <div key={offre.nom ?? i} className="border border-zinc-400 rounded-2xl p-8 flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-1 lg:gap-4">
                 <div>
                   <p className="font-lovelo text-3xl uppercase leading-none text-zinc-900">La Box</p>
                   <p className="font-railey text-3xl text-yellow -mt-1">{offre.nom}</p>
                 </div>
-                <p className="text-xl md:text-2xl font-black text-yellow text-right leading-tight shrink-0">
+                <p className="font-accent text-lg lg:text-2xl font-black text-yellow text-left lg:text-right leading-tight shrink-0">
                   {offre.prix}
                 </p>
               </div>
               <p className="text-zinc-800">{offre.description}</p>
-              <p className="italic text-zinc-500">{offre.detail}</p>
+              <p className="font-accent text-zinc-500">{offre.detail}</p>
             </div>
           ))}
         </div>
@@ -74,19 +74,19 @@ export function OffresBox({ titre, offres, abonnementTitre, abonnementTexte }: O
           <p className="text-zinc-600">{abonnementTexte ?? "Tarif dégressif suivant la durée d'abonnement"}</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-16 md:gap-28 mt-12">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-12">
           <Link
             href="/box/abonnement"
-            className="font-fontjek text-2xl border-b border-zinc-400 pb-1 hover:border-yellow hover:text-yellow transition-colors"
+            className="inline-flex items-center gap-2 bg-black text-white rounded-lg font-accent text-2xl leading-snug px-6 py-2.5 w-fit hover:opacity-80 transition-opacity"
           >
             Je m&apos;abonne &nbsp;⟶
           </Link>
           <Link
             href="/box/offrir"
-            className="font-fontjek text-2xl border-b border-zinc-400 pb-1 flex items-center gap-2 hover:border-yellow hover:text-yellow transition-colors"
+            className="inline-flex items-center gap-2 border-2 border-zinc-900 text-zinc-900 rounded-lg font-accent text-2xl leading-snug px-6 py-2.5 w-fit hover:bg-zinc-900 hover:text-white transition-colors"
           >
             J&apos;offre la box
-            <Asset name="gift" color="#000000" className="w-6 [&_svg]:w-full [&_svg]:h-auto" />
+            <Asset name="gift" color="currentColor" className="w-6 [&_svg]:w-full [&_svg]:h-auto" />
             &nbsp;⟶
           </Link>
         </div>

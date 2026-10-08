@@ -35,6 +35,7 @@ export default async function BoxPage() {
         title={page?.titre ?? 'La Box'}
         description={page?.description ?? DESCRIPTION_DEFAUT}
         imageUrl={page?.image?.asset?.url}
+        largeMobile
       />
       <OffresBox
         titre={page?.offresTitre}
