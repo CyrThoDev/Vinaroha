@@ -11,7 +11,7 @@ import { FAQPro } from './FAQPro'
 import { ContactProForm } from './ContactProForm'
 import { Asset } from '@/app/components/Asset'
 
-export const revalidate = 30
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Professionnels & Restaurateurs',
