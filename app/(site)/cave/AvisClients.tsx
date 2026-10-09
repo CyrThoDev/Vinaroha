@@ -26,7 +26,7 @@ export function AvisClients({ titre, googleNote, googleAvisCount, googleUrl, avi
   const hasAvis = avis && avis.length > 0
 
   return (
-    <section className="bg-background pb-16 px-6 py-14">
+    <section className="bg-background px-6 py-10 md:py-16">
       <div className="max-w-6xl mx-auto">
         <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-6 text-center">
           {titre ?? 'Ils en parlent mieux que nous'}

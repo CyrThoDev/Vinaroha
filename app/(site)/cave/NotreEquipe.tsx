@@ -14,7 +14,7 @@ export function NotreEquipe({ titre, equipe }: NotreEquipeProps) {
   const membres = equipe && equipe.length > 0 ? equipe : MEMBRES_DEFAUT
 
   return (
-    <section className="bg-background  px-6 py-16">
+    <section className="bg-background  px-6 py-10 md:py-16">
       <div className="max-w-6xl mx-auto">
         <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-14">
           {titre ?? 'Notre équipe'}

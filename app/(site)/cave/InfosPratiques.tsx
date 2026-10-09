@@ -35,7 +35,7 @@ export function InfosPratiques({
   const hasCoords = latitude != null && longitude != null
   const hasHallesCoords = latitudeHalles != null && longitudeHalles != null
   const markers = [
-    ...(hasCoords ? [{ lat: latitude, lng: longitude, label: titre ?? 'La Cave' }] : []),
+    ...(hasCoords ? [{ lat: latitude, lng: longitude, label: titre ?? 'La Cave', address: adresse }] : []),
     ...(hasHallesCoords ? [{ lat: latitudeHalles, lng: longitudeHalles, label: 'Les Halles' }] : []),
   ]
   const directionsUrl = hasCoords
@@ -45,7 +45,7 @@ export function InfosPratiques({
       : null
 
   return (
-    <section className="bg-background py-16 px-6">
+    <section className="bg-background py-10 md:py-16 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:items-center">
         <div className="flex flex-col gap-6">
           <h1 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900">
