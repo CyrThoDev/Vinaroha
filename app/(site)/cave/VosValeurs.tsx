@@ -18,18 +18,18 @@ const PARAGRAPHES_DEFAUT = [
 
 export function VosValeurs({ titre, texte }: VosValeursProps) {
   return (
-    <section className="bg-background py-16 px-6">
+    <section className="bg-background py-10 md:py-16 px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:items-center">
         <div className="md:order-2">
           <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-6">
             {titre ?? 'Vos valeurs'}
           </h2>
 
-          <div className="flex flex-wrap gap-3 mb-8">
+          <div className="flex flex-wrap gap-2 mb-8">
             {BADGES.map((label) => (
               <span
                 key={label}
-                className="inline-block bg-green rounded-lg font-bold font-urbanist  text-lg px-5 py-2.5 text-white w-fit"
+                className="inline-block bg-green rounded-lg font-bold font-urbanist text-sm px-3 py-1.5 text-white w-fit"
               >
                 {label}
               </span>
@@ -47,7 +47,7 @@ export function VosValeurs({ titre, texte }: VosValeursProps) {
           )}
         </div>
 
-        <div className="w-full h-80 md:h-112 md:order-1 flex items-center justify-center">
+        <div className="hidden md:flex w-full h-80 md:h-112 md:order-1 items-center justify-center">
           <Asset name="grapes" color="#232526" className="w-48 md:w-64 [&_svg]:w-full [&_svg]:h-auto" />
         </div>
       </div>

@@ -60,8 +60,18 @@ export default function MentionsLegalesPage() {
           </p>
         </Block>
 
-        {/* 4. Données personnelles */}
-        <Block id="confidentialite" title="4. Données personnelles &amp; RGPD">
+        {/* 4. Vente et consommation d'alcool */}
+        <Block id="alcool" title="4. Vente et consommation d&apos;alcool">
+          <p>
+            Ce site présente des produits alcoolisés. Conformément à la loi n°91-32 du 10 janvier 1991 (dite «&nbsp;Loi Evin&nbsp;») et aux articles L3323-2 et suivants du Code de la santé publique, son accès est réservé aux personnes majeures.
+          </p>
+          <p>
+            <strong>L&apos;abus d&apos;alcool est dangereux pour la santé, à consommer avec modération.</strong>
+          </p>
+        </Block>
+
+        {/* 5. Données personnelles */}
+        <Block id="confidentialite" title="5. Données personnelles &amp; RGPD">
           <p>
             Vin&apos;Aroha collecte des données personnelles uniquement dans le cadre de l&apos;inscription à la newsletter (adresse e-mail).
             Ces données sont utilisées exclusivement pour l&apos;envoi de communications commerciales et ne sont jamais cédées à des tiers.
@@ -84,8 +94,8 @@ export default function MentionsLegalesPage() {
           </p>
         </Block>
 
-        {/* 5. Cookies */}
-        <Block title="5. Politique de cookies">
+        {/* 6. Cookies */}
+        <Block id="cookies" title="6. Politique de cookies">
           <p>
             Lors de votre visite sur vinaroha.com, des cookies peuvent être déposés sur votre navigateur.
             Un cookie est un petit fichier texte enregistré sur votre appareil qui permet d&apos;améliorer votre expérience de navigation.
@@ -122,15 +132,15 @@ export default function MentionsLegalesPage() {
           </p>
         </Block>
 
-        {/* 6. Liens externes */}
-        <Block title="6. Liens hypertextes">
+        {/* 7. Liens externes */}
+        <Block title="7. Liens hypertextes">
           <p>
             Le site peut contenir des liens vers des sites tiers. Vin&apos;Aroha n&apos;est pas responsable du contenu de ces sites ni de leur politique de confidentialité.
           </p>
         </Block>
 
-        {/* 7. Contact */}
-        <Block title="7. Contact">
+        {/* 8. Contact */}
+        <Block title="8. Contact">
           <p>
             Pour toute question relative à ces mentions légales :{' '}
             <a href="mailto:contact@vinaroha.com" className="text-orange underline underline-offset-2">

@@ -24,13 +24,13 @@ export function CookieBanner() {
 
   return (
     <div className="fixed bottom-8 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none">
-      <div className="max-w-3xl bg-zinc-900 border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl pointer-events-auto flex flex-col sm:flex-row items-start sm:items-center gap-5">
+      <div className="max-w-md bg-background border border-zinc-900/10 rounded-2xl p-5 md:p-6 shadow-2xl pointer-events-auto flex flex-col items-start gap-5">
 
         {/* Texte */}
-        <p className="text-sm text-white/60 flex-1">
+        <p className="text-sm text-zinc-600 flex-1">
           On utilise des cookies pour analyser l&apos;audience et améliorer votre expérience.
           {' '}
-          <Link href="/mentions-legales" className="text-white/80 underline underline-offset-2 hover:text-white transition-colors">
+          <Link href="/mentions-legales#cookies" className="text-zinc-900 underline underline-offset-2 hover:text-orange transition-colors">
             En savoir plus
           </Link>
         </p>
@@ -39,7 +39,7 @@ export function CookieBanner() {
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={decline}
-            className="text-xs text-white/40 hover:text-white transition-colors font-medium uppercase tracking-wide"
+            className="text-xs text-zinc-400 hover:text-zinc-900 transition-colors font-medium uppercase tracking-wide"
           >
             Refuser
           </button>

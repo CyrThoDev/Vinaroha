@@ -4,21 +4,23 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// Marqueur custom : le logo Vin'Aroha dans une pastille blanche, plutôt que le pin par défaut.
+// Marqueur custom : le logo Vin'Aroha découpé dans une des formes décoratives du site, plutôt que le pin par défaut.
 const icon = L.divIcon({
   className: '',
-  html: `<div style="width:48px;height:48px;border-radius:9999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.25);border:2px solid #D25200;display:flex;align-items:center;justify-content:center;">
-    <img src="/logo-vinaroha.svg" alt="" style="width:32px;height:32px;object-fit:contain;" />
+  html: `<div style="width:48px;height:48px;position:relative;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.25));">
+    <div style="position:absolute;inset:0;background:#fff;-webkit-mask-image:url('/assets/rounded.svg');mask-image:url('/assets/rounded.svg');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;"></div>
+    <img src="/logo-vinaroha.svg" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;object-fit:contain;" />
   </div>`,
-  iconSize: [64, 64],
+  iconSize: [48, 48],
   iconAnchor: [24, 24],
-  popupAnchor: [0, -24],
+  popupAnchor: [0, -26],
 })
 
 export type CaveMapMarker = {
   lat: number
   lng: number
   label?: string
+  address?: string
 }
 
 type CaveMapProps = {
@@ -45,7 +47,12 @@ export function CaveMap({ markers }: CaveMapProps) {
       />
       {markers.map((m, i) => (
         <Marker key={i} position={[m.lat, m.lng]} icon={icon}>
-          {m.label && <Popup>{m.label}</Popup>}
+          {(m.label || m.address) && (
+            <Popup>
+              {m.label && <strong>{m.label}</strong>}
+              {m.address && <div>{m.address}</div>}
+            </Popup>
+          )}
         </Marker>
       ))}
     </MapContainer>
