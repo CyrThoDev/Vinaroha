@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   title: "Agenda",
   description:
     "Retrouvez tous les événements Vin'Aroha à Mimizan : dégustations, masterclasses, rencontres producteurs, apéros et événements sur-mesure. Inscrivez-vous en ligne.",
-  robots: { index: false, follow: false },
   openGraph: {
     title: "Agenda — Vin'Aroha, Mimizan",
     description:
@@ -42,13 +41,17 @@ export default async function AgendaPage() {
         titleFont="accent"
         decoVigne
         decoVigneSide="right"
+        decoVignePosition="corner"
+        imageSize="w-96"
+        imageFit="contain"
+        imageVerticalPadding="py-2"
       />
       <NosEvenements titre={page?.evenementsTitre} evenements={page?.evenements} />
       <section className="bg-background py-12 md:py-16 px-6 relative overflow-hidden">
         <Asset
           name="bouteille"
           color="#357d4f"
-          className="hidden md:block absolute top-4 right-12 w-32 opacity-20 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+          className="block absolute top-0 right-4 md:right-12 w-16 md:w-32 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
         />
         <div className="max-w-5xl mx-auto relative">
           <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-6 sm:mb-10">

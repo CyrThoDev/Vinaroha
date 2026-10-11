@@ -11,13 +11,19 @@ type PageHeroProps = {
   imageShape?: 'square' | 'topandbottom'
   decoVigne?: boolean
   decoVigneSide?: 'left' | 'right'
+  decoVignePosition?: 'title' | 'corner'
+  decoVigneColor?: string
   largeMobile?: boolean
+  imageSize?: string
+  imageFit?: 'cover' | 'contain'
+  imageVerticalPadding?: string
 }
 
 export function PageHero({
   eyebrow, title, description, imageUrl, color = '#EBB132', lightText = false,
   titleFont = 'lovelo', imageShape = 'square', decoVigne = false, decoVigneSide = 'left',
-  largeMobile = false,
+  largeMobile = false, imageSize = 'w-64', imageFit = 'cover', imageVerticalPadding = 'py-8',
+  decoVignePosition = 'title', decoVigneColor,
 }: PageHeroProps) {
   return (
     <section className=" relative">
@@ -32,6 +38,14 @@ export function PageHero({
         />
       </div>
 
+      {decoVigne && decoVignePosition === 'corner' && (
+        <Asset
+          name="grapes"
+          color={decoVigneColor ?? (lightText ? '#ffffff' : '#232526')}
+          className={`hidden md:block absolute top-6 md:top-10 right-6 md:right-10 w-24 md:w-32 opacity-40 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto`}
+        />
+      )}
+
       {/* Contenu superposé, centré dans le conteneur max-w-6xl */}
       <div className="absolute inset-0 flex items-center">
         <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 items-center">
@@ -44,7 +58,7 @@ export function PageHero({
               </p>
             )}
             <div className="relative">
-              {decoVigne && (
+              {decoVigne && decoVignePosition === 'title' && (
                 <Asset
                   name="grapes"
                   color={lightText ? '#ffffff' : '#232526'}
@@ -63,16 +77,17 @@ export function PageHero({
           </div>
 
           {/* Col droite — image */}
-          <div className="hidden md:flex items-center justify-center p-8">
+          <div className={`hidden md:flex items-center justify-center px-8 ${imageVerticalPadding}`}>
             {imageUrl ? (
               <Asset
                 name={imageShape}
                 imageUrl={imageUrl}
+                imageFit={imageFit}
                 alt={title}
-                className="w-64 [&_svg]:w-full [&_svg]:h-auto"
+                className={`${imageSize} [&_svg]:w-full [&_svg]:h-auto`}
               />
             ) : (
-              <div className="relative w-64">
+              <div className={`relative ${imageSize}`}>
                 <Asset name={imageShape} color="#f4f4f5" className="w-full [&_svg]:w-full [&_svg]:h-auto" />
                 <div className="absolute inset-0 flex items-center justify-center italic text-zinc-400 ">
                   Image à ajouter dans le studio

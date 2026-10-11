@@ -70,7 +70,7 @@ export function OffresBox({ titre, offres, abonnementTitre, abonnementTexte }: O
         </div>
 
         <div className="text-center mt-16 flex flex-col gap-1">
-          <p className="font-accent text-3xl md:text-4xl uppercase text-zinc-900">{abonnementTitre ?? 'Abonnements de 3, 6 ou 12 mois'}</p>
+          <h3 className="font-accent text-3xl md:text-4xl uppercase text-zinc-900">{abonnementTitre ?? 'Abonnements de 3, 6 ou 12 mois'}</h3>
           <p className="text-zinc-600">{abonnementTexte ?? "Tarif dégressif suivant la durée d'abonnement"}</p>
         </div>
 

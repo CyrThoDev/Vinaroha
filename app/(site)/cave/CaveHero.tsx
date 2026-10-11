@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 
 type CaveHeroProps = {
   images?: string[]
@@ -14,7 +15,7 @@ export function CaveHero({ images }: CaveHeroProps) {
   return (
     <section className="relative h-[50vh] md:h-[60vh] overflow-hidden bg-linear-to-br from-green/15 via-yellow/10 to-orange/15">
       {current ? (
-        <img src={current} alt="" className="w-full h-full object-cover" />
+        <Image src={current} alt="" fill priority sizes="100vw" className="object-cover" />
       ) : (
         <div className="w-full h-full flex items-center justify-center">
           <p className="text-zinc-400 italic">Photos à ajouter dans le studio</p>

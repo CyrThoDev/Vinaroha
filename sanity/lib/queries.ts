@@ -220,7 +220,7 @@ export interface EvenementsPageData {
 export const proPageQuery = groq`{
   "hero": *[_type == "proPageHero"][0] { titre, description, image { asset->{ url } } },
   "avantagesDoc": *[_type == "proPageAvantages"][0] { avantagesTitre, avantages[] { titre, texte } },
-  "offreDoc": *[_type == "proPageOffre"][0] { offreTitre, offre[] { titre, texte } },
+  "offreDoc": *[_type == "proPageOffre"][0] { offreTitre, offreImageFond { asset->{ url } }, offre[] { titre, texte } },
   "commentCaMarche": *[_type == "proPageCommentCaMarche"][0] { commentCaMarcheTitre, etapes[] { label, texte } },
   "temoignagesDoc": *[_type == "proPageTemoignages"][0] { temoignagesTitre, temoignages[] { citation, auteur, etablissement } },
   "faqDoc": *[_type == "proPageFaq"][0] { faqTitre, faq[] { question, reponse } }
@@ -233,6 +233,7 @@ export interface ProPageData {
   avantagesTitre?: string
   avantages?: Array<{ titre?: string; texte?: string }>
   offreTitre?: string
+  offreImageFond?: { asset?: { url: string } }
   offre?: Array<{ titre?: string; texte?: string }>
   commentCaMarcheTitre?: string
   etapes?: Array<{ label?: string; texte?: string }>

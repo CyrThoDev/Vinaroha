@@ -49,7 +49,7 @@ export function CommandeForm({ type }: CommandeFormProps) {
   if (status === 'success') {
     return (
       <div className="max-w-lg mx-auto p-8 text-center">
-        <p className="font-accent text-3xl uppercase text-zinc-900 mb-2">Merci !</p>
+        <h2 className="font-accent text-3xl uppercase text-zinc-900 mb-2">Merci !</h2>
         <p className="text-zinc-600">{feedback}</p>
         <p className="text-zinc-500  mt-4">Delphine vous recontactera très vite à l&apos;adresse indiquée.</p>
       </div>

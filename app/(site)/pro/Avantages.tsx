@@ -32,13 +32,13 @@ export function Avantages({ titre, avantages }: AvantagesProps) {
   const items = avantages && avantages.length > 0 ? avantages : AVANTAGES_DEFAUT
 
   return (
-    <section className="bg-background py-16 px-6">
+    <section className="bg-background py-20 md:py-28 px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12 text-center">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-16 text-center">
           {titre ?? 'Pourquoi nous faire confiance'}
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-14">
           {items.map((a, i) => {
             const icone = ICONES[i % ICONES.length]
             return (

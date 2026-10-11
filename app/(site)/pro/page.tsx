@@ -36,7 +36,7 @@ export default async function ProPage() {
         whatsapp={settings?.whatsapp}
       />
       <Avantages titre={page?.avantagesTitre} avantages={page?.avantages} />
-      <Offre titre={page?.offreTitre} offre={page?.offre} />
+      <Offre titre={page?.offreTitre} offre={page?.offre} backgroundImageUrl={page?.offreImageFond?.asset?.url} />
       <CommentCaMarchePro titre={page?.commentCaMarcheTitre} etapes={page?.etapes} />
       <Temoignages titre={page?.temoignagesTitre} temoignages={page?.temoignages} />
 

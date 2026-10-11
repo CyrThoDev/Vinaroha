@@ -32,15 +32,15 @@ export function Temoignages({ titre, temoignages }: TemoignagesProps) {
   const items = temoignages && temoignages.length > 0 ? temoignages : TEMOIGNAGES_DEFAUT
 
   return (
-    <section className="relative bg-background py-16 px-6 overflow-hidden">
+    <section className="relative bg-background py-16 px-6">
       <Asset
         name="leaf"
-        color="#D25200"
+        color="#357d4f"
         color2="#EBB132"
-        className="absolute -top-6 left-6 md:left-16 w-16 md:w-20 -rotate-12 opacity-70 pointer-events-none select-none [&_svg]:w-full [&_svg]:h-auto"
+        className="absolute -top-24 md:-top-28 right-6 md:right-16 w-32 md:w-36 -rotate-12 -scale-x-100 pointer-events-none select-none z-10 [&_svg]:w-full [&_svg]:h-auto"
       />
       <div className="relative max-w-6xl mx-auto">
-        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12 text-center">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12">
           {titre ?? 'Ils nous font confiance'}
         </h2>
 

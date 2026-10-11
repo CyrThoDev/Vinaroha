@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Asset } from '@/app/components/Asset'
 import type { EvenementsSection } from '@/sanity/lib/queries'
 
@@ -65,9 +66,9 @@ export function SectionFeature({
   )
 
   const imageBloc = (
-    <div className="aspect-4/3 rounded-3xl overflow-hidden bg-linear-to-br from-green/15 via-yellow/10 to-orange/15">
+    <div className="relative aspect-4/3 rounded-3xl overflow-hidden bg-linear-to-br from-green/15 via-yellow/10 to-orange/15">
       {image?.asset?.url && (
-        <img src={image.asset.url} alt={titre ?? ''} className="w-full h-full object-cover" />
+        <Image src={image.asset.url} alt={titre ?? ''} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
       )}
     </div>
   )

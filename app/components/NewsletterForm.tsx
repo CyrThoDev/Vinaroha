@@ -31,7 +31,9 @@ export function NewsletterForm() {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} className="flex rounded-lg overflow-hidden">
+        <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
         <input
+          id="newsletter-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

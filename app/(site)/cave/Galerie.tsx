@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 type GalerieProps = {
   images?: string[]
 }
@@ -12,8 +14,8 @@ export function Galerie({ images }: GalerieProps) {
     <section className="bg-background">
       <div className="grid grid-cols-3 sm:grid-cols-5">
         {photos.map((url, i) => (
-          <div key={i} className={`aspect-square overflow-hidden ${i % 2 === 0 ? 'bg-zinc-200' : 'bg-zinc-100'}`}>
-            {url && <img src={url} alt="" className="w-full h-full object-cover" />}
+          <div key={i} className={`relative aspect-square overflow-hidden ${i % 2 === 0 ? 'bg-zinc-200' : 'bg-zinc-100'}`}>
+            {url && <Image src={url} alt="" fill sizes="20vw" className="object-cover" />}
           </div>
         ))}
       </div>

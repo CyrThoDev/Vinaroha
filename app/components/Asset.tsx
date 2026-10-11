@@ -28,6 +28,7 @@ export function Asset({
   color,
   color2,
   imageUrl,
+  imageFit = 'cover',
   stretchToFill,
   cover,
   className,
@@ -41,6 +42,8 @@ export function Asset({
   color2?: string
   /** Remplace le fill par une image (le SVG clip la photo à sa forme) */
   imageUrl?: string
+  /** Cadrage de la photo dans la forme : "cover" (remplit, quitte à rogner) ou "contain" (photo entière visible) */
+  imageFit?: 'cover' | 'contain'
   /** Force le SVG à s'étirer pour remplir son container (déforme la forme si le ratio diffère) */
   stretchToFill?: boolean
   /** Redimensionne le SVG à l'échelle (sans déformation) pour remplir son container, quitte à rogner les bords */
@@ -129,9 +132,10 @@ export function Asset({
     // Remplace le(s) path coloré(s) par un élément <image> : les clipPaths du SVG découpent l'image à la forme
     const viewBox = svg.match(/viewBox="[^"]*\s+[^"]*\s+([\d.]+)\s+([\d.]+)"/)
     const [imgWidth, imgHeight] = viewBox ? [viewBox[1], viewBox[2]] : ['1154', '1501']
+    const imagePreserveAspectRatio = imageFit === 'contain' ? 'xMidYMid meet' : 'xMidYMid slice'
     svg = svg.replace(
       /<path fill="#[0-9a-fA-F]{6}" d="[^"]*" fill-opacity="[^"]*" fill-rule="nonzero"\/>/g,
-      `<image href="${imageUrl}" x="0" y="0" width="${imgWidth}" height="${imgHeight}" preserveAspectRatio="xMidYMid slice" />`
+      `<image href="${imageUrl}" x="0" y="0" width="${imgWidth}" height="${imgHeight}" preserveAspectRatio="${imagePreserveAspectRatio}" />`
     )
   } else if (color) {
     if (color2) {
