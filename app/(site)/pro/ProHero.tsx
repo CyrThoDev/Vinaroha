@@ -21,7 +21,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
       />
       <div className="relative max-w-6xl mx-auto px-6 pt-10 pb-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div className="flex flex-col gap-5">
-          <span className="inline-block bg-orange text-white rounded-lg px-4 py-2  font-black uppercase  w-fit">
+          <span className="inline-block bg-orange text-white rounded-lg px-4 py-2 font-accent text-2xl leading-snug w-fit">
             Espace pro
           </span>
           <h1 className="font-accent text-5xl md:text-6xl uppercase leading-none text-white">
@@ -36,7 +36,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
               {telephone && (
                 <a
                   href={`tel:${telephone.replace(/\s+/g, '')}`}
-                  className="font-urbanist font-bold uppercase  bg-zinc-900 text-white rounded-lg px-6 py-2.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow"
+                  className="font-accent text-2xl leading-snug bg-zinc-900 text-white rounded-lg px-6 py-2.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-yellow"
                 >
                   Appeler &nbsp;⟶
                 </a>
@@ -46,7 +46,7 @@ export function ProHero({ titre, description, imageUrl, telephone, whatsapp }: P
                   href={`https://wa.me/${whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-urbanist font-bold uppercase  bg-yellow text-zinc-900 rounded-lg px-6 py-2.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange"
+                  className="font-accent text-2xl leading-snug bg-yellow text-zinc-900 rounded-lg px-6 py-2.5 flex items-center gap-2 hover:opacity-80 transition-opacity w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange"
                 >
                   WhatsApp &nbsp;⟶
                 </a>

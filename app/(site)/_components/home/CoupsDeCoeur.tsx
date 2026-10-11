@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Asset } from '@/app/components/Asset'
 
 type CoupsDeCoeurProps = {
@@ -18,11 +19,13 @@ export function CoupsDeCoeur({ items, backgroundImageUrl }: CoupsDeCoeurProps) {
       {/* Image de fond */}
       {backgroundImageUrl && (
         <div className="absolute inset-0 overflow-hidden">
-          <img
+          <Image
             src={backgroundImageUrl}
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover opacity-50 pointer-events-none select-none"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-50 pointer-events-none select-none"
           />
         </div>
       )}
@@ -42,9 +45,9 @@ export function CoupsDeCoeur({ items, backgroundImageUrl }: CoupsDeCoeurProps) {
             const item = items[i]
             return (
               <div key={item?._id ?? i} className="max-w-64 mx-auto w-full rounded-3xl overflow-hidden flex flex-col">
-                <div className="rounded-t-full overflow-hidden aspect-square bg-zinc-100">
+                <div className="relative rounded-t-full overflow-hidden aspect-square bg-zinc-100">
                   {item?.photo?.asset?.url ? (
-                    <img src={item.photo.asset.url} alt={item.name} className="w-full h-full object-cover" />
+                    <Image src={item.photo.asset.url} alt={item.name} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
                   ) : (
                     <div className="w-full h-full bg-zinc-200" />
                   )}

@@ -44,6 +44,10 @@ export const proPageOffreSchema = defineType({
   fields: [
     defineField({ name: 'offreTitre', title: 'Titre de la section', type: 'string', description: 'Ex : Ce que nous proposons' }),
     defineField({
+      name: 'offreImageFond', title: 'Image de fond', type: 'image',
+      description: 'Image discrète en fond de la section, comme sur la page d\'accueil (ex : coups de cœur).',
+    }),
+    defineField({
       name: 'offre', title: 'Services', type: 'array',
       of: [{
         type: 'object', name: 'service',

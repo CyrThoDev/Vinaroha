@@ -8,7 +8,7 @@ type NotreEquipeProps = {
 }
 
 const MEMBRES_DEFAUT: Membre[] = [{}, {}, {}]
-const PHOTO_SIZE = 'w-44 h-44 md:w-56 md:h-56'
+const PHOTO_SIZE = 'w-52 h-52 md:w-64 md:h-64'
 
 export function NotreEquipe({ titre, equipe }: NotreEquipeProps) {
   const membres = equipe && equipe.length > 0 ? equipe : MEMBRES_DEFAUT

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Asset } from '@/app/components/Asset'
 import type { SanityEvent } from '@/sanity/lib/queries'
 
@@ -30,9 +31,9 @@ export function ProchainesDates({ events, posterUrl }: ProchainesDatesProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 
           {/* Col gauche — affiche gérée depuis la page d'accueil */}
-          <div className="aspect-square overflow-hidden rounded-sm ">
+          <div className="relative aspect-square overflow-hidden rounded-sm ">
             {posterUrl ? (
-              <img src={posterUrl} alt="Les prochaines dates" className="w-full h-full object-contain" />
+              <Image src={posterUrl} alt="Les prochaines dates" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-contain" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-white/20  italic">Affiche à venir</div>
             )}

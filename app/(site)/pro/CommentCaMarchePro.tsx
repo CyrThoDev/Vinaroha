@@ -28,7 +28,7 @@ export function CommentCaMarchePro({ titre, etapes }: CommentCaMarcheProProps) {
   const items = etapes && etapes.length > 0 ? etapes : ETAPES_DEFAUT
 
   return (
-    <section className="px-6 py-16">
+    <section className="px-6 pt-24 pb-16">
       <div className="relative max-w-6xl mx-auto overflow-hidden">
         <Asset
           name="rectangle"
@@ -38,7 +38,7 @@ export function CommentCaMarchePro({ titre, etapes }: CommentCaMarcheProProps) {
         />
 
         <div className="relative px-8 py-14 md:px-14">
-          <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-white text-center mb-12">
+          <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 text-center mb-12">
             {titre ?? 'Comment ça marche ?'}
           </h2>
 
@@ -48,13 +48,13 @@ export function CommentCaMarchePro({ titre, etapes }: CommentCaMarcheProProps) {
                 <div className="h-14 flex items-center justify-center">
                   <Asset
                     name={ICONES[i % ICONES.length]}
-                    color="#ffffff"
+                    color="#232526"
                     color2={ICONES[i % ICONES.length] === 'leaf' ? '#EBB132' : undefined}
                     className="h-full w-auto [&_svg]:h-full [&_svg]:w-auto"
                   />
                 </div>
-                <p className="font-black uppercase  text-white">{etape.label}</p>
-                <p className="text-white/80  max-w-xs">{etape.texte}</p>
+                <p className="font-black uppercase  text-zinc-900">{etape.label}</p>
+                <p className="text-zinc-900/80  max-w-xs">{etape.texte}</p>
               </div>
             ))}
           </div>

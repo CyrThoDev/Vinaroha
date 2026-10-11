@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Asset } from '@/app/components/Asset'
 
 type PlageHoraire = { jours: string; heures: string }
@@ -97,11 +98,13 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
           </div>
 
           {/* [1,2] Photo La Cave */}
-          <div className="order-2 aspect-video rounded-sm overflow-hidden">
-            <img
+          <div className="relative order-2 aspect-video rounded-sm overflow-hidden">
+            <Image
               src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=700&q=80"
               alt="Notre Cave"
-              className="w-full h-full object-cover"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
             />
           </div>
 
@@ -117,11 +120,13 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
           </div>
 
           {/* [2,1] Photo Les Halles */}
-          <div className="order-4 md:order-3 aspect-video rounded-sm overflow-hidden">
-            <img
+          <div className="relative order-4 md:order-3 aspect-video rounded-sm overflow-hidden">
+            <Image
               src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=700&q=80"
               alt="Les Halles de Mimizan"
-              className="w-full h-full object-cover"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
             />
           </div>
 

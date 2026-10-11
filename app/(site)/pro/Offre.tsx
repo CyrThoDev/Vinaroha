@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Asset } from '@/app/components/Asset'
 
 type Service = { titre?: string; texte?: string }
@@ -5,6 +6,7 @@ type Service = { titre?: string; texte?: string }
 type OffreProps = {
   titre?: string
   offre?: Service[]
+  backgroundImageUrl?: string
 }
 
 const OFFRE_DEFAUT: Service[] = [
@@ -28,13 +30,28 @@ const OFFRE_DEFAUT: Service[] = [
 
 const ICONES = ['bouteillevin', 'leaf', 'glass', 'gift'] as const
 
-export function Offre({ titre, offre }: OffreProps) {
+export function Offre({ titre, offre, backgroundImageUrl }: OffreProps) {
   const items = offre && offre.length > 0 ? offre : OFFRE_DEFAUT
 
   return (
-    <section className="bg-[#EDE1C0] py-16 px-6">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12 text-center">
+    <section className="bg-background py-16 px-6 relative overflow-hidden">
+
+      {/* Image de fond */}
+      {backgroundImageUrl && (
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src={backgroundImageUrl}
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-50 pointer-events-none select-none"
+          />
+        </div>
+      )}
+
+      <div className="max-w-6xl mx-auto relative">
+        <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900 mb-12">
           {titre ?? 'Ce que nous proposons'}
         </h2>
 
@@ -43,7 +60,7 @@ export function Offre({ titre, offre }: OffreProps) {
             const icone = ICONES[i % ICONES.length]
             return (
               <div key={s.titre ?? i} className="bg-background rounded-2xl p-6">
-                <div className="w-10 h-10 mb-4 rounded-lg bg-orange flex items-center justify-center p-2">
+                <div className="w-10 h-10 mb-4 rounded-lg bg-green flex items-center justify-center p-2">
                   <Asset
                     name={icone}
                     color="#ffffff"
