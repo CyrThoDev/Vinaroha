@@ -10,7 +10,7 @@ const CATEGORY_GROUPS: Array<{ key: string; label: string; types: string[] }> = 
   { key: 'bulles', label: 'Bulles', types: ['champagne', 'effervescent'] },
   { key: 'bieres', label: 'Bières', types: ['bieres'] },
   { key: 'spiritueux', label: 'Spiritueux', types: ['gin', 'rhum', 'armagnac', 'whisky-bourbon'] },
-  { key: 'soft', label: 'Soft', types: ['soft'] },
+  { key: 'soft', label: 'Soft', types: ['soft', 'tonic'] },
   { key: 'epicerie', label: 'Épicerie', types: ['epicerie'] },
 ]
 
@@ -25,6 +25,7 @@ const CERT_LABELS: Record<string, string> = {
   biodynamie: 'Biodynamie',
   nature: 'Nature',
   'terravitis-hve': 'Terra Vitis / HVE',
+  raisonnee: 'Raisonnée',
   conventionnel: 'Conventionnel',
 }
 

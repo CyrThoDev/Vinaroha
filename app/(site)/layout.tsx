@@ -181,6 +181,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
               <li><Link href="/producteurs" className="text-sm text-background/70 hover:text-background transition-colors">Sur nos étagères</Link></li>
               <li><Link href="/agenda" className="text-sm text-background/70 hover:text-background transition-colors">Agenda</Link></li>
               <li><Link href="/evenements" className="text-sm text-background/70 hover:text-background transition-colors">Vos évènements et cadeaux</Link></li>
+              <li><Link href="/pro" className="text-sm text-background/70 hover:text-background transition-colors">Pro & Restaurateurs</Link></li>
             </ul>
           </div>
 
