@@ -43,6 +43,20 @@ const TYPE_SPIRITUEUX_LABELS: Record<string, string> = {
   'whisky-bourbon': 'Whisky / Bourbon',
 }
 
+const TYPE_ARTICLE_LABELS: Record<string, string> = {
+  vin: 'Vin',
+  champagne: 'Champagne',
+  effervescent: 'Effervescent',
+  bieres: 'Bière',
+  rhum: 'Rhum',
+  gin: 'Gin',
+  armagnac: 'Armagnac',
+  'whisky-bourbon': 'Whisky / Bourbon',
+  soft: 'Soft',
+  tonic: 'Tonic',
+  epicerie: 'Épicerie',
+}
+
 const PAGE_SIZE = 12
 
 type CatalogueProps = {
@@ -186,13 +200,31 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
 
         {/* Niveau 2 — filtres spécifiques à la catégorie + filtres transversaux */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
-          <input
-            type="text"
-            value={recherche}
-            onChange={(e) => { setRecherche(e.target.value); setVisible(PAGE_SIZE) }}
-            placeholder="Rechercher ..."
-            className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm min-w-56 focus:outline-none focus:border-orange"
-          />
+          <div className="flex flex-col gap-1">
+            <input
+              type="text"
+              value={recherche}
+              onChange={(e) => {
+                const value = e.target.value
+                setRecherche(value)
+                if (value) {
+                  // Une recherche tapée à la main doit porter sur tout le catalogue, pas rester
+                  // bridée par les filtres déjà actifs.
+                  setCategorie('')
+                  setRegion('')
+                  setCertification('')
+                  setCouleur('')
+                  setStyle('')
+                  setTypeSpiritueux('')
+                  setOrigineLocale(false)
+                }
+                setVisible(PAGE_SIZE)
+              }}
+              placeholder="Rechercher ..."
+              className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm min-w-56 focus:outline-none focus:border-orange"
+            />
+           
+          </div>
 
           {/* Vins */}
           {categorie === 'vin' && couleurs.length > 0 && (
@@ -248,14 +280,21 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
           {(categorie === 'vin' || categorie === 'bulles' || categorie === '') && (
             <select
               value={certification}
-              onChange={(e) => { setCertification(e.target.value); setVisible(PAGE_SIZE) }}
+              onChange={(e) => {
+                const value = e.target.value
+                setCertification(value)
+                // Bio/Biodynamie/Nature... sont des sous-catégories de vin : en choisir une
+                // depuis "Bulles" bascule sur "Vin", où on retrouve ces sous-catégories.
+                if (categorie === 'bulles' && value) setCategorie('vin')
+                setVisible(PAGE_SIZE)
+              }}
               className="rounded-lg border border-zinc-400 px-4 py-1.5 text-sm bg-background focus:outline-none focus:border-orange"
             >
-              <option value="">Bio / nature</option>
+              <option value="">Tous</option>
               {Object.entries(CERT_LABELS).map(([key, label]) => (
                 <option key={key} value={key}>{label}</option>
               ))}
-              <option value={CERT_NEUTRE}>Tous</option>
+              <option value={CERT_NEUTRE}>Sans certification</option>
             </select>
           )}
         </div>
@@ -286,48 +325,78 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
         {/* Grille */}
         {visibleItems.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {visibleItems.map(p => (
-              <button
+            {visibleItems.map(p => {
+              const hasDescription = Boolean(p.description && p.description.length > 0)
+              const Wrapper = hasDescription ? 'button' : 'div'
+              return (
+              <Wrapper
                 key={p._id}
-                type="button"
-                onClick={() => setSelected(p)}
-                className="flex items-center text-left gap-3 p-4 rounded-xl border border-zinc-200 cursor-pointer hover:border-orange has-[.cert-tag:hover]:border-zinc-200 transition-colors"
+                {...(hasDescription ? { type: 'button', onClick: () => setSelected(p) } : {})}
+                className={`relative flex items-center text-left gap-3 p-4 rounded-xl border border-zinc-200 transition-colors ${
+                  hasDescription ? 'cursor-pointer hover:border-orange has-[.cert-tag:hover]:border-zinc-200' : ''
+                }`}
               >
-                <div className="w-20 h-20 shrink-0 flex items-center justify-center">
+                {p.region && (
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setRegion(p.region ?? '')
+                      setVisible(PAGE_SIZE)
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key !== 'Enter' && e.key !== ' ') return
+                      e.stopPropagation()
+                      e.preventDefault()
+                      setRegion(p.region ?? '')
+                      setVisible(PAGE_SIZE)
+                    }}
+                    className="cert-tag absolute top-2 right-2 text-[0.6875rem] bg-green text-white rounded-full px-2 py-0.5 hover:opacity-80 transition-opacity"
+                  >
+                    {p.region}
+                  </span>
+                )}
+                <div className="w-20 h-20 shrink-0 rounded-lg flex items-center justify-center">
                   {icons?.[groupOf(p.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']}
                 </div>
                 <div className="flex flex-col gap-2 min-w-0 flex-1">
-                  <p className="font-black uppercase text-base text-zinc-900 leading-tight">{p.name}</p>
-                  {(p.region || p.appellationPrincipale) && (
-                    <p className="text-sm text-orange">
-                      {[p.region, p.appellationPrincipale].filter(Boolean).join(' · ')}
+                  <p className="font-black uppercase text-base text-zinc-900 leading-tight pr-14">{p.name}</p>
+                  {p.typeArticle && TYPE_ARTICLE_LABELS[p.typeArticle] && (
+                    <p className="text-xs text-zinc-400 uppercase tracking-wide -mt-1.5">
+                      {TYPE_ARTICLE_LABELS[p.typeArticle]}
                     </p>
                   )}
+                  {p.appellationPrincipale && (
+                    <p className="text-sm text-zinc-600">{p.appellationPrincipale}</p>
+                  )}
                   {p.certifications && p.certifications.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {p.certifications.map(c => (
-                        <span
-                          key={c}
-                          role="button"
-                          tabIndex={0}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setCertification(c)
-                            setVisible(PAGE_SIZE)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key !== 'Enter' && e.key !== ' ') return
-                            e.stopPropagation()
-                            e.preventDefault()
-                            setCertification(c)
-                            setVisible(PAGE_SIZE)
-                          }}
-                          className="cert-tag text-[0.6875rem] bg-green text-white rounded-full px-2 py-0.5 hover:opacity-80 transition-opacity"
-                        >
-                          {CERT_LABELS[c] ?? c}
+                    <p className="text-xs text-orange">
+                      {p.certifications.map((c, i) => (
+                        <span key={c}>
+                          {i > 0 && ' · '}
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setCertification(c)
+                              setVisible(PAGE_SIZE)
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key !== 'Enter' && e.key !== ' ') return
+                              e.stopPropagation()
+                              e.preventDefault()
+                              setCertification(c)
+                              setVisible(PAGE_SIZE)
+                            }}
+                            className="hover:underline"
+                          >
+                            {CERT_LABELS[c] ?? c}
+                          </span>
                         </span>
                       ))}
-                    </div>
+                    </p>
                   )}
                   {p.description && p.description.length > 0 && (
                     <span className="font-fontjek text-sm border-b border-zinc-400 pb-0.5 mt-1 w-fit">
@@ -335,8 +404,9 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
                     </span>
                   )}
                 </div>
-              </button>
-            ))}
+              </Wrapper>
+              )
+            })}
           </div>
         ) : (
           <p className="text-center text-zinc-400 italic">Nous n'avons rien correspondant à ces filtres.</p>
@@ -384,47 +454,67 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
               </svg>
             </button>
 
-            {/* <div className="w-full h-48 rounded-lg bg-zinc-50 flex items-center justify-center p-10">
-              {icons?.[groupOf(selected.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']}
-            </div> */}
-
-            <h3 className="font-accent text-3xl uppercase text-zinc-900">{selected.name}</h3>
-
-            {(selected.region || selected.appellationPrincipale) && (
-              <p className="text-orange">
-                {[selected.region, selected.appellationPrincipale].filter(Boolean).join(' · ')}
-              </p>
-            )}
+            <div className="flex items-center gap-4">
+              <div className="w-20 h-20 shrink-0 rounded-lg flex items-center justify-center">
+                {icons?.[groupOf(selected.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']}
+              </div>
+              <div className="flex flex-col gap-1 min-w-0">
+                <h3 className="font-accent text-3xl uppercase text-zinc-900 leading-tight">{selected.name}</h3>
+                {selected.typeArticle && TYPE_ARTICLE_LABELS[selected.typeArticle] && (
+                  <p className="text-xs text-zinc-400 uppercase tracking-wide">
+                    {TYPE_ARTICLE_LABELS[selected.typeArticle]}
+                  </p>
+                )}
+              </div>
+            </div>
 
             {selected.prix != null && (
               <p className="font-black text-zinc-900">{selected.prix}&nbsp;€</p>
             )}
 
-            {selected.certifications && selected.certifications.length > 0 && (
-              <div className="flex flex-wrap gap-1">
-                {selected.certifications.map(c => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => {
-                      setCertification(c)
-                      setVisible(PAGE_SIZE)
-                      setSelected(null)
-                    }}
-                    className="text-xs bg-green text-white rounded-full px-2 py-0.5 hover:opacity-80 transition-opacity"
-                  >
-                    {CERT_LABELS[c] ?? c}
-                  </button>
-                ))}
-              </div>
+            {selected.region && (
+              <button
+                type="button"
+                onClick={() => {
+                  setRegion(selected.region ?? '')
+                  setVisible(PAGE_SIZE)
+                  setSelected(null)
+                }}
+                className="text-xs bg-green text-white rounded-full px-2 py-0.5 hover:opacity-80 transition-opacity w-fit"
+              >
+                {selected.region}
+              </button>
             )}
 
-            {selected.description && selected.description.length > 0 ? (
+            {selected.appellationPrincipale && (
+              <p className="text-zinc-600">{selected.appellationPrincipale}</p>
+            )}
+
+            {selected.certifications && selected.certifications.length > 0 && (
+              <p className="text-sm text-orange">
+                {selected.certifications.map((c, i) => (
+                  <span key={c}>
+                    {i > 0 && ' · '}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCertification(c)
+                        setVisible(PAGE_SIZE)
+                        setSelected(null)
+                      }}
+                      className="hover:underline"
+                    >
+                      {CERT_LABELS[c] ?? c}
+                    </button>
+                  </span>
+                ))}
+              </p>
+            )}
+
+            {selected.description && selected.description.length > 0 && (
               <div className="text-zinc-600 leading-relaxed flex flex-col gap-3 mt-2">
                 <PortableText value={selected.description} />
               </div>
-            ) : (
-              <p className="text-zinc-400 italic mt-2">Pas de description renseignée pour l&apos;instant.</p>
             )}
           </div>
         )}
