@@ -34,6 +34,7 @@ export const producteurSchema = defineType({
           { title: 'Gin',              value: 'gin'            },
           { title: 'Armagnac',         value: 'armagnac'       },
           { title: 'Whisky / Bourbon', value: 'whisky-bourbon' },
+          { title: 'Spiritueux',       value: 'spiritueux'     },
           { title: 'Soft',             value: 'soft'           },
           { title: 'Tonic',            value: 'tonic'          },
           { title: 'Épicerie',         value: 'epicerie'       },

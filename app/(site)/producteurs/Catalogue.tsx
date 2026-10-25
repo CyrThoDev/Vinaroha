@@ -9,7 +9,7 @@ const CATEGORY_GROUPS: Array<{ key: string; label: string; types: string[] }> = 
   { key: 'vin', label: 'Vins', types: ['vin'] },
   { key: 'bulles', label: 'Bulles', types: ['champagne', 'effervescent'] },
   { key: 'bieres', label: 'Bières', types: ['bieres'] },
-  { key: 'spiritueux', label: 'Spiritueux', types: ['gin', 'rhum', 'armagnac', 'whisky-bourbon'] },
+  { key: 'spiritueux', label: 'Spiritueux', types: ['gin', 'rhum', 'armagnac', 'whisky-bourbon', 'spiritueux'] },
   { key: 'soft', label: 'Soft', types: ['soft', 'tonic'] },
   { key: 'epicerie', label: 'Épicerie', types: ['epicerie'] },
 ]
@@ -52,6 +52,7 @@ const TYPE_ARTICLE_LABELS: Record<string, string> = {
   gin: 'Gin',
   armagnac: 'Armagnac',
   'whisky-bourbon': 'Whisky / Bourbon',
+  spiritueux: 'Spiritueux',
   soft: 'Soft',
   tonic: 'Tonic',
   epicerie: 'Épicerie',
