@@ -1,12 +1,4 @@
 import type { StructureResolver } from 'sanity/structure'
-import { createClient } from '@sanity/client'
-
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  apiVersion: '2025-05-25',
-  useCdn: false,
-})
 
 // Élément de menu "singleton" : pointe toujours vers le même document (id === type),
 // pour ne jamais permettre d'en créer un second par erreur.
@@ -31,7 +23,11 @@ const pageFolder = (
         .items(sections.map(({ type, title: sectionTitle }) => singleton(S, type, sectionTitle)))
     )
 
-export const structure: StructureResolver = async (S) => {
+export const structure: StructureResolver = async (S, context) => {
+  // Le client du contexte est authentifié avec la session Studio de l'utilisateur connecté —
+  // contrairement à un client créé à la main ici, qui serait anonyme et ne verrait pas les
+  // documents soumis aux règles de permission du projet (ex: "producteur" renvoie 0 en anonyme).
+  const client = context.getClient({ apiVersion: '2025-05-25' })
   const producteursCount = await client
     .fetch<number>('count(*[_type == "producteur"])')
     .catch(() => undefined)
