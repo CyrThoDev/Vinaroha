@@ -2,10 +2,11 @@
  * À coller dans le Google Sheet de Delphine : Extensions > Apps Script.
  * Ajoute un menu "Vin'Aroha" > "Synchroniser avec le site" dans la barre du Sheet.
  *
- * Ne synchronise que les lignes modifiées depuis la dernière synchro : une colonne
- * "Sync (auto)" est ajoutée/gérée automatiquement à la fin du tableau pour mémoriser
- * l'état déjà envoyé de chaque ligne (empreinte du contenu). Ne pas modifier cette colonne
- * à la main — elle sert uniquement au script.
+ * Ne synchronise que les lignes modifiées depuis la dernière synchro : deux colonnes sont
+ * ajoutées/gérées automatiquement à la fin du tableau — "Sync (auto)" (empreinte du contenu
+ * déjà envoyé) et "ID (auto)" (identifiant permanent de la fiche sur le site, renvoyé par le
+ * serveur après chaque synchro réussie — garantit que renommer un produit met à jour sa fiche
+ * au lieu d'en créer une nouvelle). Ne pas modifier ces colonnes à la main.
  *
  * Avant d'utiliser :
  * 1. Remplacer SITE_URL ci-dessous par l'URL réelle du site (vinaroha.com tant que le DNS
@@ -18,6 +19,7 @@ const SITE_URL = 'https://vinaroha.vercel.app' // à remplacer par https://vinar
 const SYNC_SECRET = 'COLLER_ICI_LE_SECRET'
 const SHEET_NAME = 'Feuille 1'
 const SYNC_COLUMN_HEADER = 'Sync (auto)'
+const ID_COLUMN_HEADER = 'ID (auto)'
 
 function onOpen() {
   SpreadsheetApp.getUi()
@@ -72,11 +74,16 @@ function syncCatalogue() {
     return
   }
 
-  // Colonne de suivi "Sync (auto)" : on la crée à la fin du tableau si elle n'existe pas encore.
+  // Colonnes de suivi "Sync (auto)" et "ID (auto)" : créées à la fin du tableau si absentes.
   let syncColIndex = col(SYNC_COLUMN_HEADER)
   if (syncColIndex === -1) {
     syncColIndex = headers.length
     sheet.getRange(1, syncColIndex + 1).setValue(SYNC_COLUMN_HEADER)
+  }
+  let idColIndex = col(ID_COLUMN_HEADER)
+  if (idColIndex === -1) {
+    idColIndex = Math.max(syncColIndex, headers.length) + 1
+    sheet.getRange(1, idColIndex + 1).setValue(ID_COLUMN_HEADER)
   }
 
   const fieldIdx = [
@@ -99,6 +106,7 @@ function syncCatalogue() {
       hash: currentHash,
       payload: {
         row: r + 1,
+        id: String(line[idColIndex] || '').trim() || undefined,
         nom,
         typeArticle: String(line[idx.typeArticle] || '').trim(),
         region: String(line[idx.region] || '').trim(),
@@ -139,12 +147,17 @@ function syncCatalogue() {
     return
   }
 
-  // Marque comme synchronisées (met à jour la colonne "Sync (auto)") toutes les lignes envoyées
-  // SAUF celles qui ont été ignorées par le serveur (erreurs) : elles seront retentées au prochain lancement.
+  // Marque comme synchronisées (met à jour "Sync (auto)" et "ID (auto)") toutes les lignes
+  // envoyées SAUF celles ignorées par le serveur (erreurs) : elles seront retentées au prochain lancement.
   const erroredRows = new Set((result.errors || []).map((e) => e.row))
+  const idByRow = {}
+  ;(result.syncedRows || []).forEach((s) => { idByRow[s.row] = s.id })
   toSend.forEach((s) => {
     if (erroredRows.has(s.sheetRow)) return
     sheet.getRange(s.sheetRow, syncColIndex + 1).setValue(s.hash)
+    if (idByRow[s.sheetRow]) {
+      sheet.getRange(s.sheetRow, idColIndex + 1).setValue(idByRow[s.sheetRow])
+    }
   })
 
   let message = `✅ ${toSend.length} ligne(s) modifiée(s) détectée(s), ${result.synced} synchronisée(s)\n` +

@@ -16,6 +16,7 @@ import { writeClient } from '@/sanity/lib/writeClient'
 
 type SheetRow = {
   row?: number // numéro de ligne réel dans le Sheet, fourni par Apps Script (synchro partielle : seules les lignes modifiées sont envoyées)
+  id?: string // identifiant stable assigné une fois pour toutes par Apps Script à cette ligne — ne change jamais, même si le nom est modifié
   nom?: string
   typeArticle?: string
   region?: string
@@ -77,7 +78,7 @@ export async function POST(req: NextRequest) {
   }
 
   const errors: { row: number; message: string }[] = []
-  const toSync: { id: string; nom: string; slug: string; typeArticle: string; patchFields: Record<string, unknown> }[] = []
+  const toSync: { row: number; id: string; docKey: string; nom: string; slug: string; typeArticle: string; patchFields: Record<string, unknown> }[] = []
   const seenSlugs = new Set<string>()
 
   rows.forEach((row, i) => {
@@ -100,14 +101,13 @@ export async function POST(req: NextRequest) {
       return
     }
 
-    // Même nom + même type = doublon. Même nom mais type différent (ex. un domaine qui produit
-    // à la fois un vin et un rhum) = deux fiches distinctes, légitimes.
-    const slug = slugify(`${nom}-${typeArticle}`)
-    if (seenSlugs.has(slug)) {
+    // Même nom + même type = doublon probable (erreur de saisie dans le Sheet) → signalé, ligne ignorée.
+    const nameTypeKey = slugify(`${nom}-${typeArticle}`)
+    if (seenSlugs.has(nameTypeKey)) {
       errors.push({ row: line, message: `Doublon détecté pour "${nom}" (même nom et même type qu'une ligne précédente) — ligne ignorée.` })
       return
     }
-    seenSlugs.add(slug)
+    seenSlugs.add(nameTypeKey)
 
     const certifications = [
       row.bio && 'bio',
@@ -117,8 +117,16 @@ export async function POST(req: NextRequest) {
       row.raisonnee && 'raisonnee',
     ].filter((c): c is string => Boolean(c))
 
+    // L'identité du document Sanity (_id) doit être stable même si le nom change dans le Sheet —
+    // on utilise l'id permanent assigné par Apps Script à la ligne, pas un slug dérivé du nom
+    // (sinon renommer un produit créerait une nouvelle fiche au lieu de mettre à jour l'existante).
+    const docKey = row.id?.trim() || nameTypeKey
+    const slug = slugify(nom)
+
     toSync.push({
-      id: `producteur.sheet-${slug}`,
+      row: line,
+      id: `producteur.sheet-${docKey}`,
+      docKey,
       nom,
       slug,
       typeArticle,
@@ -179,5 +187,9 @@ export async function POST(req: NextRequest) {
     created,
     updated,
     errors,
+    // Pour chaque ligne traitée avec succès, l'id permanent à mémoriser côté Sheet (colonne
+    // "ID (auto)") — garantit que les prochaines synchros de cette ligne mettront à jour la
+    // même fiche Sanity même si le nom change.
+    syncedRows: toSync.map((p) => ({ row: p.row, id: p.docKey })),
   })
 }
