@@ -134,8 +134,11 @@ export async function POST(req: NextRequest) {
         name: nom,
         slug: { _type: 'slug', current: slug },
         typeArticle,
-        region: row.region?.trim() || undefined,
-        appellationPrincipale: row.appellation?.trim() || undefined,
+        // "|| ''" et non "|| undefined" : un champ undefined est supprimé par JSON.stringify
+        // avant l'envoi à Sanity, donc .set() l'ignore silencieusement et l'ancienne valeur
+        // reste en place — vider la cellule dans le Sheet ne l'aurait alors jamais effacée ici.
+        region: row.region?.trim() || '',
+        appellationPrincipale: row.appellation?.trim() || '',
         certifications,
         description: row.description?.trim()
           ? [{ _type: 'block', style: 'normal', children: [{ _type: 'span', text: row.description.trim() }] }]
