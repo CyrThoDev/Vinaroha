@@ -1,4 +1,12 @@
 import type { StructureResolver } from 'sanity/structure'
+import { createClient } from '@sanity/client'
+
+const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: '2025-05-25',
+  useCdn: false,
+})
 
 // Élément de menu "singleton" : pointe toujours vers le même document (id === type),
 // pour ne jamais permettre d'en créer un second par erreur.
@@ -23,8 +31,12 @@ const pageFolder = (
         .items(sections.map(({ type, title: sectionTitle }) => singleton(S, type, sectionTitle)))
     )
 
-export const structure: StructureResolver = (S) =>
-  S.list()
+export const structure: StructureResolver = async (S) => {
+  const producteursCount = await client
+    .fetch<number>('count(*[_type == "producteur"])')
+    .catch(() => undefined)
+
+  return S.list()
     .title('Contenu')
     .items([
       S.documentTypeListItem('siteSettings').title('Coordonnées'),
@@ -73,7 +85,10 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
-      S.documentTypeListItem('producteur').title('Producteurs'),
+      S.documentTypeListItem('producteur').title(
+        producteursCount != null ? `Producteurs (${producteursCount})` : 'Producteurs'
+      ),
       S.documentTypeListItem('eventType').title("Types d'événements"),
       S.documentTypeListItem('event').title('Événements'),
     ])
+}
