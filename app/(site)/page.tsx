@@ -27,7 +27,14 @@ type PlageHoraire = { jours: string; heures: string }
 
 type HomePage = {
   heroCave?: { photo?: { asset?: { url: string } }; titre?: string; texte?: string; ctaLabel?: string }
-  hero?: { image?: { asset?: { url: string } } }
+  hero?: { image?: { asset?: { url: string } }; eyebrow?: string; titre?: string; texte?: string }
+  caveEtHalles?: {
+    caveTexte?: string
+    cavePhoto?: { asset?: { url: string } }
+    hallesTexte?: string
+    hallesPhoto?: { asset?: { url: string } }
+  }
+  evenementsCadeaux?: { eyebrow?: string; titre?: string; texte?: string }
   agendaAffiche?: { asset?: { url: string } }
   coupsDeCoeur?: Array<{ _id: string; name: string; region?: string; appellationPrincipale?: string; photo?: { asset?: { url: string } } }>
   coupsDeCoeurFond?: { asset?: { url: string } }
@@ -65,12 +72,24 @@ export default async function HomePage() {
         titre={heroCave?.titre}
         texte={heroCave?.texte}
         ctaLabel={heroCave?.ctaLabel}
+        caveTexte={homepage?.caveEtHalles?.caveTexte}
+        cavePhotoUrl={homepage?.caveEtHalles?.cavePhoto?.asset?.url}
+        hallesTexte={homepage?.caveEtHalles?.hallesTexte}
+        hallesPhotoUrl={homepage?.caveEtHalles?.hallesPhoto?.asset?.url}
       />
-      <BoxAbonnement imageUrl={hero?.image?.asset?.url} />
+      <BoxAbonnement
+        imageUrl={hero?.image?.asset?.url}
+        eyebrow={hero?.eyebrow}
+        titre={hero?.titre}
+        texte={hero?.texte}
+      />
       <ProchainesDates events={nextEvents} posterUrl={homepage?.agendaAffiche?.asset?.url} />
       <ProducteurDuMois producteur={producteur ?? undefined} />
       <CoupsDeCoeur items={coupsDeCoeur} backgroundImageUrl={homepage?.coupsDeCoeurFond?.asset?.url} />
       <EvenementsEtCadeaux
+        eyebrow={homepage?.evenementsCadeaux?.eyebrow}
+        titre={homepage?.evenementsCadeaux?.titre}
+        texte={homepage?.evenementsCadeaux?.texte}
         items={(evenementsPage?.sections ?? []).map((s) => ({
           label: s.badge,
           href: '/evenements',

@@ -11,9 +11,16 @@ type CaveEtHallesProps = {
   titre?: string
   texte?: string
   ctaLabel?: string
+  caveTexte?: string
+  cavePhotoUrl?: string
+  hallesTexte?: string
+  hallesPhotoUrl?: string
 }
 
-export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, texte, ctaLabel }: CaveEtHallesProps) {
+export function CaveEtHalles({
+  horairesCave, horairesHalles, photoUrl, titre, texte, ctaLabel,
+  caveTexte, cavePhotoUrl, hallesTexte, hallesPhotoUrl,
+}: CaveEtHallesProps) {
   return (
     <section className=" max-w-7xl mx-auto bg-background overflow-hidden">
 
@@ -91,16 +98,14 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
               La Cave
             </span>
             <p className="text-zinc-600">
-              Un espace chaleureux dédié au conseil, à la découverte et au partage.
-              Venez rencontrer notre équipe, déguster et repartir avec la bouteille qui vous correspond.
-              Nous sélectionnons des vins naturels et vivants, avec une attention particulière au terroir.
+              {caveTexte ?? "Un espace chaleureux dédié au conseil, à la découverte et au partage. Venez rencontrer notre équipe, déguster et repartir avec la bouteille qui vous correspond. Nous sélectionnons des vins naturels et vivants, avec une attention particulière au terroir."}
             </p>
           </div>
 
           {/* [1,2] Photo La Cave */}
           <div className="relative order-2 aspect-video rounded-sm overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=700&q=80"
+              src={cavePhotoUrl ?? 'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=700&q=80'}
               alt="Notre Cave"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
@@ -114,15 +119,14 @@ export function CaveEtHalles({ horairesCave, horairesHalles, photoUrl, titre, te
               Les Halles
             </span>
             <p className="text-zinc-600">
-              Notre espace aux Halles de Mimizan, pour retrouver une sélection de vins au cœur du marché.
-              Une adresse de proximité pour les amateurs curieux. Venez nous rendre visite le week-end.
+              {hallesTexte ?? "Notre espace aux Halles de Mimizan, pour retrouver une sélection de vins au cœur du marché. Une adresse de proximité pour les amateurs curieux. Venez nous rendre visite le week-end."}
             </p>
           </div>
 
           {/* [2,1] Photo Les Halles */}
           <div className="relative order-4 md:order-3 aspect-video rounded-sm overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=700&q=80"
+              src={hallesPhotoUrl ?? 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=700&q=80'}
               alt="Les Halles de Mimizan"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

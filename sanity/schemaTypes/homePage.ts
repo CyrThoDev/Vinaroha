@@ -26,6 +26,32 @@ export const homePageSchema = defineType({
       description: "Contenu de la section « La Box » de la page d'accueil.",
       fields: [
         defineField({ name: 'image', title: 'Photo de la Box', type: 'image', options: { hotspot: true } }),
+        defineField({ name: 'eyebrow', title: 'Petit texte au-dessus du titre', type: 'string', description: 'Ex : Abonnement' }),
+        defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : La Box' }),
+        defineField({ name: 'texte', title: 'Texte', type: 'text', rows: 3 }),
+      ],
+    }),
+    defineField({
+      name: 'caveEtHalles',
+      title: 'Présentation — La Cave & Les Halles',
+      type: 'object',
+      description: "Section de la page d'accueil qui présente les deux adresses (texte + photo de chacune).",
+      fields: [
+        defineField({ name: 'caveTexte', title: 'Texte — La Cave', type: 'text', rows: 3 }),
+        defineField({ name: 'cavePhoto', title: 'Photo — La Cave', type: 'image', options: { hotspot: true } }),
+        defineField({ name: 'hallesTexte', title: 'Texte — Les Halles', type: 'text', rows: 3 }),
+        defineField({ name: 'hallesPhoto', title: 'Photo — Les Halles', type: 'image', options: { hotspot: true } }),
+      ],
+    }),
+    defineField({
+      name: 'evenementsCadeaux',
+      title: 'Vos événements et cadeaux',
+      type: 'object',
+      description: "Section de la page d'accueil qui renvoie vers la page Événements & Cadeaux.",
+      fields: [
+        defineField({ name: 'eyebrow', title: 'Petit texte au-dessus du titre', type: 'string', description: 'Ex : Pour vos moments à partager' }),
+        defineField({ name: 'titre', title: 'Titre', type: 'string', description: 'Ex : Vos événements et cadeaux' }),
+        defineField({ name: 'texte', title: 'Texte', type: 'text', rows: 3 }),
       ],
     }),
     defineField({
