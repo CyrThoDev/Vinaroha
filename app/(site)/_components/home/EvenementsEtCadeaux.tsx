@@ -3,7 +3,13 @@ import { Asset, type AssetName } from '@/app/components/Asset'
 
 type Item = { label?: string; description?: string; href?: string; imageUrl?: string }
 
-type EvenementsEtCadeauxProps = { items?: Item[]; disabled?: boolean }
+type EvenementsEtCadeauxProps = {
+  items?: Item[]
+  disabled?: boolean
+  eyebrow?: string
+  titre?: string
+  texte?: string
+}
 
 const ITEMS_DEFAUT: Item[] = [
   { label: 'Privatisation de la cave', description: 'Un lieu chaleureux pour vos réceptions privées.',          href: '/evenements' },
@@ -14,7 +20,7 @@ const ITEMS_DEFAUT: Item[] = [
 const ICONES: AssetName[] = ['glass', 'bulles', 'gift']
 const CERCLE_COULEURS = ['bg-yellow', 'bg-orange', 'bg-yellow']
 
-export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCadeauxProps) {
+export function EvenementsEtCadeaux({ items, disabled = false, eyebrow, titre, texte }: EvenementsEtCadeauxProps) {
   const cards = items && items.length > 0 ? items : ITEMS_DEFAUT
 
   return (
@@ -25,13 +31,13 @@ export function EvenementsEtCadeaux({ items, disabled = false }: EvenementsEtCad
         {/* Col gauche — texte + CTA */}
         <div className="flex flex-col gap-4">
           <p className="font-black uppercase text-xs md:text-sm tracking-wide text-orange">
-            Pour vos moments à partager
+            {eyebrow ?? 'Pour vos moments à partager'}
           </p>
           <h2 className="font-accent text-4xl md:text-5xl uppercase leading-none text-zinc-900">
-            Vos événements et cadeaux
+            {titre ?? 'Vos événements et cadeaux'}
           </h2>
           <p className="max-w-md text-zinc-600">
-            Privatisation, mariages, séminaires ou coffrets cadeaux — nous imaginons avec vous des moments autour du vin, sur mesure et inoubliables.
+            {texte ?? "Privatisation, mariages, séminaires ou coffrets cadeaux — nous imaginons avec vous des moments autour du vin, sur mesure et inoubliables."}
           </p>
 
           {disabled ? (

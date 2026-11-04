@@ -3,9 +3,12 @@ import { Asset } from '@/app/components/Asset'
 
 type BoxAbonnementProps = {
   imageUrl?: string
+  eyebrow?: string
+  titre?: string
+  texte?: string
 }
 
-export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
+export function BoxAbonnement({ imageUrl, eyebrow, titre, texte }: BoxAbonnementProps) {
   return (
     <section className="py-12 lg:py-24 px-6">
       <div className="max-w-6xl mx-auto">
@@ -22,12 +25,11 @@ export function BoxAbonnement({ imageUrl }: BoxAbonnementProps) {
           {/* Col gauche — contenu */}
           <div className="flex flex-col gap-5 px-12 pt-14  relative z-10">
             <div className="flex flex-col gap-2">
-              <p className=" font-accent text-4xl uppercase   text-black">Abonnement</p>
-              <h2 className="font-lovelo text-5xl md:text-6xl uppercase leading-none text-zinc-900">La Box</h2>
+              <p className=" font-accent text-4xl uppercase   text-black">{eyebrow ?? 'Abonnement'}</p>
+              <h2 className="font-lovelo text-5xl md:text-6xl uppercase leading-none text-zinc-900">{titre ?? 'La Box'}</h2>
             </div>
-            <p className="  max-w-sm">
-              Chaque mois, une sélection de cuvées naturelles dénichées par Delphine, accompagnée des histoires de celles et ceux qui les font. À déguster chez vous ou à offrir.<br />
-              Sans engagement · retrait aux Halles ou livraison
+            <p className="  max-w-sm whitespace-pre-line">
+              {texte ?? "Chaque mois, une sélection de cuvées naturelles dénichées par Delphine, accompagnée des histoires de celles et ceux qui les font. À déguster chez vous ou à offrir.\nSans engagement · retrait aux Halles ou livraison"}
             </p>
             <Link
               href="/box"

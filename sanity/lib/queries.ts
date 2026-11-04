@@ -36,7 +36,21 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
     ctaLabel
   },
   hero {
-    image { asset->{ url } }
+    image { asset->{ url } },
+    eyebrow,
+    titre,
+    texte
+  },
+  caveEtHalles {
+    caveTexte,
+    cavePhoto { asset->{ url } },
+    hallesTexte,
+    hallesPhoto { asset->{ url } }
+  },
+  evenementsCadeaux {
+    eyebrow,
+    titre,
+    texte
   },
   agendaAffiche { asset->{ url } },
   "coupsDeCoeur": coupsDeCoeur[]->{
