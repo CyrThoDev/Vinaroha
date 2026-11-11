@@ -23,7 +23,7 @@ export function ProducteurDuMoisSection({ producteur }: ProducteurDuMoisSectionP
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-10 md:gap-14 items-center">
 
           {/* Col gauche — photo ronde */}
-          <div className="mx-auto w-48 md:w-56">
+          <div className="mx-auto w-60 md:w-72">
             {producteur?.photo?.asset?.url ? (
               <Asset
                 name="rounded"
