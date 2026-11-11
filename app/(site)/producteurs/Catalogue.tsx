@@ -73,7 +73,6 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
   const [couleur, setCouleur] = useState('')
   const [style, setStyle] = useState('')
   const [typeSpiritueux, setTypeSpiritueux] = useState('')
-  const [origineLocale, setOrigineLocale] = useState(false)
   const [visible, setVisible] = useState(PAGE_SIZE)
   const [selected, setSelected] = useState<SanityProducteur | null>(null)
 
@@ -100,10 +99,6 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
     [producteurs, categorie]
   )
 
-  const hasOrigineLocale = useMemo(
-    () => producteurs.some(p => p.origineLocale),
-    [producteurs]
-  )
   const regions = useMemo(
     () => [...new Set(dansCategorie.map(p => p.region).filter((v): v is string => Boolean(v)))].sort(),
     [dansCategorie]
@@ -145,11 +140,10 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
       if (couleur && p.couleur !== couleur) return false
       if (style && p.styleBiere !== style) return false
       if (typeSpiritueux && p.typeArticle !== typeSpiritueux) return false
-      if (origineLocale && !p.origineLocale) return false
       if (recherche && !p.name.toLowerCase().includes(recherche.toLowerCase())) return false
       return true
     })
-  }, [producteurs, categorie, region, certification, couleur, style, typeSpiritueux, origineLocale, recherche])
+  }, [producteurs, categorie, region, certification, couleur, style, typeSpiritueux, recherche])
 
   const reinitialiser = () => {
     setCategorie('')
@@ -159,7 +153,6 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
     setCouleur('')
     setStyle('')
     setTypeSpiritueux('')
-    setOrigineLocale(false)
     setVisible(PAGE_SIZE)
   }
 
@@ -217,7 +210,6 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
                   setCouleur('')
                   setStyle('')
                   setTypeSpiritueux('')
-                  setOrigineLocale(false)
                 }
                 setVisible(PAGE_SIZE)
               }}
@@ -302,19 +294,6 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
 
         {/* Filtres transversaux — toutes catégories confondues */}
         <div className="flex flex-wrap items-center gap-3 mb-12">
-          {hasOrigineLocale && (
-            <button
-              onClick={() => { setOrigineLocale(v => !v); setVisible(PAGE_SIZE) }}
-              className={`rounded-lg px-4 py-1.5 text-sm border transition-colors ${
-                origineLocale
-                  ? 'bg-green text-white border-green'
-                  : 'border-zinc-400 text-zinc-700 hover:border-green hover:text-green'
-              }`}
-            >
-              Origine locale (Landes / Sud-Ouest)
-            </button>
-          )}
-
           <button
             onClick={reinitialiser}
             className="rounded-lg bg-orange text-white px-4 py-1.5 text-sm hover:opacity-90 transition-opacity"
@@ -468,10 +447,6 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
                 )}
               </div>
             </div>
-
-            {selected.prix != null && (
-              <p className="font-black text-zinc-900">{selected.prix}&nbsp;€</p>
-            )}
 
             {selected.region && (
               <button

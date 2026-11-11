@@ -66,7 +66,7 @@ export const producteurDuMoisQuery = groq`*[_type == "producteur" && producteurD
 
 export const producteursListQuery = groq`*[_type == "producteur"] | order(name asc) {
   _id, name, typeArticle, region, appellationPrincipale, certifications, description, photo { asset->{ url } },
-  couleur, styleBiere, sucreOuSale, idealApero, prix, origineLocale
+  couleur, styleBiere, sucreOuSale, idealApero
 }`
 
 export interface SanityProducteur {
@@ -82,8 +82,6 @@ export interface SanityProducteur {
   styleBiere: string | null
   sucreOuSale: string | null
   idealApero: boolean | null
-  prix: number | null
-  origineLocale: boolean | null
 }
 
 

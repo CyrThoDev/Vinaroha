@@ -74,6 +74,18 @@ type ExistingDoc = {
   description?: Array<{ children?: Array<{ text?: string }> }>
 }
 
+// Détecte les régions "presque identiques" (même texte une fois les accents/tirets/espaces
+// neutralisés) mais orthographiées différemment — ex: "Sud-Ouest" vs "Sud Ouest", ou les 3
+// variantes de "Nouvelle-Zélande" qu'on a trouvées dans le catalogue, qui fragmentaient le
+// filtre région du site en plusieurs catégories au lieu d'une seule.
+function normalizeRegion(s: string): string {
+  return s
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toUpperCase()
+    .replace(/[-\s]+/g, ' ')
+    .trim()
+}
+
 function descriptionText(doc: ExistingDoc | undefined): string {
   return (doc?.description ?? [])
     .map((block) => (block.children ?? []).map((c) => c.text ?? '').join(''))
@@ -183,7 +195,11 @@ export async function POST(req: NextRequest) {
     // on utilise l'id permanent assigné par Apps Script à la ligne, pas un slug dérivé du nom
     // (sinon renommer un produit créerait une nouvelle fiche au lieu de mettre à jour l'existante).
     const docKey = row.id?.trim() || nameTypeKey
-    const slug = slugify(nom)
+    // Le slug (URL de la fiche) reprend l'identifiant nom+type, pas juste le nom : deux fiches
+    // d'un même domaine (ex: Vin + Armagnac) ont forcément des types différents donc des ids —
+    // et donc des slugs — distincts. slugify(nom) seul créait des collisions (ex: les fiches Vin
+    // et Armagnac de "Château Monluc" avaient toutes les deux le slug "chateau-monluc").
+    const slug = docKey
 
     toSync.push({
       row: line,
@@ -221,6 +237,34 @@ export async function POST(req: NextRequest) {
   )
   const existingById = new Map(existingDocs.map((d) => [d._id, d]))
 
+  // Toutes les régions déjà utilisées ailleurs dans le catalogue (tous producteurs, pas
+  // seulement ceux de cette synchro), pour repérer une orthographe différente d'une région
+  // qui existe déjà — sans ça, "Sud-Ouest" et "Sud Ouest" cohabitent et fragmentent le filtre
+  // région du site en plusieurs catégories au lieu d'une seule.
+  const allRegions = await writeClient.fetch<string[]>(
+    `array::unique(*[_type == "producteur" && defined(region)].region)`
+  )
+  const regionsByNorm = new Map<string, Set<string>>()
+  for (const r of allRegions) {
+    const norm = normalizeRegion(r)
+    if (!regionsByNorm.has(norm)) regionsByNorm.set(norm, new Set())
+    regionsByNorm.get(norm)!.add(r)
+  }
+
+  const warnings: { row: number; message: string }[] = []
+  for (const p of toSync) {
+    const region = (p.patchFields.region as string) || ''
+    if (!region) continue
+    const norm = normalizeRegion(region)
+    const known = regionsByNorm.get(norm)
+    if (known && !known.has(region)) {
+      warnings.push({
+        row: p.row,
+        message: `"${p.nom}" : la région "${region}" ressemble à "${[...known].join('" / "')}" déjà utilisée ailleurs dans le catalogue — vérifie l'orthographe dans le Sheet avant de valider.`,
+      })
+    }
+  }
+
   const changes = toSync.map((p) => {
     const old = existingById.get(p.id)
     return old
@@ -240,6 +284,7 @@ export async function POST(req: NextRequest) {
       created,
       updated,
       errors,
+      warnings,
       changes,
     })
   }
@@ -272,6 +317,7 @@ export async function POST(req: NextRequest) {
     created,
     updated,
     errors,
+    warnings,
     changes,
     // Pour chaque ligne traitée avec succès, l'id permanent à mémoriser côté Sheet (colonne
     // "ID (auto)") — garantit que les prochaines synchros de cette ligne mettront à jour la

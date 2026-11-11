@@ -6,6 +6,17 @@ export const producteurSchema = defineType({
   title: 'Producteur',
   type: 'document',
   icon: UserIcon,
+  fieldsets: [
+    {
+      name: 'sheet',
+      title: 'Depuis le Google Sheet (lecture seule ici)',
+      description:
+        'Ces champs sont saisis dans le Google Sheet du catalogue, pas dans le Studio. ' +
+        'Modifiez-les dans le Sheet puis synchronisez : une modification faite ici serait ' +
+        'écrasée à la prochaine synchro, elle est donc désactivée.',
+      options: { collapsible: true, collapsed: false },
+    },
+  ],
   fields: [
     defineField({
       name: 'name',
@@ -13,12 +24,16 @@ export const producteurSchema = defineType({
       type: 'string',
       description: 'Nom du domaine, ex : Château Barouillet',
       validation: (r) => r.required(),
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'slug',
       type: 'slug',
       options: { source: 'name' },
       validation: (r) => r.required(),
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'typeArticle',
@@ -41,17 +56,23 @@ export const producteurSchema = defineType({
         ],
       },
       initialValue: 'vin',
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'region',
       title: 'Région',
       type: 'string',
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'appellationPrincipale',
       title: 'Appellation principale',
       type: 'string',
       description: 'Ex : Bergerac / Pécharmant',
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'certifications',
@@ -68,6 +89,8 @@ export const producteurSchema = defineType({
           { title: 'Conventionnel', value: 'conventionnel' },
         ],
       },
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'couleur',
@@ -113,19 +136,6 @@ export const producteurSchema = defineType({
       hidden: ({ document }) => document?.typeArticle !== 'epicerie',
     }),
     defineField({
-      name: 'prix',
-      title: 'Prix (€)',
-      type: 'number',
-      description: 'Utilisé pour le filtre "gamme de prix", toutes catégories',
-    }),
-    defineField({
-      name: 'origineLocale',
-      title: 'Origine locale (Landes / Sud-Ouest)',
-      type: 'boolean',
-      initialValue: false,
-      description: 'Utilisé pour le filtre "origine locale", toutes catégories',
-    }),
-    defineField({
       name: 'photo',
       title: 'Photo',
       type: 'image',
@@ -136,6 +146,8 @@ export const producteurSchema = defineType({
       title: 'Descriptif domaine',
       type: 'array',
       of: [{ type: 'block' }],
+      fieldset: 'sheet',
+      readOnly: true,
     }),
     defineField({
       name: 'producteurDuMois',
