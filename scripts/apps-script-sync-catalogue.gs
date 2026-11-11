@@ -220,6 +220,10 @@ function buildPreviewMessage_(preview) {
     }
   })
 
+  if (preview.warnings && preview.warnings.length > 0) {
+    message += `\n\n⚠️ Orthographe à vérifier (${preview.warnings.length}) :\n${formatErrors_(preview.warnings)}`
+  }
+
   if (preview.errors && preview.errors.length > 0) {
     message += `\n\n⚠️ ${preview.errors.length} ligne(s) ignorée(s) (ne seront pas synchronisées) :\n${formatErrors_(preview.errors)}`
   }

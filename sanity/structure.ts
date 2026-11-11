@@ -28,8 +28,12 @@ export const structure: StructureResolver = async (S, context) => {
   // contrairement à un client créé à la main ici, qui serait anonyme et ne verrait pas les
   // documents soumis aux règles de permission du projet (ex: "producteur" renvoie 0 en anonyme).
   const client = context.getClient({ apiVersion: '2025-05-25' })
+  // Un producteur avec un brouillon non publié existe sous deux _id ("drafts.xxx" et "xxx") :
+  // un count() brut les compte deux fois pour la même fiche. On déduplique en retirant le
+  // préfixe "drafts." avant de compter les identités distinctes.
   const producteursCount = await client
-    .fetch<number>('count(*[_type == "producteur"])')
+    .fetch<string[]>('*[_type == "producteur"]._id')
+    .then((ids) => new Set(ids.map((id) => (id.startsWith('drafts.') ? id.slice(7) : id))).size)
     .catch(() => undefined)
 
   return S.list()
