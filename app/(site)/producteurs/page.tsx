@@ -49,6 +49,7 @@ export default async function ProducteursPage() {
         lightText
         titleFont="accent"
         imageShape="topandbottom"
+        imageSize="w-80"
         decoVigne
       />
       <ProducteurDuMoisSection producteur={producteur ?? undefined} />
