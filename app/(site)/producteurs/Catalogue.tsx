@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import type { SanityProducteur } from '@/sanity/lib/queries'
 
@@ -435,8 +436,18 @@ export function Catalogue({ producteurs, icons }: CatalogueProps) {
             </button>
 
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 shrink-0 rounded-lg flex items-center justify-center">
-                {icons?.[groupOf(selected.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']}
+              <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden flex items-center justify-center bg-background">
+                {selected.photo?.asset?.url ? (
+                  <Image
+                    src={selected.photo.asset.url}
+                    alt={selected.name}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  icons?.[groupOf(selected.typeArticle) as 'vin' | 'bieres' | 'spiritueux' | 'bulles' | 'soft' | 'epicerie']
+                )}
               </div>
               <div className="flex flex-col gap-1 min-w-0">
                 <h3 className="font-accent text-3xl uppercase text-zinc-900 leading-tight">{selected.name}</h3>
