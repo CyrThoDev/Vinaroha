@@ -64,6 +64,67 @@ function slugify(input: string): string {
     .replace(/(^-|-$)/g, '')
 }
 
+type ExistingDoc = {
+  _id: string
+  name?: string
+  typeArticle?: string
+  region?: string
+  appellationPrincipale?: string
+  certifications?: string[]
+  description?: Array<{ children?: Array<{ text?: string }> }>
+}
+
+function descriptionText(doc: ExistingDoc | undefined): string {
+  return (doc?.description ?? [])
+    .map((block) => (block.children ?? []).map((c) => c.text ?? '').join(''))
+    .join('\n\n')
+    .trim()
+}
+
+// Compare l'état actuel du document Sanity (avant écriture) aux champs qui vont être écrits, pour
+// que Delphine voie précisément ce qu'une synchro va changer avant de la valider (étape de
+// prévisualisation) — jamais juste "X lignes modifiées" sans savoir quoi.
+function buildFieldChanges(old: ExistingDoc | undefined, p: {
+  nom: string
+  typeArticle: string
+  patchFields: Record<string, unknown>
+}): string[] {
+  const changes: string[] = []
+
+  if ((old?.name ?? '') !== p.nom) {
+    changes.push(`nom : "${old?.name || '—'}" → "${p.nom}"`)
+  }
+  if ((old?.typeArticle ?? '') !== p.typeArticle) {
+    changes.push(`type : "${old?.typeArticle || '—'}" → "${p.typeArticle}"`)
+  }
+  const newRegion = (p.patchFields.region as string) || ''
+  if ((old?.region ?? '') !== newRegion) {
+    changes.push(`région : "${old?.region || '—'}" → "${newRegion || '—'}"`)
+  }
+  const newAppellation = (p.patchFields.appellationPrincipale as string) || ''
+  if ((old?.appellationPrincipale ?? '') !== newAppellation) {
+    changes.push(`appellation : "${old?.appellationPrincipale || '—'}" → "${newAppellation || '—'}"`)
+  }
+
+  const oldCerts = new Set(old?.certifications ?? [])
+  const newCerts = new Set((p.patchFields.certifications as string[]) ?? [])
+  const added = [...newCerts].filter((c) => !oldCerts.has(c))
+  const removed = [...oldCerts].filter((c) => !newCerts.has(c))
+  if (added.length > 0 || removed.length > 0) {
+    const parts = [...added.map((c) => `+${c}`), ...removed.map((c) => `-${c}`)]
+    changes.push(`certifications : ${parts.join(' ')}`)
+  }
+
+  const oldDesc = descriptionText(old)
+  const newDescBlocks = (p.patchFields.description as Array<{ children: Array<{ text: string }> }>) ?? []
+  const newDesc = newDescBlocks.map((b) => b.children.map((c) => c.text).join('')).join('\n\n').trim()
+  if (oldDesc !== newDesc) {
+    changes.push('description modifiée')
+  }
+
+  return changes
+}
+
 export async function POST(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get('secret')
   if (!process.env.CATALOGUE_SYNC_SECRET || secret !== process.env.CATALOGUE_SYNC_SECRET) {
@@ -72,6 +133,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => null)
   const rows: SheetRow[] | undefined = body?.rows
+  const dryRun = Boolean(body?.dryRun)
 
   if (!Array.isArray(rows)) {
     return Response.json({ success: false, message: 'Corps de requête invalide : "rows" doit être un tableau.' }, { status: 400 })
@@ -151,13 +213,36 @@ export async function POST(req: NextRequest) {
     return Response.json({ success: false, message: 'Aucune ligne valide à synchroniser.', errors }, { status: 400 })
   }
 
-  // Un seul read pour savoir quels documents existent déjà (juste pour un décompte créés/mis à jour lisible par Delphine).
-  const existingIds = new Set<string>(
-    await writeClient.fetch<string[]>(
-      `*[_type == "producteur" && _id in $ids]._id`,
-      { ids: toSync.map((p) => p.id) }
-    )
+  // Lecture complète (pas juste l'id) des documents existants : nécessaire pour construire le
+  // diff champ par champ affiché à Delphine en prévisualisation (dryRun) avant toute écriture.
+  const existingDocs = await writeClient.fetch<ExistingDoc[]>(
+    `*[_type == "producteur" && _id in $ids]{_id, name, typeArticle, region, appellationPrincipale, certifications, description}`,
+    { ids: toSync.map((p) => p.id) }
   )
+  const existingById = new Map(existingDocs.map((d) => [d._id, d]))
+
+  const changes = toSync.map((p) => {
+    const old = existingById.get(p.id)
+    return old
+      ? { row: p.row, nom: p.nom, kind: 'updated' as const, fields: buildFieldChanges(old, p) }
+      : { row: p.row, nom: p.nom, kind: 'created' as const, fields: [`type : ${p.typeArticle}`, ...(p.patchFields.region ? [`région : ${p.patchFields.region}`] : [])] }
+  })
+  const created = toSync.filter((p) => !existingById.has(p.id)).length
+  const updated = toSync.length - created
+
+  // Prévisualisation : on calcule et renvoie le diff sans jamais toucher à Sanity, pour que
+  // Delphine puisse valider ou annuler avant qu'une seule ligne ne soit réellement écrite.
+  if (dryRun) {
+    return Response.json({
+      success: true,
+      dryRun: true,
+      totalRows: toSync.length,
+      created,
+      updated,
+      errors,
+      changes,
+    })
+  }
 
   const tx = writeClient.transaction()
   for (const p of toSync) {
@@ -181,15 +266,13 @@ export async function POST(req: NextRequest) {
     }, { status: 500 })
   }
 
-  const created = toSync.filter((p) => !existingIds.has(p.id)).length
-  const updated = toSync.length - created
-
   return Response.json({
     success: true,
     synced: toSync.length,
     created,
     updated,
     errors,
+    changes,
     // Pour chaque ligne traitée avec succès, l'id permanent à mémoriser côté Sheet (colonne
     // "ID (auto)") — garantit que les prochaines synchros de cette ligne mettront à jour la
     // même fiche Sanity même si le nom change.
