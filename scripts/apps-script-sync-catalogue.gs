@@ -126,26 +126,30 @@ function syncCatalogue() {
     return
   }
 
-  const response = UrlFetchApp.fetch(`${SITE_URL}/api/sync-catalogue?secret=${encodeURIComponent(SYNC_SECRET)}`, {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify({ rows: toSend.map((s) => s.payload) }),
-    muteHttpExceptions: true,
-  })
+  // Étape 1 — Prévisualisation : on demande au serveur ce que la synchro changerait, sans qu'il
+  // écrive quoi que ce soit dans Sanity (dryRun), pour pouvoir valider ou annuler en connaissance
+  // de cause avant toute écriture réelle.
+  const preview = postToServer_(toSend, true)
+  if (!preview) return // message d'erreur déjà affiché par postToServer_
 
-  const code = response.getResponseCode()
-  let result
-  try {
-    result = JSON.parse(response.getContentText())
-  } catch (e) {
-    ui.alert(`Réponse illisible du serveur (code ${code}) :\n${response.getContentText().slice(0, 500)}`)
+  if (preview.errors && preview.errors.length > 0 && preview.changes.length === 0) {
+    ui.alert(`Toutes les lignes modifiées sont en erreur, rien à synchroniser :\n\n${formatErrors_(preview.errors)}`)
     return
   }
 
-  if (code !== 200 || !result.success) {
-    ui.alert(`Échec de la synchro : ${result.message || 'erreur inconnue'}`)
+  const confirmed = ui.alert(
+    'Prévisualisation de la synchro',
+    buildPreviewMessage_(preview),
+    ui.ButtonSet.YES_NO
+  )
+  if (confirmed !== ui.Button.YES) {
+    ui.alert('Synchronisation annulée — aucune modification n\'a été appliquée.')
     return
   }
+
+  // Étape 2 — Application réelle, avec exactement les mêmes lignes que celles prévisualisées.
+  const result = postToServer_(toSend, false)
+  if (!result) return
 
   // Marque comme synchronisées (met à jour "Sync (auto)" et "ID (auto)") toutes les lignes
   // envoyées SAUF celles ignorées par le serveur (erreurs) : elles seront retentées au prochain lancement.
@@ -160,14 +164,66 @@ function syncCatalogue() {
     }
   })
 
-  let message = `✅ ${toSend.length} ligne(s) modifiée(s) détectée(s), ${result.synced} synchronisée(s)\n` +
-    `— ${result.created} créé(s), ${result.updated} mis à jour\n`
-
+  let message = `✅ Synchro appliquée : ${result.synced} ligne(s) — ${result.created} créé(s), ${result.updated} mis à jour`
   if (result.errors && result.errors.length > 0) {
-    message += `\n⚠️ ${result.errors.length} ligne(s) ignorée(s) (seront retentées au prochain lancement) :\n`
-    message += result.errors.slice(0, 15).map((e) => `Ligne ${e.row} : ${e.message}`).join('\n')
-    if (result.errors.length > 15) message += `\n… et ${result.errors.length - 15} de plus.`
+    message += `\n\n⚠️ ${result.errors.length} ligne(s) ignorée(s) (seront retentées au prochain lancement) :\n${formatErrors_(result.errors)}`
+  }
+  ui.alert(message)
+}
+
+// Appelle le serveur (prévisualisation si dryRun=true, écriture réelle sinon) et affiche une
+// alerte en cas d'échec réseau ou de refus du serveur. Retourne null dans ce cas (appelant doit
+// alors simplement s'arrêter, le message a déjà été montré).
+function postToServer_(toSend, dryRun) {
+  const ui = SpreadsheetApp.getUi()
+  const response = UrlFetchApp.fetch(`${SITE_URL}/api/sync-catalogue?secret=${encodeURIComponent(SYNC_SECRET)}`, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify({ rows: toSend.map((s) => s.payload), dryRun }),
+    muteHttpExceptions: true,
+  })
+
+  const code = response.getResponseCode()
+  let result
+  try {
+    result = JSON.parse(response.getContentText())
+  } catch (e) {
+    ui.alert(`Réponse illisible du serveur (code ${code}) :\n${response.getContentText().slice(0, 500)}`)
+    return null
   }
 
-  ui.alert(message)
+  if (code !== 200 || !result.success) {
+    ui.alert(`Échec de la synchro : ${result.message || 'erreur inconnue'}`)
+    return null
+  }
+  return result
+}
+
+function formatErrors_(errors) {
+  let text = errors.slice(0, 15).map((e) => `Ligne ${e.row} : ${e.message}`).join('\n')
+  if (errors.length > 15) text += `\n… et ${errors.length - 15} de plus.`
+  return text
+}
+
+// Construit le texte de la boîte de dialogue de prévisualisation : combien de lignes, et surtout
+// CE qui va changer sur chacune — jamais juste un total, pour pouvoir repérer une erreur avant de valider.
+function buildPreviewMessage_(preview) {
+  let message = `${preview.totalRows} ligne(s) vont être synchronisées — ${preview.created} création(s), ${preview.updated} mise(s) à jour\n`
+
+  preview.changes.forEach((c) => {
+    if (c.kind === 'created') {
+      message += `\n🆕 ${c.nom} (nouvelle fiche)\n   ${c.fields.join(', ')}`
+    } else if (c.fields.length === 0) {
+      message += `\n• ${c.nom} : aucun changement de contenu détecté`
+    } else {
+      message += `\n• ${c.nom} :\n   ${c.fields.join('\n   ')}`
+    }
+  })
+
+  if (preview.errors && preview.errors.length > 0) {
+    message += `\n\n⚠️ ${preview.errors.length} ligne(s) ignorée(s) (ne seront pas synchronisées) :\n${formatErrors_(preview.errors)}`
+  }
+
+  message += '\n\nValider cette synchronisation ?'
+  return message
 }
